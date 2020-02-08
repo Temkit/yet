@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import Amplify from "aws-amplify";
-import { map, catchError } from "rxjs/operators";
-import { of } from "rxjs";
+import { map } from "rxjs/operators";
 import { S3Service } from "src/app/private/aws/s3.service";
 
 @Injectable({
