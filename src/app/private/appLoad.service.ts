@@ -31,7 +31,7 @@ export class AppLoadService {
     // host = "oxygen";
     // host = "savitem";
     // host = "all-sticker.com";
-    host = "ritajmall";
+    // host = "ritajmall";
     // host = "eyewear-algerie.com";
     // host = "krd";
     // host = "felyna";
