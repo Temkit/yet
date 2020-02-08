@@ -9,7 +9,7 @@ import {
 import { CognitoService } from "src/app/private/aws/cognito.service";
 import { FormControl } from "@angular/forms";
 import { map } from "rxjs/operators";
-import { MatAutocomplete } from "@angular/material";
+import { MatAutocomplete } from "@angular/material/autocomplete";
 import { Observable } from "rxjs";
 
 @Component({

@@ -4,13 +4,11 @@ import { CartViewComponent } from "./cartView.component";
 import { Routes, RouterModule } from "@angular/router";
 import { MatTableModule } from "@angular/material/table";
 import { DialogModule } from "../../common/dialog/dialog.module";
-import {
-  MatIconModule,
-  MatButtonModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatDialogModule
-} from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
 
 const routes: Routes = [{ path: "", component: CartViewComponent }];
 

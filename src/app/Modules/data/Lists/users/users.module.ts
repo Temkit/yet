@@ -21,7 +21,7 @@ import { FormMiniModule } from '../../Forms/form-mini/form-mini.module';
 
 import { AdditemModule } from './additem/additem.module';
 import { DialogModule } from '../../common/dialog/dialog.module';
-import { MatSnackBarModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 const routes: Routes = [
   { path: '', component: UsersComponent }
 ];

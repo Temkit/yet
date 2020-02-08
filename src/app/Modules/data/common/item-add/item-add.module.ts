@@ -9,7 +9,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatTableModule } from "@angular/material/table";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
-import { MatTabsModule } from "@angular/material";
+import { MatTabsModule } from "@angular/material/tabs";
 import { AdditemModule } from "./additem/additem.module";
 
 @NgModule({

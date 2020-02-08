@@ -2,12 +2,10 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ShowDataComponent } from "./showData.component";
 import { DecoratorModule } from "../../common/decorator/decorator.module";
-import {
-  MatIconModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatButtonModule
-} from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
 import { FormsModule } from "@angular/forms";
 
 @NgModule({

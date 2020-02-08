@@ -19,7 +19,7 @@ import { ImageUploaderModule } from "../../plugin/imageUploader/imageUploader.mo
 import { EditorModule } from "../../plugin/editor/editor.module";
 import { QuestionnaireModule } from "../../plugin/questionnaire/questionnaire.module";
 import { DateModule } from "../../common/date/date.module";
-import { MatSlideToggleModule } from "@angular/material";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { SelectModule } from "../../common/select/select.module";
 
 @NgModule({

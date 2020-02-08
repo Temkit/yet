@@ -6,7 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatIconModule } from "@angular/material/icon";
-import { MatFormFieldModule } from "@angular/material";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @NgModule({
   imports: [

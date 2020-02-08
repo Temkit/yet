@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { map, flatMap, retryWhen } from "rxjs/operators";
-import { MatDialog, MatSnackBar, Sort, MatSort } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Sort, MatSort } from "@angular/material/sort";
 import { DialogComponent } from "../../common/dialog/dialog.component";
 import { ListVars } from "src/app/private/interfaces/list.vars";
 import { QueryService } from "src/app/private/crud/query.service";

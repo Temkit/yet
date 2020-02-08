@@ -8,7 +8,7 @@ import {
   ViewChild
 } from "@angular/core";
 import { Observable } from "rxjs";
-import { MatAutocomplete } from "@angular/material";
+import { MatAutocomplete } from "@angular/material/autocomplete";
 import { QueryService } from "src/app/private/crud/query.service";
 import { OneService } from "src/app/private/crud/one.service";
 

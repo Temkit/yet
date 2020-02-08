@@ -13,7 +13,7 @@ import {
   registerLocaleData
 } from "@angular/common";
 import { AmplifyService } from "aws-amplify-angular";
-import { MatProgressSpinnerModule } from "@angular/material";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import localeFr from "@angular/common/locales/fr";
 import { FooterModule } from "./footer/footer.module";
 

@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { OneService } from "src/app/private/crud/one.service";
 import isEqual from "lodash/isEqual";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { AdditemComponent } from "./additem/additem.component";
 import { GenericRetryStrategyService } from "./../../../../private/genericRetryStrategy.service";
 import { S3Service } from "./../../../../private/aws/s3.service";

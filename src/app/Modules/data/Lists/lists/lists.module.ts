@@ -23,7 +23,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { SelectModule } from "../../common/select/select.module";
 import { FormFilterModule } from "../../Forms/form-filter/form-filter.module";
 import { AddCartModule } from "../../modal/addCart/addCart.module";
-import { MatSortModule } from "@angular/material";
+import { MatSortModule } from "@angular/material/sort";
 import { ShowDataModule } from "../../modal/showData/showData.module";
 import { StoreModule } from "@ngrx/store";
 import { positionsReducer } from "./../../../../redux/reducers/list.reducer";

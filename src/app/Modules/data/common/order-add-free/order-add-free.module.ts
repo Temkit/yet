@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderAddFreeComponent } from './order-add-free.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatInputModule, MatSelectModule, MatFormFieldModule, MatIconModule, MatButtonModule, MatTableModule, MatDividerModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 
 import { SelectModule } from '../select/select.module';
 import { AdditemModule } from './additem/additem.module';

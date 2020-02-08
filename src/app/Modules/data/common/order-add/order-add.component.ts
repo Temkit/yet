@@ -13,7 +13,7 @@ import { OneService } from "src/app/private/crud/one.service";
 import remove from "lodash/remove";
 import findIndex from "lodash/findIndex";
 import isEqual from "lodash/isEqual";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { AdditemComponent } from "./additem/additem.component";
 
 @Component({

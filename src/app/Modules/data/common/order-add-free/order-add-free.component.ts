@@ -2,7 +2,7 @@ import { S3Service } from "src/app/private/aws/s3.service";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { of, empty } from "rxjs";
 import { TaxesService } from "src/app/private/erp/taxes.service";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { AdditemComponent } from "./additem/additem.component";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";

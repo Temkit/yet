@@ -1,10 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { FlatTreeControl } from "@angular/cdk/tree";
-import {
-  MatTreeFlattener,
-  MatTreeFlatDataSource,
-  MatDialog
-} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
+import { MatTreeFlattener, MatTreeFlatDataSource } from "@angular/material/tree";
 import { SelectionModel } from "@angular/cdk/collections";
 import { UpdateService } from "src/app/private/crud/update.service";
 import { CrudToolsService } from "src/app/private/crud/crud-tools.service";

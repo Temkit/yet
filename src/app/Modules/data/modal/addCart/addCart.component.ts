@@ -1,5 +1,5 @@
 import { Component, Inject } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { DialogComponent } from "../../common/dialog/dialog.component";
 import { DomSanitizer } from "@angular/platform-browser";
 

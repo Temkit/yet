@@ -3,7 +3,9 @@ import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { S3Service } from "./../../../../private/aws/s3.service";
 import { map, flatMap } from "rxjs/operators";
-import { MatDialog, MatSnackBar, MatSort } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSort } from "@angular/material/sort";
 import { ListVars } from "src/app/private/interfaces/list.vars";
 
 @Component({

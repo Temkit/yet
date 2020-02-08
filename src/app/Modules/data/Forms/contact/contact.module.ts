@@ -4,11 +4,9 @@ import { ContactComponent } from "./contact.component";
 import { Routes, RouterModule } from "@angular/router";
 import { MatIconModule } from "@angular/material/icon";
 import { FormsModule } from "@angular/forms";
-import {
-  MatFormFieldModule,
-  MatInputModule,
-  MatButtonModule
-} from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 
 const routes: Routes = [{ path: "", component: ContactComponent }];
 

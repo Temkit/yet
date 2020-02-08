@@ -1,5 +1,5 @@
 import { Component, Inject } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { FormGroup, FormControl } from "@angular/forms";
 import { CognitoService } from "src/app/private/aws/cognito.service";
 import { map } from "rxjs/operators";

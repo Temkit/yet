@@ -4,7 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
 import { CartService } from "src/app/private/crud/cart.service";
 import { map, flatMap } from "rxjs/operators";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { DialogComponent } from "../../common/dialog/dialog.component";
 
 @Component({

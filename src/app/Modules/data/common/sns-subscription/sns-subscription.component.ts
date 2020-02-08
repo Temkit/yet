@@ -1,6 +1,6 @@
 import { S3Service } from "src/app/private/aws/s3.service";
 import { Component, Output, EventEmitter, Input } from "@angular/core";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { OneService } from "src/app/private/crud/one.service";
 import { of, empty } from "rxjs";
 

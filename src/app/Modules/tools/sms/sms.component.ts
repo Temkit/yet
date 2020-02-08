@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormArray, FormControl } from "@angular/forms";
 import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { AuthService } from "src/app/private/aws/auth.service";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { switchMap, flatMap, map, retry, retryWhen } from "rxjs/operators";
 import { OneService } from "src/app/private/crud/one.service";
