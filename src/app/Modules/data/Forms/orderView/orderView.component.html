@@ -1,0 +1,110 @@
+<div class="w-100 mb-4" *ngIf="load | async as products">
+  <div id="bread">
+    <mat-icon class="item" routerLink="/">home</mat-icon>
+    <mat-icon class="item">keyboard_arrow_right</mat-icon>
+    <div
+      class="item"
+      [routerLink]="['/yet/data/list']"
+      [queryParams]="{ item: Specification.UrlItem }"
+    >
+      Liste des commandes
+    </div>
+    <mat-icon class="item">keyboard_arrow_right</mat-icon>
+    <div class="item">Commande N°{{ commande.ref }}</div>
+  </div>
+  <div class="container-fluid pt-5 mt-5">
+    <div class="row">
+      <div class="col-lg-12 d-flex p-3">
+        <mat-card class="w-100">
+          <mat-card-header class="w-100">
+            <mat-card-title class="w-100">
+              <div><strong>Commande n° :</strong> {{ commande.ref_facture }}</div>
+              <div><strong>Client :</strong> {{ commande.client }}</div>
+              <div *ngIf="commande.ref_facture">
+                <strong>Facture :</strong>{{ commande.ref }}
+              </div>
+
+              <div class="mt-2">
+                <strong>Réglé :</strong>
+                {{
+                  commande.reglement.toLocaleString("us-US", {
+                    style: "currency",
+                    currency: "DZD"
+                  })
+                }}
+              </div>
+              <div>
+                <strong>Reste à Payé :</strong>
+                {{
+                  commande.reste_apayer.toLocaleString("us-US", {
+                    style: "currency",
+                    currency: "DZD"
+                  })
+                }}
+              </div>
+            </mat-card-title>
+            <mat-card-subtitle class="d-flex m-0 w-100 flex-wrap">
+              <div class="m-0 d-flex align-items-center">
+                <mat-icon class="mr-2">date_range</mat-icon>
+                {{ commande.date_fact | date }}
+              </div>
+              <div class="ml-4 m-0 d-flex align-items-center">
+                <mat-icon class="mr-2">shopping_cart</mat-icon>Produits &nbsp;:
+                <strong>{{ products?.length }}</strong>
+              </div>
+              <div class="ml-4 m-0 d-flex align-items-center">
+                <mat-icon class="mr-2">attach_money</mat-icon>Total&nbsp;:
+                <strong>{{ commande?.total_ttc | currency: "DZD" }}</strong>
+              </div>
+              <div class="space"></div>
+            </mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </div>
+
+      <div class="col-lg-12">
+        <mat-table [dataSource]="products" class=" w-100 mat-elevation-z2">
+          <ng-container matColumnDef="produit" [sticky]="true">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'name'">
+              Name.
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'name'">
+              {{ element.produit }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="prix_vente">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'price'">
+              P.U.
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'price'">
+              {{ element.prix_vente | currency: "DZD" }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="quantite">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'quantity'">
+              Quantité.
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'quantity'">
+              {{ element.quantite }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="total" [stickyEnd]="true">
+            <mat-header-cell *matHeaderCellDef [ngClass]="'price'">
+              Total.
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'price'">
+              <span class="price">{{
+                element.prix_vente * element.quantite | currency: "DZD"
+              }}</span>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div *ngIf="!datastudio" class="container-fluid mt-6">
+  <div class="row">
+    <div class="col-lg-12">Bienvenue {{ user }} dans votre tableau de bord</div>
+  </div>
+  <div class="row mt-4" *ngIf="dashs | async as dashs; else wait">
+    <div class="col-lg-6">
+      <div class="row">
+        <div
+          class="col-lg-4 mt-lg-0 mt-3"
+          *ngFor="let info of dashs | keyvalue"
+        >
+          <div
+            class="label"
+            [ngStyle]="{
+              'border-color': info.value.color,
+              position: 'relative'
+            }"
+          >
+            <span class="title">{{ info.key }}</span>
+            <span class="value">{{ info.value.value }}</span>
+            <a
+              *ngIf="info.value.link"
+              class="detail"
+              href="/#{{ info.value.link }}"
+            >
+              details
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 mt-lg-0 mt-3">
+      <div class="row">
+        <div class="col-lg-12">
+          Actions
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 d-flex flex-wrap">
+          <a
+            style="color: #01887b;"
+            class="mr-3"
+            *ngFor="let link of spec.actions"
+            href="/#{{ link.link }}"
+            >+{{ link.name }}</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #wait>
+    <mat-spinner diameter="50" class="m-5"></mat-spinner>
+  </ng-template>
+</div>
+<div *ngIf="datastudio" class="mt-6 w-100 d-flex">
+  <iframe
+    *ngIf="dashs | async as dashs"
+    width="80%"
+    height="800"
+    [src]="dashs"
+    frameborder="0"
+    style="border:0"
+    allowfullscreen
+  ></iframe>
+</div>

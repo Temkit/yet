@@ -1,0 +1,172 @@
+<div *ngIf="shouldRun" class="w-100 h-100">
+  <div
+    *ngIf="menu | async as menu"
+    class="w-100 h-100"
+    [class.example-is-mobile]="mobileQuery.matches"
+  >
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="snav.toggle()" class="tgl">
+        <div id="logo" [style.backgroundImage]="'url(' + logo + ')'"></div>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="presentation">
+        <div class="owner">
+          <a href="https://yet.marketing">yet.marketing</a> >
+          <a href="http://{{ domain }}">{{ domain }}</a>
+        </div>
+        <div class="customer">
+          Tableau de bord | Gestion et Adminstration de {{ domain }}
+        </div>
+      </div>
+      <div class="space"></div>
+      <div
+        class="notification pt-3 mr-3 h-100 d-flex justify-content-end align-items-center"
+      >
+        <mat-icon
+          *ngFor="let icon of config.header.icons"
+          matBadge="{{ badges[icon] }}"
+          matBadgeColor="warn"
+          (click)="toggleNotificationPanel(icon, $event)"
+          class="ml-2  top-icon"
+        >
+          {{ icon }}
+        </mat-icon>
+      </div>
+      <div class="account"></div>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="h-100">
+      <mat-sidenav
+        #snav
+        [mode]="mobileQuery.matches ? 'over' : 'side'"
+        class="border-right-0"
+        [fixedInViewport]="mobileQuery.matches"
+        opened="true"
+      >
+        <mat-nav-list class="mt-6">
+          <mat-accordion
+            [displayMode]="displayMode"
+            [multi]="multi"
+            class="example-headers-align"
+          >
+            <div *ngFor="let m of menu | keyvalue: sort">
+              <a
+                mat-list-item
+                class="pl-0 mb-1 mt-1"
+                *ngIf="!_array.isArray(m.value); else dropdown"
+                (click)="navigate(m.value.route, m.value.queryParams)"
+                title="{{ m.value.title }}"
+              >
+                <mat-icon color="accent" *ngIf="m.value.icon" class="mr-1">{{
+                  m.value.icon
+                }}</mat-icon>
+                {{ m.key }}
+              </a>
+              <ng-template #dropdown>
+                <mat-divider></mat-divider>
+                <mat-expansion-panel class="menuPanel">
+                  <mat-expansion-panel-header class="pl-3 mt-1 mb-1">
+                    <mat-panel-title>
+                      <mat-icon
+                        color="accent"
+                        *ngIf="m.value.icon"
+                        class="mr-1"
+                        >{{ m.value.icon }}</mat-icon
+                      >
+                      <span class="textmenu">{{ m.key }}</span>
+                    </mat-panel-title>
+                    <mat-panel-description> </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <a
+                    mat-list-item
+                    class="pl-0 mt-1 mb-1"
+                    *ngFor="let sousmenu of m.value"
+                    (click)="navigate(sousmenu.route, sousmenu.queryParams)"
+                    title="{{ sousmenu.title }}"
+                  >
+                    <mat-icon
+                      color="accent"
+                      *ngIf="sousmenu.icon"
+                      class="mr-1"
+                      >{{ sousmenu.icon }}</mat-icon
+                    >
+                    {{ sousmenu.name }}
+                  </a>
+                </mat-expansion-panel>
+                <mat-divider></mat-divider>
+              </ng-template>
+            </div>
+          </mat-accordion>
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>
+
+<div *ngIf="!shouldRun">Vous n'avez pas le droit de voir cette application</div>
+
+<div
+  *ngIf="show['notifications']"
+  id="notifications"
+  [attr.style]="
+    sanitizer.bypassSecurityTrustStyle('--margin-left:' + marginleft + 'px')
+  "
+>
+  <h3>Notifications</h3>
+  <div style="height:100%;max-height: 300px">
+    <div *ngFor="let notification of notifications" class="notif">
+      {{ notification }}
+    </div>
+  </div>
+  <div class="seeAll"><a href="#">Tout voir</a></div>
+</div>
+
+<div
+  *ngIf="show['message']"
+  id="notifications"
+  [attr.style]="
+    sanitizer.bypassSecurityTrustStyle('--margin-left:' + marginleft + 'px')
+  "
+>
+  <h3>Messages</h3>
+  <div style="height:100%;max-height: 300px">
+    <div *ngFor="let message of messages" class="notif">{{ message }}</div>
+  </div>
+  <div class="seeAll"><a href="#">Tout voir</a></div>
+</div>
+
+<div
+  *ngIf="show['account_circle']"
+  id="notifications"
+  [attr.style]="
+    sanitizer.bypassSecurityTrustStyle('--margin-left:' + marginleft + 'px')
+  "
+>
+  <h3>Compte</h3>
+  <div style="height:100%;">
+    <span class="notif d-flex align-items-center"
+      >Adminstrateur pour le compte de :
+      <a href="https://{{ domain }}">{{ domain }}</a></span
+    >
+    <div
+      *ngFor="let item of account | keyvalue"
+      class=" d-flex align-items-center justify-content-start"
+    >
+      <div class="key">{{ item.key + " : " }}</div>
+      <div class="value">{{ item.value }}</div>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      class="float-right m-2"
+      (click)="logout()"
+    >
+      déconnexion
+    </button>
+  </div>
+</div>

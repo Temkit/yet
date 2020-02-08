@@ -1,0 +1,75 @@
+td {
+  font-size: 12px;
+}
+
+.mt-list {
+  padding-top: 96px;
+}
+
+tr,
+mat-card {
+  cursor: pointer;
+}
+
+.datatr:hover {
+  background: #f5f5f5;
+}
+
+table img {
+  height: 40px;
+  display: block;
+  background-color: #ff072c10;
+  border: solid 1px #24303e1f;
+  box-shadow: 2px 2px #24303e3d;
+}
+
+.mat-row:nth-child(odd) {
+  background-color: #36474f03;
+}
+
+.mat-paginator {
+  background: #fafafa00 !important;
+}
+
+.addItem {
+  position: fixed;
+  z-index: 4;
+  right: 8px;
+  bottom: 6px;
+}
+
+.yet-container {
+  position: relative;
+}
+
+.yet-table-container {
+  position: relative;
+  max-height: calc(100vh - 247px);
+  overflow: auto;
+}
+
+.hfilter {
+  height: 60px;
+}
+
+@media only screen and (max-width: 992px) {
+  .pagehead {
+    display: none;
+  }
+  .pagebottom {
+    display: flex;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .pagehead {
+    display: flex;
+  }
+  .pagebottom {
+    display: none;
+  }
+}
+
+.yet-container {
+  position: relative;
+}

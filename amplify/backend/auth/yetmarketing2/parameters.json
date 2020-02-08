@@ -1,0 +1,55 @@
+{
+    "identityPoolName": "yetmarketing2",
+    "allowUnauthenticatedIdentities": false,
+    "thirdPartyAuth": false,
+    "lambdaLogPolicy": "yetmarketing2_lambda_log_policy",
+    "openIdLambdaRoleName": "yetmarketing2_openid_lambda_role",
+    "openIdRolePolicy": "yetmarketing2_openid_pass_role_policy",
+    "openIdLambdaIAMPolicy": "yetmarketing2_openid_lambda_iam_policy",
+    "openIdLogPolicy": "yetmarketing2_openid_lambda_log_policy",
+    "userPoolName": "yetmarketing2",
+    "autoVerifiedAttributes": [
+        "email"
+    ],
+    "mfaConfiguration": "OFF",
+    "mfaTypes": [
+        "SMS Text Message"
+    ],
+    "roleName": "yetmarketing2_sns-role",
+    "roleExternalId": "yetmarketing2_role_external_id",
+    "policyName": "yetmarketing2-sns-policy",
+    "smsAuthenticationMessage": "Your authentication code is {####}",
+    "smsVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
+    "defaultPasswordPolicy": true,
+    "passwordPolicyMinLength": "8",
+    "passwordPolicyCharacters": [
+        "Requires Lowercase",
+        "Requires Numbers"
+    ],
+    "requiredAttributes": [
+        "email"
+    ],
+    "userpoolClientName": "yetmarketing2_app_client",
+    "userpoolClientGenerateSecret": true,
+    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientReadAttributes": [
+        "email"
+    ],
+    "mfaLambdaRole": "yetmarketing2_totp_lambda_role",
+    "mfaLambdaLogPolicy": "yetmarketing2_totp_lambda_log_policy",
+    "mfaPassRolePolicy": "yetmarketing2_totp_pass_role_policy",
+    "mfaLambdaIAMPolicy": "yetmarketing2_totp_lambda_iam_policy",
+    "userpoolClientLambdaRole": "yetmarketing2_userpoolclient_lambda_role",
+    "userpoolClientLogPolicy": "yetmarketing2_userpoolclient_lambda_log_policy",
+    "userpoolClientLambdaPolicy": "yetmarketing2_userpoolclient_lambda_iam_policy",
+    "userpoolClientSetAttributes": false,
+    "useDefault": "manual",
+    "authSelections": "identityPoolAndUserPool",
+    "resourceName": "yetmarketing2",
+    "unAuthRoleName": "contacts-20180831172046-unauthRole",
+    "authRoleName": "contacts-20180831172046-authRole",
+    "unAuthRoleArn": "arn:aws:iam::456081245058:role/contacts-20180831172046-unauthRole",
+    "authRoleArn": "arn:aws:iam::456081245058:role/contacts-20180831172046-authRole"
+}

@@ -1,0 +1,130 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 d-flex justify-content-between  mb-3 p-0">
+      <strong>Liste des questions</strong>
+
+      <button mat-raised-button color="primary" (click)="addQuestion()">
+        ajouter une question
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 p-0  qqq">
+      <form [formGroup]="quiz">
+        <mat-accordion *ngIf="quiz" formArrayName="questions">
+          <mat-expansion-panel
+            class="mt-2"
+            *ngFor="let q of quiz.get('questions').controls; index as qn"
+            [formGroupName]="qn"
+          >
+            <mat-expansion-panel-header id="heading{{ qn }}">
+              <mat-panel-title class="d-flex align-items-center">
+                <button
+                  mat-button
+                  color="warn"
+                  class="delq"
+                  (click)="deletequestion(qn)"
+                >
+                  <mat-icon class="qic">delete_forever</mat-icon>
+                </button>
+                <strong>Question N° {{ qn }}</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <mat-slide-toggle name="multiple" formControlName="multiple"
+                  >Choix multiple</mat-slide-toggle
+                >
+                <mat-slide-toggle
+                  class="ml-3"
+                  name="required"
+                  formControlName="required"
+                  >Requise</mat-slide-toggle
+                >
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <mat-form-field class="w-100">
+                  <textarea
+                    formControlName="question"
+                    matInput
+                    name="question{{ qn }}"
+                    placeholder="votre quesiton ici"
+                    cols="30"
+                    rows="2"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <strong class="title">Liste des réponses</strong>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="ml-3"
+                  (click)="addReponse(q)"
+                >
+                  ajouter une réponse
+                </button>
+                <mat-list class="mt-3" formArrayName="reponses">
+                  <mat-list-item
+                    *ngFor="
+                      let rep of q.get('reponses').controls;
+                      let r = index
+                    "
+                    [formGroupName]="r"
+                    class="mt-2"
+                  >
+                    <div class="container-fluid">
+                      <div class="row align-items-center">
+                        <div class="col-lg-8">
+                          <mat-form-field class="w-100">
+                            <input
+                              matInput
+                              formControlName="reponse"
+                              placeholder="entrez une reponse"
+                              type="text"
+                            />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-lg-1">
+                          <mat-form-field class="w-100">
+                            <input
+                              matInput
+                              formControlName="note"
+                              placeholder="valeur"
+                              type="number"
+                              min="0"
+                              max="100"
+                            />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-lg-1">
+                          <mat-checkbox name="correct" formControlName="correct"
+                            >correct</mat-checkbox
+                          >
+                        </div>
+                        <div class="col-lg-2 d-flex justify-content-end">
+                          <button
+                            mat-elevation-z0
+                            mat-button
+                            color="warn"
+                            (click)="deleteresponse(q, r)"
+                          >
+                            <mat-icon matSuffix>delete_forever</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                </mat-list>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </form>
+    </div>
+  </div>
+</div>

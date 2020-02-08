@@ -1,0 +1,173 @@
+<div *ngIf="element">
+  <div [ngSwitch]="true" [ngStyle]="style" [ngClass]="style_after ? class : ''">
+    <img
+      *ngSwitchCase="element.type.includes('image')"
+      src="{{ img }}"
+      onerror="this.src='../../../../assets/noimage.png'"
+      alt=" "
+    />
+    <div *ngSwitchCase="element.type.includes('date')">
+      {{ valueToDisplay * 1000 | date: "short" }}
+    </div>
+    <div *ngSwitchCase="element.type.includes('badge')">
+      <div *ngIf="valueToDisplay | async as val" class="d-flex">
+        <div>
+          <mat-chip-list>
+            <mat-chip color="primary">{{ val }}&nbsp;</mat-chip>
+          </mat-chip-list>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="element.type.includes('progress')">
+      <div
+        *ngIf="valueToDisplay | async as val"
+        class="d-flex flex-wrap justify-content-center pr-4"
+      >
+        <strong
+          >{{
+            (val[element.operant[1]] * 100) / val[element.operant[0]]
+          }}
+          %</strong
+        >
+        <mat-progress-bar
+          class="w-100"
+          color="primary"
+          mode="buffer"
+          value="{{
+            (val[element.operant[1]] * 100) / val[element.operant[0]]
+          }}"
+          bufferValue="75"
+        ></mat-progress-bar>
+      </div>
+    </div>
+    <div *ngSwitchCase="element.type.includes('cognito')">
+      <div *ngIf="valueToDisplay | async as val" class="d-flex">
+        <p *ngIf="val == 'UNCONFIRMED'">
+          <strong class="d-flex align-items-center justify-content-between">
+            <mat-icon color="warn">flag</mat-icon> NON CONFIRME
+          </strong>
+        </p>
+        <p *ngIf="val == 'CONFIRMED'">
+          <strong class="d-flex align-items-center justify-content-between">
+            <mat-icon color="primary">flag</mat-icon>CONFIRME
+          </strong>
+        </p>
+        <p *ngIf="val == 'ARCHIVED'">
+          <strong class="d-flex align-items-center justify-content-between">
+            <mat-icon color="primary">flag</mat-icon>ARCHIVE
+          </strong>
+        </p>
+        <p *ngIf="val == 'COMPROMISED'">
+          <strong class="d-flex align-items-center justify-content-between">
+            <mat-icon color="warn">flag</mat-icon>PROBLEME DE SECURITE
+          </strong>
+        </p>
+        <p *ngIf="val == 'FORCE_CHANGE_PASSWORD'">
+          <strong class="d-flex align-items-center justify-content-between">
+            <mat-icon color="warn" style="font-size:14px">flag</mat-icon
+            >MODIFICATION MOT PASSE
+          </strong>
+        </p>
+      </div>
+    </div>
+    <div *ngSwitchCase="element.name.includes('dcf-status')">
+      <div *ngIf="valueToDisplay | async as val" class="d-flex">
+        <p *ngIf="val == 'unconfirmed'">
+          <strong class="d-flex align-items-center justify-content-between">
+            <mat-icon color="warn">flag</mat-icon> NON CONFIRME
+          </strong>
+        </p>
+        <p *ngIf="val == 'confirmed'">
+          <strong class="d-flex align-items-center justify-content-between">
+            <mat-icon color="primary">flag</mat-icon>TRANSMISE
+          </strong>
+        </p>
+        <p *ngIf="val == 'archived'">
+          <strong class="d-flex align-items-center justify-content-between">
+            <mat-icon color="primary">flag</mat-icon>VALIDE
+          </strong>
+        </p>
+        <p *ngIf="val == 'compromised'">
+          <strong class="d-flex align-items-center justify-content-between">
+            <mat-icon color="warn">flag</mat-icon>PROBLEME DE STOCK
+          </strong>
+        </p>
+      </div>
+    </div>
+    <div *ngSwitchCase="element.type.includes('gender')">
+      <div *ngIf="valueToDisplay | async as val" class="d-flex">
+        <i *ngIf="val == 'Homme'" class="material-icons"
+          ><strong style="color:royalblue">♂</strong>
+        </i>
+        <i *ngIf="val == 'Femme'" class="material-icons"
+          ><strong style="color:palevioletred">♀</strong>
+        </i>
+      </div>
+    </div>
+    <div *ngSwitchCase="element.type === 'badgeArray'">
+      <div *ngIf="valueToDisplayArray.length > 0" class="d-flex">
+        <mat-chip-list *ngFor="let val of valueToDisplayArray">
+          <mat-chip color="accent" selected *ngIf="val | async as v">{{
+            v
+          }}</mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+    <div *ngSwitchCase="element.type.includes('check-date-between')">
+      <div *ngIf="valueToDisplay | async as val" class="d-flex flex-wrap">
+        <i *ngIf="now > val[0] && now < val[1]; else no" class="material-icons"
+          >done</i
+        >
+        <ng-template #no><i class="material-icons">close</i></ng-template>
+      </div>
+    </div>
+    <div *ngSwitchCase="element.type.includes('boolean')">
+      <div *ngIf="valueToDisplay | async as val; else closeb" class="d-flex">
+        <mat-icon
+          *ngIf="val === 1 || val === 'true' || val === 'open'"
+          color="primary"
+          >done</mat-icon
+        >
+      </div>
+      <ng-template #closeb>
+        <mat-icon color="warn">close</mat-icon>
+      </ng-template>
+    </div>
+    <div *ngSwitchCase="element.type.includes('lastchar')">
+      <div *ngIf="valueToDisplay | async as val" class="d-flex">
+        <mat-icon
+          *ngIf="
+            val.charAt(val.length - 1) === '1' ||
+              val.charAt(val.length - 1) === 'true' ||
+              val.charAt(val.length - 1) === 'open';
+            else close
+          "
+          color="primary"
+          >done</mat-icon
+        >
+        <ng-template #close>
+          <mat-icon color="warn">close</mat-icon>
+        </ng-template>
+      </div>
+    </div>
+    <div *ngSwitchCase="element.type.includes('timestamp')">
+      <div *ngIf="valueToDisplay | async as val; else newdate" class="d-flex">
+        {{ val | date }}
+      </div>
+      <ng-template #newdate>{{ now | date }}</ng-template>
+    </div>
+    <div *ngSwitchDefault>
+      <div *ngIf="valueToDisplay | async as val" class="d-flex">
+        <div *ngIf="element.display; else display" class="d-flex">
+          <div *ngFor="let attribute of element.display">
+            {{ val[attribute] }}&nbsp;
+          </div>
+        </div>
+        <ng-template #display>
+          {{ val }}
+        </ng-template>
+        <div *ngIf="element.add">&nbsp;{{ element.add }}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<div *ngIf="options | async as options" class="w-100">
+  <mat-form-field *ngIf="!objectConfig?.select" class="w-100">
+    <mat-label>
+      <mat-icon *ngIf="objectConfig.labelicon">
+        {{ objectConfig.labelicon }}</mat-icon
+      >
+      {{ objectConfig.label }}
+    </mat-label>
+    <mat-select
+      *ngIf="!objectConfig?.selectType"
+      placeholder="{{ objectConfig.label }}"
+      class="w-100"
+      id="{{ objectConfig.name }}"
+      [(ngModel)]="selectedItem"
+      (selectionChange)="selectItem($event)"
+    >
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-select>
+    <mat-select
+      *ngIf="objectConfig?.selectType === 'multiple'"
+      placeholder="{{ objectConfig.label }}"
+      class="w-100"
+      id="{{ objectConfig.name + objectConfig?.selectType }}"
+      [(ngModel)]="selectedItem"
+      (selectionChange)="selectItem($event)"
+      multiple
+    >
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="objectConfig?.select === 'config'" class="w-100">
+    <mat-label>
+      <mat-icon *ngIf="objectConfig.labelicon">
+        {{ objectConfig.labelicon }}</mat-icon
+      >
+      {{ objectConfig.label }}
+    </mat-label>
+    <mat-select
+      *ngIf="!objectConfig?.selectType"
+      placeholder="{{ objectConfig.label }}"
+      class="w-100"
+      id="{{ objectConfig.name }}"
+      [(ngModel)]="selectedItem"
+      [compareWith]="compareByValue"
+      (selectionChange)="selectItem($event)"
+    >
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{ option[objectConfig.attributeToDisplay] }}
+      </mat-option>
+    </mat-select>
+    <mat-select
+      *ngIf="objectConfig?.selectType === 'multiple'"
+      placeholder="{{ objectConfig.label }}"
+      class="w-100"
+      id="{{ objectConfig.name }}"
+      [(ngModel)]="selectedItem"
+      [compareWith]="compareByValue"
+      (selectionChange)="selectItem($event)"
+    >
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{ option[objectConfig.attributeToDisplay] }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="objectConfig?.select === 'multiple'" class="w-100">
+    <mat-label>
+      <mat-icon *ngIf="objectConfig.labelicon">
+        {{ objectConfig.labelicon }}</mat-icon
+      >
+      {{ objectConfig.label }}
+    </mat-label>
+    <mat-select
+      *ngIf="objectConfig?.selectType === 'multiple'"
+      placeholder="{{ objectConfig.label }}"
+      class="w-100"
+      id="{{ objectConfig.name }}"
+      [(ngModel)]="selectedList"
+      (selectionChange)="selectList($event)"
+      multiple
+    >
+      <mat-select-trigger>
+        {{
+          selectedList.value?.length > 0
+            ? selectedList.value[0][objectConfig.attributeToDisplay]
+            : ""
+        }}
+        <span *ngIf="selectedList.value?.length > 1" class="w-100">
+          (+{{ selectedList.value.length - 1 }}
+          {{ selectedList.value?.length === 2 ? "autre" : "autres" }})
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{ option[objectConfig.attributeToDisplay] }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+</div>

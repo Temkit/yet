@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es6",
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "lodash/*": ["node_modules/@types/lodash-es/*"],
+      "src/*": ["./src/*"],
+      "moment": ["../node_modules/moment/min/moment.min.js"],
+      "crypto-js": ["./proxies/crypto-js.ts"],
+      "core-js/es7/reflect": [
+        "node_modules/core-js/proposals/reflect-metadata"
+      ],
+      "core-js/es6/*": ["node_modules/core-js/es/*"]
+    },
+    "lib": ["es2018", "dom"]
+  }
+}

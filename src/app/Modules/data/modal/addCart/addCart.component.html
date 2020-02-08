@@ -1,0 +1,87 @@
+<strong mat-dialog-title>
+  <div class="title">
+    <mat-icon class="mr-2">unarchive</mat-icon>
+    <mat-icon>keyboard_arrow_right</mat-icon>
+    {{ data.data[data.name] }}
+  </div>
+</strong>
+<div mat-dialog-content class="pt-3">
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="descirption pt-3">
+          <div
+            class="item d-flex align-items-center flex-wrap"
+            *ngFor="let item of data.attributes"
+          >
+            <mat-icon>arrow_right</mat-icon>
+            <div class="key pr-2">{{ item["label"] }}</div>
+            <div class="value">
+              <div
+                class="date"
+                *ngIf="
+                  item['label'].toLowerCase().includes('date') ||
+                    item['label'].toLowerCase().includes('prix');
+                  else other
+                "
+              >
+                <div *ngIf="item['label'].toLowerCase().includes('date')">
+                  {{ data.data[item.database] | date: "short" }}
+                </div>
+                <div *ngIf="item['label'].toLowerCase().includes('prix')">
+                  {{
+                    data.data[item.database].toLocaleString("us-US", {
+                      style: "currency",
+                      currency: "DZD"
+                    })
+                  }}
+                </div>
+              </div>
+              <ng-template #other>{{ data.data[item.database] }}</ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="group !== 'admin'" class="row pt-3">
+      <div class="col-lg-12 d-flex align-items-center flex-wrap">
+        <div class="number-input mr-3">
+          <button (click)="subQuantity()"></button>
+          <input
+            [(ngModel)]="quantity"
+            class="quantity"
+            min="0"
+            name="quantity"
+            value="0"
+            type="number"
+          />
+          <button (click)="addQuantity()" class="plus"></button>
+        </div>
+        <div class="price">
+          <div class="pr-3">Total :</div>
+          <div class="prixTotal">
+            {{
+              (quantity * data.data[data.price]).toLocaleString("us-US", {
+                style: "currency",
+                currency: "DZD"
+              })
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="pt-3">
+  <button mat-flat-button color="primary" class="mr-3" (click)="onNoClick()">
+    Annuler
+  </button>
+  <button
+    mat-flat-button
+    color="warn"
+    (click)="onYesClick(quantity)"
+    cdkFocusInitial
+  >
+    Valider
+  </button>
+</div>

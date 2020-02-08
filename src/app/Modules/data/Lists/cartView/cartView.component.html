@@ -1,0 +1,150 @@
+<div class="w-100 h-100 body">
+  <div id="bread">
+    <mat-icon class="item" routerLink="/">home</mat-icon>
+    <mat-icon class="item">keyboard_arrow_right</mat-icon>
+    <div
+      class="item"
+      [routerLink]="['/yet/data/list']"
+      [queryParams]="{ item: 'produit' }"
+    >
+      liste de produits
+    </div>
+    <mat-icon class="item">keyboard_arrow_right</mat-icon>
+    <div class="item">Panier</div>
+  </div>
+  <div *ngIf="pageLOad | async as spec" class="container-fluid mt-form">
+    <div class="row">
+      <div class="col-lg-12 d-flex align-items-center mb-3 mt-3 flex-wrap">
+        <p class="m-0 p-0">Commande arrêté au : {{ date }}</p>
+        <button
+          mat-raised-button
+          color="warn"
+          class="ml-lg-3 ml-0 mt-lg-0 mt-3"
+          (click)="commande()"
+        >
+          Envoyer la commande
+        </button>
+      </div>
+    </div>
+    <div class="row yet-container mat-elevation-z1">
+      <div class="col-lg-12 p-0 yet-table-container">
+        <table mat-table [dataSource]="load" class=" w-100">
+          <!-- Item Column -->
+          <ng-container matColumnDef="name" [sticky]="true">
+            <th mat-header-cell *matHeaderCellDef>Nom</th>
+            <td mat-cell *matCellDef="let item">{{ item["name"] }}</td>
+          </ng-container>
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Prix</th>
+            <td mat-cell *matCellDef="let item">
+              {{
+                item["price"].toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "DZD"
+                })
+              }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="tva">
+            <th mat-header-cell *matHeaderCellDef>TVA</th>
+            <td mat-cell *matCellDef="let item">
+              {{ item.tva }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="number">
+            <th mat-header-cell *matHeaderCellDef>Quantité</th>
+            <td mat-cell *matCellDef="let item">
+              <mat-form-field>
+                <input
+                  #quantity
+                  type="number"
+                  matInput
+                  value="{{ item['number'] }}"
+                  (change)="cartService.edit(item, quantity.value)"
+                />
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="total_ht">
+            <th mat-header-cell *matHeaderCellDef>Total H.T</th>
+            <td mat-cell *matCellDef="let item">
+              {{
+                (item["price"] * item["number"]).toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "DZD"
+                })
+              }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="total_ttc">
+            <th mat-header-cell *matHeaderCellDef>Total T.T.C</th>
+            <td mat-cell *matCellDef="let item">
+              {{
+                (
+                  item["price"] * item["number"] +
+                  (item["price"] * item["number"] * item.tva) / 100
+                ).toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "DZD"
+                })
+              }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="delete" [stickyEnd]="true">
+            <th mat-header-cell *matHeaderCellDef>Delete</th>
+            <td mat-cell *matCellDef="let item">
+              <button mat-icon-button>
+                <mat-icon
+                  aria-label="Example icon-button with a heart icon"
+                  color="warn"
+                  (click)="cartService.delete(item)"
+                >
+                  delete</mat-icon
+                >
+              </button>
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="spec.attributes.keys_data; sticky: true"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: spec.attributes.keys_data"
+            class="datatr"
+          ></tr>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8"></div>
+      <div class="col-lg-4">
+        <div class="total">
+          <div class="ht flex-wrap d-flex justify-content-between">
+            <div class="key">TOTAL H.T</div>
+            <div class="value">
+              {{
+                cartService.total_ht.toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "DZD"
+                })
+              }}
+            </div>
+          </div>
+          <div class="ttc  flex-wrap d-flex justify-content-between">
+            <div class="key">TOTAL T.T.C</div>
+            <div class="value">
+              {{
+                cartService.total_ttc.toLocaleString("us-US", {
+                  style: "currency",
+                  currency: "DZD"
+                })
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

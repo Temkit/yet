@@ -1,0 +1,37 @@
+::ng-deep .mat-tree {
+    background: #fafafa;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+    margin-top: 20px;
+}
+
+.mat-checkbox label {
+    font-size: 20px !important;
+    color: #525252;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: 22px;
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.action {
+    display: none;
+}
+
+h2 {
+    font-size: 16px;
+}
+
+::ng-deep .mat-tree-node {
+    min-height: 60px !important;
+}
+
+::ng-deep .mat-tree-node:hover .action {
+    display: flex;
+}
+
+::ng-deep .mat-tree-node:hover {
+    background-color: #6734ba12;
+}

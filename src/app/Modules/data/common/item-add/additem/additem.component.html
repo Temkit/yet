@@ -1,0 +1,9 @@
+<div mat-dialog-content>
+    <div class="h-100 w-100">
+        <app-form-mini config="{{data | json}}" (save)="save($event)"></app-form-mini>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onNoClick()" class="mr-3">Annuler</button>
+    <button mat-raised-button color="primary" cdkFocusInitial (click)="onYesClick()">Valider</button>
+</div>

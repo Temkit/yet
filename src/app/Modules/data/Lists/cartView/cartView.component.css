@@ -1,0 +1,65 @@
+.yet-container {
+  position: relative;
+}
+
+.yet-table-container {
+  position: relative;
+  max-height: calc(100vh - 303px);
+  overflow: auto;
+}
+
+.mat-table-sticky:first-child {
+  background-color: inherit;
+}
+
+.mat-table-sticky:last-child {
+  background-color: #fafafa;
+  box-shadow: 1px 1px 0px #dedede;
+}
+
+.mat-header-cell {
+  color: rgb(96, 125, 139);
+  font-weight: 300 !important;
+  font-size: 14px !important;
+}
+
+.body {
+  min-height: 100%;
+}
+
+.mt-form {
+  padding-top: 98px;
+}
+
+table {
+  width: 100%;
+}
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
+.total {
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  background-color: white;
+  padding: 12px;
+  margin-top: 12px;
+}
+
+.value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #36474f;
+}
+
+.key {
+  font-size: 18px;
+  font-weight: 200;
+  color: #36474f;
+}
+
+.but {
+  margin-left: auto;
+  margin-top: 14px;
+}

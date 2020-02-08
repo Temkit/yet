@@ -1,0 +1,77 @@
+<div class="container-fluid polyheight">
+  <div class="row">
+    <div class="col-lg-6"></div>
+    <div class="col-lg-6"></div>
+  </div>
+  <div class="row">
+    <div class="col-lg-5">
+      <div class="container-fluid">
+        <div *ngFor="let p of points; let i = index" class="row">
+          <div class="col-lg-5 pl-0">
+            <div class="form-group">
+              <mat-form-field>
+                <input
+                  matInput
+                  placeholder="Longitude"
+                  autocomplete="yet.marketing"
+                  class="form-control"
+                  type="number"
+                  id="poly{{ p[1] }}"
+                  [(ngModel)]="points[i][0]"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="form-group">
+              <mat-form-field>
+                <input
+                  matInput
+                  placeholder="Latitude"
+                  autocomplete="yet.marketing"
+                  class="form-control"
+                  type="number"
+                  id="poly{{ p[1] }}"
+                  [(ngModel)]="points[i][1]"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div *ngIf="i > 3" class="col-lg-2">
+            <div class="form-group">
+              <button mat-raised-button color="accent" (click)="delCoord(i)">
+                Sup
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-3"></div>
+          <div class="col-lg-4">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="addLayer()"
+              class="mr-3"
+            >
+              Enregistrer
+            </button>
+          </div>
+          <div
+            class="col-lg-4"
+            *ngIf="objectConfig.multiple === true || points.length === 0"
+          >
+            <button mat-raised-button color="primary" (click)="addCoord()">
+              Ajouter
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div #mapElement id="map" class="match-parent"></div>
+      <pre #coordinates class="coordinates"></pre>
+    </div>
+  </div>
+</div>

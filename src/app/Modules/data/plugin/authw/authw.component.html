@@ -1,0 +1,304 @@
+<div class="login-page" *ngIf="load | async; else spinner">
+  <div id="logo" *ngIf="go == 'go'">
+    <div class="logo" [style.backgroundImage]="'url(' + logo + ')'"></div>
+  </div>
+  <div class="form">
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+      {{ error.message }}
+    </div>
+    <div *ngIf="message" class="alert alert-success" role="alert">
+      {{ message }}
+    </div>
+    <div [ngSwitch]="state">
+      <div *ngSwitchCase="'create'">
+        <div *ngIf="spec.create" class="register-form">
+          <div *ngIf="go == 'go'" class="alert alert-primary" role="alert">
+            Créez vorte compte
+          </div>
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="tel"
+              placeholder="numéro de téléphone"
+              #phone
+            />
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input matInput type="email" placeholder="Email" #email />
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="password"
+              placeholder="mot de passe"
+              #passworUp
+            />
+          </mat-form-field>
+          <mat-form-field class="w-50">
+            <input matInput type="text" placeholder="Nom" #name />
+          </mat-form-field>
+          <mat-form-field class="w-50">
+            <input matInput type="text" placeholder="Prenom" #given_name />
+          </mat-form-field>
+
+          <mat-checkbox #newsletter
+            >Recevoir les derniéres promotions en exclusivité</mat-checkbox
+          >
+          <button
+            mat-flat-button
+            color="primary"
+            class="w-100"
+            (click)="
+              signUp(
+                phone.value,
+                email.value,
+                passworUp.value,
+                name.value,
+                given_name.value,
+                newsletter.checked
+              )
+            "
+          >
+            créer
+          </button>
+        </div>
+        <p class="message">
+          Vous avez déja un compte?
+          <a style="cursor:pointer" (click)="setTmplate('login')">connexion</a>
+        </p>
+      </div>
+      <div *ngSwitchCase="'confirmSignIn'">
+        <div class="confirm-form">
+          <div *ngIf="go == 'go'" class="alert alert-info" role="alert">
+            Entrez le code de confirmation reçu sur l'email : {{ username }}
+          </div>
+          <mat-form-field class="w-100">
+            <input matInput type="text" placeholder="code" #code />
+          </mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            class="w-100"
+            (click)="confirm(code.value)"
+          >
+            Confirmer
+          </button>
+          <p class="message">
+            <a style="cursor:pointer" (click)="sendConfirmaiton()"
+              >Renvoyez le code de confirmation par e-mail</a
+            >
+          </p>
+        </div>
+      </div>
+      <div *ngSwitchCase="'login'">
+        <div class="login-form">
+          <div *ngIf="go == 'go'" class="alert alert-primary" role="alert">
+            Connectez vous à votre compte
+          </div>
+          <span class="title" *ngIf="go == 'go'"></span>
+          <mat-form-field class="w-100">
+            <input matInput type="text" placeholder="identifiant" #username />
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="password"
+              placeholder="mot de passe"
+              #password
+            />
+          </mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            class="w-100"
+            (click)="signIn(username.value, password.value)"
+          >
+            connexion
+          </button>
+          <p class="message">
+            Pas encore de compte?
+            <a style="cursor:pointer" (click)="setTmplate('create')"
+              >Créer un compte</a
+            >
+          </p>
+          <p class="message">
+            mot de passe oublié ?
+            <a style="cursor:pointer" (click)="setTmplate('forgot')"
+              >Récupérer votre mot de passe</a
+            >
+          </p>
+        </div>
+      </div>
+      <div *ngSwitchCase="'change'">
+        <div *ngIf="go == 'go'" class="alert alert-info" role="alert">
+          Modifiez l'ancien mot de passe
+        </div>
+        <div class="login-form">
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="password"
+              placeholder="Nouveau Mot de passe"
+              #password1
+            />
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="password"
+              placeholder="Confirmation du nouveau mot de passe"
+              #password2
+          /></mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            class="w-100"
+            (click)="changePassword(password1.value, password2.value)"
+          >
+            Modifier
+          </button>
+          <p class="message">
+            Vous avez déja un compte?
+            <a style="cursor:pointer" (click)="setTmplate('login')"
+              >connexion</a
+            >
+          </p>
+        </div>
+      </div>
+      <div *ngSwitchCase="'forgot'">
+        <div class="login-form">
+          <div *ngIf="go == 'go'" class="alert alert-primary" role="alert">
+            Vous avez oublier votre mot de passe
+          </div>
+
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="username"
+              placeholder="identifiant"
+              #username
+            />
+          </mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            class="w-100"
+            (click)="forgotPassword(username.value)"
+          >
+            Envoyez
+          </button>
+          <p class="message">
+            Pas encore de compte?
+            <a style="cursor:pointer" (click)="setTmplate('create')"
+              >Créer un compte</a
+            >
+          </p>
+          <p class="message">
+            Vous avez déja un compte?
+            <a style="cursor:pointer" (click)="setTmplate('login')"
+              >connexion</a
+            >
+          </p>
+        </div>
+      </div>
+      <div *ngSwitchCase="'confirmChange'">
+        <div class="login-form">
+          <div *ngIf="go == 'go'" class="alert alert-primary" role="alert">
+            Vous avez oublier votre mot de passe
+          </div>
+
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="password"
+              placeholder="Nouveau Mot de passe"
+              #password1
+            />
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="password"
+              placeholder="Confirmation du nouveau mot de passe"
+              #password2
+          /></mat-form-field>
+          <mat-form-field class="w-100">
+            <input matInput type="code" placeholder="code" #code
+          /></mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            class="w-100"
+            (click)="
+              confirmForgotPassword(
+                password1.value,
+                password2.value,
+                code.value
+              )
+            "
+          >
+            Envoyez
+          </button>
+          <p class="message">
+            Pas encore de compte?
+            <a style="cursor:pointer" (click)="setTmplate('create')"
+              >Créer un compte</a
+            >
+          </p>
+          <p class="message">
+            Vous avez déja un compte?
+            <a style="cursor:pointer" (click)="setTmplate('login')"
+              >connexion</a
+            >
+          </p>
+        </div>
+      </div>
+      <div *ngSwitchDefault>
+        <div class="login-form">
+          <div *ngIf="go == 'go'" class="alert alert-primary" role="alert">
+            Veuillez saisir votre adresse email ainsi que le code de
+            confirmaiton qui vous a été envoyé à cette boite email
+          </div>
+
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="username"
+              placeholder="identifiant"
+              #username
+            />
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input matInput type="code" placeholder="code" #code
+          /></mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            class="w-100"
+            (click)="confirmAccount(username.value, code.value)"
+          >
+            Envoyez
+          </button>
+          <p class="message">
+            Pas encore de compte?
+            <a style="cursor:pointer" (click)="setTmplate('create')"
+              >Créer un compte</a
+            >
+          </p>
+          <p class="message">
+            Vous avez déja un compte?
+            <a style="cursor:pointer" (click)="setTmplate('login')"
+              >connexion</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #spinner>
+  <div class="spinner">
+    <img src="./../../../../../assets/favicon.gif" alt="" />
+    <p class="log">Vérification des jetons d'authentification</p>
+  </div>
+</ng-template>

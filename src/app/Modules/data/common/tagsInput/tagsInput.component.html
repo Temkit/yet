@@ -1,0 +1,9 @@
+<mat-form-field class="w-100">
+    <mat-chip-list #chipList>
+        <mat-chip *ngFor="let fruit of _value" color="accent" [selectable]="selectable" [removable]="removable" (removed)="remove(fruit)">
+            {{fruit}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input autocomplete="yet.marketing" placeholder="{{objectConfig.label}}" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+</mat-form-field>

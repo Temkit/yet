@@ -1,0 +1,48 @@
+<strong mat-dialog-title>
+  <div class="title d-flex align-items-center">
+    <mat-icon>featured_play_list</mat-icon>
+    <mat-icon>keyboard_arrow_right</mat-icon>
+    {{data.title.label}} &nbsp;
+    <span *ngIf="data.title.titleApendis">
+      <span *ngIf="data.title.titleApendisType === 'date'">
+        {{data.data[data.title.titleApendis] | date}}
+      </span>
+    </span>
+  </div>
+
+</strong>
+<div mat-dialog-content class="pt-3">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="container-fluid">
+                    <div class="row">
+                        <table class="col-lg-12">
+                            <thead>
+                                <th *ngFor="let attribute of data.attributes">{{attribute['label']}}</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of data.data[data.payload]">
+                                    <td *ngFor="let attribute of data.attributes">
+                                        {{row[attribute['database']]}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="data.informations" class="col-lg-12">
+                <hr>
+            </div>
+            <div class="col-lg-12" *ngFor="let inf of data.informations">
+                <strong>{{inf['label']}}</strong>&nbsp;
+                <span *ngIf="inf['type'] === 'currency'">{{data.data[inf['database']] | currency:'DZD'}}</span>
+                <span *ngIf="inf['type'] === 'data'">{{data.data[inf['database']] }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="pt-3">
+    <button mat-flat-button color='primary' class="mr-3" (click)="onNoClick()">Sortir</button>
+</div>

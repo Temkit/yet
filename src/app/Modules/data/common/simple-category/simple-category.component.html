@@ -1,0 +1,102 @@
+<div class="container-fluid" *ngIf="render | async as render">
+  <div class="row">
+    <div class="col-lg-9">
+      <h1
+        class="pb-3 pt-2"
+        *ngIf="render.title"
+        [innerHtml]="render.title"
+      ></h1>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-lg-9">
+      <h2
+        class="pb-3"
+        *ngIf="render.subtitle"
+        [innerHtml]="render.subtitle"
+      ></h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-9 mb-5">
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: hasNoContent"
+          matTreeNodePadding
+        >
+          <button mat-icon-button disabled></button>
+          <mat-form-field>
+            <input
+              matInput
+              #itemValue
+              placeholder="{{ render.addPlaceholder }}"
+            />
+          </mat-form-field>
+          <button
+            color="primary"
+            mat-icon-button
+            (click)="saveNode(node, itemValue.value)"
+          >
+            <mat-icon aria-label="Enregistrer">save</mat-icon>
+          </button>
+        </mat-tree-node>
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: hasChild"
+          matTreeNodePadding
+        >
+          <button
+            mat-icon-button
+            matTreeNodeToggle
+            [attr.aria-label]="'toggle ' + node.filename"
+          >
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{
+                treeControl.isExpanded(node) ? "expand_more" : "chevron_right"
+              }}
+            </mat-icon>
+          </button>
+          <mat-checkbox
+            *ngIf="isChild; else simpleDisplay"
+            color="primary"
+            [checked]="descendantsAllSelected(node)"
+            [indeterminate]="descendantsPartiallySelected(node)"
+            (change)="todoItemSelectionToggle(node)"
+          >
+            {{ node.item.name }}</mat-checkbox
+          >
+          <ng-template #simpleDisplay>{{ node.item.name }}</ng-template>
+          <div class="space"></div>
+          <div class="action">
+            <button
+              color="primary"
+              class="mr-2"
+              *ngIf="!isChild"
+              mat-mini-fab
+              (click)="addNewItem(node)"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+            <button
+              color="primary"
+              class="mr-2"
+              *ngIf="!isChild"
+              mat-mini-fab
+              (click)="openDialog(node)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              color="warn"
+              class="mr-2"
+              *ngIf="!isChild"
+              mat-mini-fab
+              (click)="deleteItem(node)"
+            >
+              <mat-icon>remove</mat-icon>
+            </button>
+          </div>
+        </mat-tree-node>
+      </mat-tree>
+    </div>
+  </div>
+</div>

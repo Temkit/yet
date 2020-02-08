@@ -1,0 +1,43 @@
+.ingrediant {
+  background-color: #3e4eb81a;
+  border: solid 1px #b5aeae40;
+}
+
+::ng-deep .qqq .mat-expansion-panel-header-title {
+  height: 50px !important;
+}
+
+.qic {
+  position: relative;
+  top: -6px;
+}
+
+.delete {
+  position: absolute;
+  top: 23px;
+  right: 13px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.delq {
+  position: relative;
+  left: -8px;
+  top: 1px;
+  height: 30px;
+}
+
+.add {
+  cursor: pointer;
+}
+
+.inputitle {
+  font-size: 18px !important;
+  line-height: 1.6;
+  text-transform: capitalize;
+}
+
+.headingre {
+  padding-bottom: 12px;
+  border-bottom: solid 1px #cfd3ec;
+}

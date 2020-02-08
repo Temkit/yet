@@ -1,0 +1,55 @@
+input[type="date"] {
+    height: 36px;
+    font-size: 17px;
+    display: block;
+    width: 100%;
+}
+
+.htitle {
+    height: 50px;
+}
+
+form {
+    height: 100%;
+}
+
+h2 {
+    font-size: 13px;
+}
+
+#editor {
+    height: 375px;
+}
+
+.ql-omega:after {
+    content: "Ω";
+}
+
+.mustSave a {
+    color: white !important;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+.nav-tabs .nav-link {
+    padding: 8px !important;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.file svg {
+    width: 140px;
+    height: 81px;
+    cursor: pointer;
+}
+
+.saveBox {
+    position: fixed;
+    top: 4px;
+    left: 219px;
+}

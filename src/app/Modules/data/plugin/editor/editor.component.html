@@ -1,0 +1,6 @@
+<!-- <div ngxSummernote="{{editor.config}}" [ngxSummernoteDisabled]="false" summernoteModel="{{editor.value}}" (summernoteModelChange)=""></div> -->
+<ckeditor
+  [editor]="Editor"
+  [(ngModel)]="value"
+  (change)="emit($event)"
+></ckeditor>

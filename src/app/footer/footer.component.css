@@ -1,0 +1,24 @@
+.footer {
+    height: 30px;
+    width: 100%;
+    background-color: #37474f;
+    display: block;
+    position: relative;
+    bottom: 30px;
+    font-size: 12px;
+    z-index: 2;
+    display: flex;
+    color: white;
+    border-top: solid 5px #fff;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+mat-icon {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}

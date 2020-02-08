@@ -1,0 +1,13 @@
+#map {
+    position: absolute;
+    top: 35px !important;
+    bottom: 0;
+    border: solid 1px #919191;
+}
+
+.mapboxgl-canvas {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+}

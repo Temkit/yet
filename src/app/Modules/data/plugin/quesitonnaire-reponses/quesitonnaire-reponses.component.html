@@ -1,0 +1,12 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 d-flex justify-content-between  mb-3 p-0">
+            <strong>Réponses</strong>
+        </div>
+    </div>
+    <div class="row" *ngIf="questions$ | async as questions">
+        <div class="col-lg-12" *ngFor="let dash of questions;let i = index">
+            <app-global id="{{'dash'+i}}" context="2d" type="horizontalBar" labels="{{dash.labels}}" data={{dash.data}} label="{{dash.label}}" backgroundColor="{{backgroundColor}}" borderColor="{{borderColor}}" borderWidth="{{borderWidth}}" beginAtZero="{{beginAtZero}}"></app-global>
+        </div>
+    </div>
+</div>

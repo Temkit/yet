@@ -1,0 +1,270 @@
+h1 {
+  font-size: 24px;
+  font-weight: 900;
+}
+
+::ng-deep .mat-drawer-inner-container {
+  height: 100vh !important;
+  overflow: scroll !important;
+}
+
+a {
+  text-decoration: none;
+  text-transform: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.presentation {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  left: 210px;
+  width: 372px;
+  height: 63px;
+}
+
+.presentation .owner {
+  font-size: 12px;
+  font-family: unset;
+  color: #779caf;
+  position: relative;
+  top: 5px;
+}
+
+.presentation .customer {
+  position: relative;
+  top: -9px;
+  font-size: 13px;
+  color: #fdfeff;
+}
+
+.app {
+  color: white !important;
+  font-size: 18px;
+  font-weight: 200;
+  padding-top: 13px;
+  margin-left: 20px;
+}
+
+mat-expansion-panel {
+  box-shadow: none !important;
+  padding-left: 0 !important;
+}
+
+::ng-deep mat-sidenav {
+  width: 250px !important;
+}
+
+.textmenu,
+::ng-deep .mat-list-item-content {
+  font-size: 15px;
+  font-weight: 500;
+  color: #36474f;
+}
+
+::ng-deep .mat-toolbar {
+  position: fixed;
+  z-index: 123;
+}
+
+.notification {
+  width: 215px;
+}
+
+mat-icon {
+  cursor: pointer;
+}
+
+::ng-deep .mat-divider {
+  border-top-width: 0.5px !important;
+}
+
+#logo {
+  width: 199px;
+  height: 64px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50%;
+  display: block;
+  position: fixed;
+  top: 0px;
+  left: 50px;
+  z-index: 2344;
+  background-color: #fafafa;
+  border-bottom: solid 1px #37474f36;
+}
+
+#noti_Container {
+  position: relative;
+}
+
+/* A CIRCLE LIKE BUTTON IN THE TOP MENU. */
+
+#noti_Button {
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  background: #fff;
+  margin: -3px 10px 0 10px;
+  cursor: pointer;
+}
+
+/* THE POPULAR RED NOTIFICATIONS COUNTER. */
+
+#noti_Counter {
+  display: block;
+  position: absolute;
+  background: #e1141e;
+  color: #fff;
+  font-size: 12px;
+  font-weight: normal;
+  padding: 1px 3px;
+  margin: -8px 0 0 25px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  z-index: 1;
+}
+
+/* THE NOTIFICAIONS WINDOW. THIS REMAINS HIDDEN WHEN THE PAGE LOADS. */
+
+#notifications {
+  width: 315px;
+  position: absolute;
+  top: 75px;
+  right: 4px;
+  background: #fff;
+  border: solid 1px rgba(100, 100, 100, 0.2);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+/* AN ARROW LIKE STRUCTURE JUST OVER THE NOTIFICATIONS WINDOW */
+
+#notifications:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 10px;
+  color: #37474f;
+  border: 10px solid #37474f;
+  border-color: #37474f #56151500 #ffcf0000;
+  margin-top: -22px;
+  z-index: 999999999999;
+  margin-left: var(--margin-left);
+}
+
+.top-icon {
+  font-size: 45px;
+  height: 65px;
+  width: 45px;
+  top: 6px;
+  position: relative;
+}
+
+.notif {
+  padding: 10px;
+  display: flex;
+  border-bottom: solid 1px #d0d0d06e;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: #f4f5ff;
+  border-left: solid 1px #3e4eb8;
+}
+
+.notif:hover {
+  border-left: solid 3px #3e4eb8;
+}
+
+h3 {
+  display: block;
+  color: #333;
+  background: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 8px;
+  margin: 0;
+  border-bottom: solid 1px rgba(100, 100, 100, 0.3);
+}
+
+.tgl {
+  position: relative;
+  left: -12px;
+}
+
+.seeAll {
+  background: #f6f7f8;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  border-top: solid 1px rgba(100, 100, 100, 0.3);
+  text-align: center;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding-bottom: 0px !important;
+}
+
+.seeAll a {
+  color: #3b5998;
+}
+
+.seeAll a:hover {
+  background: #f6f7f8;
+  color: #3b5998;
+  text-decoration: underline;
+}
+
+.key {
+  font-size: 12px;
+  font-weight: 600;
+  color: #37474f;
+  padding-top: 6px;
+  padding-left: 6px;
+}
+
+.value {
+  font-size: 12px;
+  padding-top: 6px;
+  padding-left: 6px;
+}
+
+.val {
+  border-radius: 67px;
+  background-color: #36474f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px;
+  max-width: 36px;
+  min-width: 36px;
+  height: 36px;
+  color: white;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+@media (max-width: 992px) {
+  .presentation {
+    display: none !important;
+  }
+  #logo {
+    width: 122px !important;
+  }
+}
+
+@media (max-width: 599px) {
+  .mat-toolbar-row,
+  .mat-toolbar-single-row {
+    height: 64px !important;
+  }
+  #logo {
+    width: 72px !important;
+  }
+}

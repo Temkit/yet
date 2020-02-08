@@ -1,0 +1,42 @@
+<div class="container-fluid p-0" *ngIf="tableconfig | async as tableconfig">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5>{{title}}</h5>
+        </div>
+        <div class="col-lg-12">
+            <button class="mt-3 float-right" mat-raised-button color="primary" (click)="createItem()">Ajouter</button>
+        </div>
+        <div class="col-lg-12 mt-3 p-0">
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+                <!-- Position Column -->
+                <ng-container *ngFor="let key of tableconfig.attributes.keys" matColumnDef="{{key.name}}">
+                    <mat-header-cell *matHeaderCellDef> {{key.title}} </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+
+                        <div [ngSwitch]="true">
+
+
+                            <div *ngSwitchCase="key.name == 'delete'">
+                                <button mat-icon-button color="warn" (click)="delete(element);$event.stopPropagation()">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+                            </div>
+
+                            <div *ngSwitchDefault>
+                                {{element[key.name]}}
+                            </div>
+                        </div>
+                    </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>
+                        <div *ngIf="key.name === 'name'">Total</div>
+                        <div *ngIf="key.name === objectConfig.total">{{totalDisplay}}</div>
+                    </mat-footer-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="tableconfig.attributes.keys_data"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: tableconfig.attributes.keys_data;"></mat-row>
+            </mat-table>
+        </div>
+    </div>
+</div>

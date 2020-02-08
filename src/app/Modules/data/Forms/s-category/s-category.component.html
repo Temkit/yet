@@ -1,0 +1,3 @@
+<div *ngIf="ready | async as ready">
+    <app-simple-category config='{{ready}}' (addTree)="seve($event)"></app-simple-category>
+</div>

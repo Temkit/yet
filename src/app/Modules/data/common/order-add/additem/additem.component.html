@@ -1,0 +1,26 @@
+<h5 mat-dialog-title>Ajouter un produit</h5>
+<div mat-dialog-content *ngIf="objectConfig | async as config">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-lg-12">
+                <app-autocomplete class="w-100" config="{{config.autocomplete | json}}" value="{{product | json}}" (patch)="handleEvent(config.autocomplete,$event)"></app-autocomplete>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <mat-form-field class="w-100">
+                    <input matInput type="number" placeholder="Quantité" [(ngModel)]="quantity">
+                </mat-form-field>
+            </div>
+            <div class="col-lg-8">
+                <app-select config="{{config.taxSelect | json}}" value="{{taxes | json}}" (patch)="selectedTaxes($event)">
+                </app-select>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onNoClick()" class="mr-3">Annuler</button>
+    <button mat-raised-button color="primary" cdkFocusInitial (click)="onYesClick()">Valider</button>
+</div>

@@ -1,0 +1,107 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="{{objectConfig.class}}">
+            <div class="d-flex align-items-center">
+                <span class="space"></span>
+                <button mat-raised-button color="accent" (click)="openDialog()">
+          <mat-icon>add_shopping_cart</mat-icon>
+          Ajouter
+        </button>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="{{objectConfig.class}}">
+            <mat-table *ngIf="tableconfig | async as tableconfig" [dataSource]="dataSource" class="mat-elevation-z1">
+                <!-- Position Column -->
+                <ng-container *ngFor="let key of tableconfig.attributes.keys" matColumnDef="{{key.name}}">
+                    <mat-header-cell *matHeaderCellDef> {{key.title}} </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+
+                        <div [ngSwitch]="true">
+
+                            <img *ngSwitchCase="key.name.includes('image')" src="https://{{tableconfig.img.bucket}}/{{tableconfig.img.imagePath}}{{element.image}}/{{tableconfig.img.imageName}}?dummy={{dummy}}" onerror="this.src='../../../../assets/noimage.png'" alt=" ">
+
+
+                            <div *ngSwitchCase="key.name == 'ot-delete'">
+                                <button mat-icon-button color="warn" (click)="deleteProduct(element);$event.stopPropagation()">
+                  <mat-icon>delete_outline</mat-icon>
+                </button></div>
+
+                            <div *ngSwitchCase="key.name == 'ot-edit'">
+                                <button mat-icon-button color="primary" (click)="editProduct(element);$event.stopPropagation()">
+                  <mat-icon>edit</mat-icon>
+                </button></div>
+
+                            <div *ngSwitchDefault>
+                                <app-decorator config='{{key | json}}' value='{{element[key.name] | json}}'></app-decorator>
+                            </div>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="tableconfig.attributes.keys_data"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: tableconfig.attributes.keys_data;"></mat-row>
+            </mat-table>
+
+
+        </div>
+
+    </div>
+    <div class="row mt-3">
+        <div class="col-lg-5"></div>
+        <div class="col-lg-4">
+            <div class="colntainer-fluid summary" *ngIf="summarise | async as sum">
+                <div class="row ht">
+                    <div class="col-lg-6">
+                        <strong>Total H.T</strong>
+                    </div>
+                    <div class="col-lg-6 d-flex justify-content-end">
+                        {{sum.ht}}
+                    </div>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-lg-12">
+                        <strong>Taxes</strong>
+                    </div>
+                </div>
+                <div class="pl-4 row" *ngFor="let tax of sum.taxeDisplay | keyvalue">
+                    <div class="col-lg-6">
+                        {{tax.key}}
+                    </div>
+                    <div class="col-lg-6 d-flex justify-content-end">
+                        {{tax.value}}
+                    </div>
+                </div>
+                <div class="row  pl-4">
+                    <div class="col-lg-12">
+                        <mat-divider></mat-divider>
+                    </div>
+                </div>
+                <div class="row  pl-4">
+                    <div class="col-lg-6">
+                        Total Taxes
+                    </div>
+                    <div class="col-lg-6 d-flex justify-content-end">
+                        {{sum.taxe}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <mat-divider></mat-divider>
+                    </div>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-lg-6">
+                        <strong>Total T.T.C</strong>
+                    </div>
+                    <div class="col-lg-6 d-flex justify-content-end">
+                        {{sum.ttc}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+</div>

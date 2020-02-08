@@ -1,0 +1,15 @@
+<mat-form-field class="w-100">
+    <mat-chip-list #chipList>
+        <mat-chip *ngFor="let val of _valuetoDisplay" [selectable]="selectable" [removable]="removable" (removed)="remove(val)">
+            <span *ngIf="val">{{val[objectConfig.attributeToDisplay]}}</span>
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input autocomplete="yet.marketing" placeholder="{{objectConfig.placeholder}}" #itemInput (keyup)="onChanges(itemInput.value)" [formControl]="
+    itemCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selected($event.option)">
+        <mat-option *ngFor="let option of options | async" [value]="option">
+            <span *ngIf="option">{{option.name}}</span>
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

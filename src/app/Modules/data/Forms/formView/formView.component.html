@@ -1,0 +1,3 @@
+<div *ngIf="ready | async as ready" class="body">
+    <app-form config="{{ready}}" (data)="save($event)"></app-form>
+</div>

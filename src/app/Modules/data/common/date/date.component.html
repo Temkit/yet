@@ -1,0 +1,9 @@
+<mat-form-field class="w-100">
+    <input autocomplete="yet.marketing" matInput [matDatepicker]="picker" [formControl]="valueToDisplay" (dateChange)="update($event)">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-label>
+        <mat-icon *ngIf="objectConfig.labelicon">{{objectConfig.labelicon}}</mat-icon>
+        {{objectConfig.label}}
+    </mat-label>
+</mat-form-field>

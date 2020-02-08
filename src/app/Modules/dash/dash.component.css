@@ -1,0 +1,25 @@
+.label {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  border-bottom: solid 2px;
+}
+
+.label .title {
+  font-size: 18px;
+  color: black;
+}
+
+.label .value {
+  font-size: 21px;
+  color: black;
+}
+
+.detail {
+  position: absolute;
+  top: 59px;
+  font-size: 12px;
+  color: #37464f;
+  right: 0;
+}

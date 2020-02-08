@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>Choisissez le fichier à importer</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group col-12 inputDnD p-lg-0 p-3">
+
+                <input type="file" class="form-control-file font-weight-bold" id="inputFile" (change)='readURL($event)' name="inputFile" id="inputFile" accept=".csv" data-title="Choisissez votre image ici avant de l'uploader">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" [style.width]="fileUpload+'%'" attr.aria-valuenow="{{fileUpload}}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <button mat-button background="primary">Click me!</button>
+            <!-- <button class="btn btn-action" >importer</button> -->
+        </div>
+    </div>
+</div>

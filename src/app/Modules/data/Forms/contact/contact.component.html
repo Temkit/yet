@@ -1,0 +1,82 @@
+<div class="h-100 w-100">
+  <div id="bread">
+    <mat-icon class="item" routerLink="/">home</mat-icon>
+    <mat-icon class="item">keyboard_arrow_right</mat-icon>
+    <div class="item">Contact</div>
+  </div>
+  <div class="container-fluid" style="padding: 100px">
+    <div class="row">
+      <div class="col-lg-12 p-0 mt-4">
+        <h3>Envoyez votre message.</h3>
+        <p>
+          Vous avez un probléme, une doélance, une plainte, ou bien une
+          recommandation veuillez nous contacter sur ce formulaire votre reqûete
+          sera traité dans les plus brefs délais
+        </p>
+      </div>
+      <div class="col-lg-12 h-100 p-0 header-less-tabs">
+        <form (ngSubmit)="processForm()">
+          <!-- name -->
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="text"
+              name="name"
+              class="input"
+              placeholder="Votre nom"
+              [(ngModel)]="name"
+            />
+          </mat-form-field>
+
+          <!-- email --><mat-form-field class="w-100">
+            <input
+              matInput
+              type="email"
+              name="email"
+              class="input"
+              placeholder="Votre adresse Email"
+              [(ngModel)]="email"
+            />
+          </mat-form-field>
+
+          <!-- phone -->
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="text"
+              name="phone"
+              class="input"
+              placeholder="Votre Numéro de téléphone "
+              [(ngModel)]="phone"
+            />
+          </mat-form-field>
+
+          <!-- pharmacie -->
+          <mat-form-field class="w-100">
+            <input
+              matInput
+              type="text"
+              name="pharmacie"
+              class="input"
+              placeholder="Le nom de votre pharmacie "
+              [(ngModel)]="pharmacie"
+            />
+          </mat-form-field>
+
+          <!-- message --><mat-form-field class="w-100">
+            <textarea
+              matInput
+              class="textarea"
+              name="message"
+              placeholder="Votre message"
+              [(ngModel)]="message"
+            ></textarea>
+          </mat-form-field>
+          <button mat-raised-button type="submit" color="primary">
+            Envoyer
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
