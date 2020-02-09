@@ -9,8 +9,7 @@ import { ANIMATION_MODULE_TYPE } from "@angular/platform-browser/animations";
 @Component({
   selector: "app-imageUploader",
   templateUrl: "./imageUploader.component.html",
-  styleUrls: ["./imageUploader.component.css"],
-  providers: [{ provide: ANIMATION_MODULE_TYPE, useValue: "BrowserAnimations" }]
+  styleUrls: ["./imageUploader.component.css"]
 })
 export class ImageUploaderComponent implements OnInit {
   image = null;
@@ -114,8 +113,10 @@ export class ImageUploaderComponent implements OnInit {
       )
       .subscribe((uploader: any) => {
         uploader
-          .on("httpUploadProgress", function(evt) {
+          .on("httpUploadProgress", evt => {
             this.imageUpload = (evt.loaded / evt.total) * 100;
+
+            console.log(this.imageUpload);
           })
           .send((err, data) => {
             if (err) {

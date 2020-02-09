@@ -97,5 +97,8 @@ label.myLabel input[type="file"] {
 .size {
   color: #78729d;
   font-weight: 100;
-  font-size: 12px;
+  font-size: 10px;
+  display: flex;
+  width: 40%;
+  flex-wrap: wrap;
 }

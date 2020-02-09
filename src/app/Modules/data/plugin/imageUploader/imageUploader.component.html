@@ -20,22 +20,14 @@
         </label>
         <div
           *ngIf="size"
-          class="d-flex align-items-center justify-content-between"
+          class="d-flex align-items-center justify-content-center"
         >
           <span class="mr-2">
             <mat-chip-list>
-              <mat-chip color="warn">{{ size / 1000 }} Ko</mat-chip>
+              <mat-chip color="warn">{{ size / 1000000 }} Mo</mat-chip>
             </mat-chip-list>
           </span>
-          <span *ngIf="size / 1000 > 50" class="size"
-            >votre image peut être optimisé,
-            <a
-              target="_blank"
-              class="googleimage"
-              href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization?hl=fr"
-              >Cliquez ici pour consulter les caractéristiques des image pour le
-              web selon Google</a
-            ></span
+
           >
         </div>
 
@@ -53,9 +45,9 @@
           <mat-progress-bar
             color="warn"
             mode="determinate"
-            [bufferValue]="100"
             [value]="imageUpload"
           ></mat-progress-bar>
+          <div>{{ imageUpload.toFixed(0) }} %</div>
         </div>
       </div>
       <div>
