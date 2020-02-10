@@ -17,7 +17,8 @@ export class AppLoadService {
       .replace(".yet.marketing", "")
       .replace("https://", "")
       .replace("http://", "")
-      .replace("/auth/", "");
+      .replace("/auth", "")
+      .replace("/", "");
 
     // host = "mlm";
     // host = 'smartelectronicx.com';
