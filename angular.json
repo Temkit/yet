@@ -19,13 +19,8 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/assets",
-              "src/manifest.json"
-            ],
-            "scripts": [
-              "node_modules/moment/min/moment.min.js"
-            ],
+            "assets": ["src/assets", "src/manifest.json"],
+            "scripts": ["node_modules/moment/min/moment.min.js"],
             "styles": [
               "src/styles.css",
               "src/theme.scss",
@@ -47,13 +42,13 @@
               "namedChunks": true,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
+              "vendorChunk": true,
               "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "5mb",
-                  "maximumError": "10mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -89,30 +84,20 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "scripts": [
-              "node_modules/moment/min/moment.min.js"
-            ],
+            "scripts": ["node_modules/moment/min/moment.min.js"],
             "styles": [
               "src/styles.css",
               "src/theme.scss",
               "node_modules/bootstrap-css-only/css/bootstrap.min.css"
             ],
-            "assets": [
-              "src/assets",
-              "src/manifest.json"
-            ]
+            "assets": ["src/assets", "src/manifest.json"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -138,9 +123,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
