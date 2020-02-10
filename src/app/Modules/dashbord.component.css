@@ -20,8 +20,8 @@ a {
   flex-wrap: wrap;
   position: relative;
   left: 155px;
-  width: 372px;
-  height: 63px;
+  width: 300px;
+  height: 50px;
 }
 
 .presentation .owner {
@@ -29,13 +29,12 @@ a {
   font-family: unset;
   color: #779caf;
   position: relative;
-  top: 5px;
   z-index: 3;
 }
 
 .presentation .customer {
   position: relative;
-  top: -9px;
+  top: -14px;
   font-size: 11px;
   color: #fdfeff;
 }
@@ -63,6 +62,7 @@ mat-expansion-panel {
 }
 
 .notification {
+  align-items: inherit;
   width: 215px;
 }
 
@@ -126,7 +126,6 @@ mat-icon {
 
 .top-icon {
   font-size: 24px;
-  height: 50px;
   width: 32px;
   display: flex;
   align-items: center;

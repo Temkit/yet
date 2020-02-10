@@ -27,7 +27,7 @@ export class AuthwComponent implements OnInit {
   color;
   username;
   error;
-
+  hide = true;
   load;
 
   constructor(

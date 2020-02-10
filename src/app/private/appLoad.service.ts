@@ -31,7 +31,7 @@ export class AppLoadService {
     // host = "all-sticker.com";
     // host = "ritajmall";
     // host = "eyewear-algerie.com";
-    host = "krd";
+    // host = "krd";
     // host = "felyna";
     // host = "dkeere";
     // host = 'deluxe-marbre.com';

@@ -114,7 +114,17 @@
               type="password"
               placeholder="mot de passe"
               #password
+              [type]="hide ? 'password' : 'text'"
             />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
           </mat-form-field>
           <button
             mat-flat-button
@@ -149,7 +159,17 @@
               type="password"
               placeholder="Nouveau Mot de passe"
               #password1
+              [type]="hide ? 'password' : 'text'"
             />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-100">
             <input
@@ -157,7 +177,18 @@
               type="password"
               placeholder="Confirmation du nouveau mot de passe"
               #password2
-          /></mat-form-field>
+              [type]="hide ? 'password' : 'text'"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button></mat-form-field
+          >
           <button
             mat-flat-button
             color="primary"
@@ -222,7 +253,17 @@
               type="password"
               placeholder="Nouveau Mot de passe"
               #password1
+              [type]="hide ? 'password' : 'text'"
             />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-100">
             <input
@@ -230,7 +271,18 @@
               type="password"
               placeholder="Confirmation du nouveau mot de passe"
               #password2
-          /></mat-form-field>
+              [type]="hide ? 'password' : 'text'"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button></mat-form-field
+          >
           <mat-form-field appearance="outline" class="w-100">
             <input matInput type="code" placeholder="code" #code
           /></mat-form-field>
@@ -305,6 +357,7 @@
     </div>
   </div>
 </div>
+
 <ng-template #spinner>
   <div class="spinner">
     <img src="./../../../../../assets/favicon.gif" alt="" />

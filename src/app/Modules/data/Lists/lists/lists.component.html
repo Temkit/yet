@@ -6,63 +6,67 @@
 <div *ngIf="pageload | async" class="container-fluid pl-4 pr-4 mt-list">
   <div class="row">
     <div class="col-lg-12 p-0 d-flex align-items-center hfilter">
-      <button
-        *ngIf="filterForm"
-        mat-raised-button
-        color="accent"
-        class="mr-2"
-        (click)="togglePanel()"
-      >
-        <mat-icon>filter_list</mat-icon>
-      </button>
-      <button mat-raised-button color="accent" class="mr-2" (click)="refresh()">
-        <mat-icon>refresh</mat-icon>
-      </button>
-      <button
-        *ngIf="vars.addLabel"
-        color="warn"
-        class="mr-2"
-        mat-raised-button
-        [routerLink]="[vars.Specification.Link]"
-        [queryParams]="{ item: vars.File }"
-      >
-        <mat-icon>library_add</mat-icon>
-      </button>
-      <button
-        mat-raised-button
-        class="mr-2"
-        color="primary"
-        (click)="openBottomSheet()"
-      >
-        <mat-icon>import_export</mat-icon>
-      </button>
-      <button
-        *ngIf="vars.Specification.customButton"
-        mat-raised-button
-        class="mr-2"
-        color="warn"
-        (click)="
-          goto(
-            null,
-            vars.Specification.customButton.link,
-            vars.Specification.customButton.QueryParams
-          )
-        "
-      >
-        <mat-icon>{{ vars.Specification.customButton.icon }}</mat-icon>
-        <span class="d-lg-block d-none">{{
-          vars.Specification.customButton.label
-        }}</span>
-      </button>
+      <div>
+        <button
+          *ngIf="filterForm"
+          mat-raised-button
+          color="accent"
+          class="mr-2"
+          (click)="togglePanel()"
+        >
+          <mat-icon>filter_list</mat-icon>
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          class="mr-2"
+          (click)="refresh()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button
+          *ngIf="vars.addLabel"
+          color="warn"
+          class="mr-2"
+          mat-raised-button
+          [routerLink]="[vars.Specification.Link]"
+          [queryParams]="{ item: vars.File }"
+        >
+          <mat-icon>library_add</mat-icon>
+        </button>
+        <button
+          mat-raised-button
+          class="mr-2"
+          color="primary"
+          (click)="openBottomSheet()"
+        >
+          <mat-icon>import_export</mat-icon>
+        </button>
+        <button
+          *ngIf="vars.Specification.customButton"
+          mat-raised-button
+          class="mr-2"
+          color="warn"
+          (click)="
+            goto(
+              null,
+              vars.Specification.customButton.link,
+              vars.Specification.customButton.QueryParams
+            )
+          "
+        >
+          <mat-icon>{{ vars.Specification.customButton.icon }}</mat-icon>
+          <span class="d-lg-block d-none">{{
+            vars.Specification.customButton.label
+          }}</span>
+        </button>
+      </div>
+
+      <app-form-filter
+        config="{{ filterForm | json }}"
+        (save)="filter(false, $event)"
+      ></app-form-filter>
       <div class="space"></div>
-    </div>
-    <div class="col-lg-12 mb-2 p-0" *ngIf="filterForm">
-      <mat-expansion-panel [expanded]="FilterOpenState">
-        <app-form-filter
-          config="{{ filterForm | json }}"
-          (save)="filter(false, $event)"
-        ></app-form-filter>
-      </mat-expansion-panel>
     </div>
   </div>
   <div class="row yet-container mat-elevation-z1">
@@ -84,7 +88,6 @@
         <ng-container
           *ngFor="let key of vars.Specification.attributes.keys; let i = index"
           matColumnDef="{{ key.name }}"
-          [sticky]="i === 0 ? true : false"
           [stickyEnd]="
             i === vars.Specification.attributes.keys_data.length - 1
               ? true

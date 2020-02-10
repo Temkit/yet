@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid position">
   <div class="row">
     <div *ngIf="load | async as data" class="col-lg-12 h-100 p-0">
       <form
@@ -222,7 +222,7 @@
                         vars.Specification.attributes[tab][i].type == 'password'
                       "
                     >
-                      <mat-form-field appearance="outline" class="w-100">
+                      <mat-form-field class="w-100">
                         <input
                           #value
                           autocomplete="yet.marketing"
@@ -278,7 +278,7 @@
                         vars.Specification.attributes[tab][i].type == 'number'
                       "
                     >
-                      <mat-form-field appearance="outline" class="w-100">
+                      <mat-form-field class="w-100">
                         <input
                           autocomplete="yet.marketing"
                           matInput
