@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { values } from "lodash-es";
+import { FormBuilder } from "@angular/forms";
 
 @Component({
   selector: "app-questionnaire",

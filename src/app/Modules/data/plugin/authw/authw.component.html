@@ -15,7 +15,7 @@
           <div *ngIf="go == 'go'" class="alert alert-primary" role="alert">
             Créez vorte compte
           </div>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input
               matInput
               type="tel"
@@ -23,21 +23,30 @@
               #phone
             />
           </mat-form-field>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input matInput type="email" placeholder="Email" #email />
           </mat-form-field>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input
               matInput
-              type="password"
               placeholder="mot de passe"
               #passworUp
+              [type]="hide ? 'password' : 'text'"
             />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
           </mat-form-field>
-          <mat-form-field class="w-50">
+          <mat-form-field appearance="outline" class="w-50">
             <input matInput type="text" placeholder="Nom" #name />
           </mat-form-field>
-          <mat-form-field class="w-50">
+          <mat-form-field appearance="outline" class="w-50">
             <input matInput type="text" placeholder="Prenom" #given_name />
           </mat-form-field>
 
@@ -72,7 +81,7 @@
           <div *ngIf="go == 'go'" class="alert alert-info" role="alert">
             Entrez le code de confirmation reçu sur l'email : {{ username }}
           </div>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input matInput type="text" placeholder="code" #code />
           </mat-form-field>
           <button
@@ -96,10 +105,10 @@
             Connectez vous à votre compte
           </div>
           <span class="title" *ngIf="go == 'go'"></span>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input matInput type="text" placeholder="identifiant" #username />
           </mat-form-field>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input
               matInput
               type="password"
@@ -134,7 +143,7 @@
           Modifiez l'ancien mot de passe
         </div>
         <div class="login-form">
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input
               matInput
               type="password"
@@ -142,7 +151,7 @@
               #password1
             />
           </mat-form-field>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input
               matInput
               type="password"
@@ -171,7 +180,7 @@
             Vous avez oublier votre mot de passe
           </div>
 
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input
               matInput
               type="username"
@@ -207,7 +216,7 @@
             Vous avez oublier votre mot de passe
           </div>
 
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input
               matInput
               type="password"
@@ -215,14 +224,14 @@
               #password1
             />
           </mat-form-field>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input
               matInput
               type="password"
               placeholder="Confirmation du nouveau mot de passe"
               #password2
           /></mat-form-field>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input matInput type="code" placeholder="code" #code
           /></mat-form-field>
           <button
@@ -260,7 +269,7 @@
             confirmaiton qui vous a été envoyé à cette boite email
           </div>
 
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input
               matInput
               type="username"
@@ -268,7 +277,7 @@
               #username
             />
           </mat-form-field>
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <input matInput type="code" placeholder="code" #code
           /></mat-form-field>
           <button

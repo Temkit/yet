@@ -1,5 +1,9 @@
 <div *ngIf="options | async as options" class="w-100">
-  <mat-form-field *ngIf="!objectConfig?.select" class="w-100">
+  <mat-form-field
+    appearance="outline"
+    *ngIf="!objectConfig?.select"
+    class="w-100"
+  >
     <mat-label>
       <mat-icon *ngIf="objectConfig.labelicon">
         {{ objectConfig.labelicon }}</mat-icon
@@ -33,7 +37,11 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field *ngIf="objectConfig?.select === 'config'" class="w-100">
+  <mat-form-field
+    appearance="outline"
+    *ngIf="objectConfig?.select === 'config'"
+    class="w-100"
+  >
     <mat-label>
       <mat-icon *ngIf="objectConfig.labelicon">
         {{ objectConfig.labelicon }}</mat-icon
@@ -68,7 +76,11 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field *ngIf="objectConfig?.select === 'multiple'" class="w-100">
+  <mat-form-field
+    appearance="outline"
+    *ngIf="objectConfig?.select === 'multiple'"
+    class="w-100"
+  >
     <mat-label>
       <mat-icon *ngIf="objectConfig.labelicon">
         {{ objectConfig.labelicon }}</mat-icon

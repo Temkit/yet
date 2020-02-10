@@ -20,7 +20,7 @@
       </div>
       <div class="space"></div>
       <div
-        class="notification pt-3 mr-3 h-100 d-flex justify-content-end align-items-center"
+        class="notification mr-3 h-100 d-flex justify-content-end align-items-center"
       >
         <mat-icon
           *ngFor="let icon of config.header.icons"
@@ -60,7 +60,7 @@
                 <mat-icon color="accent" *ngIf="m.value.icon" class="mr-1">{{
                   m.value.icon
                 }}</mat-icon>
-                {{ m.key }}
+                <span class="textmenu">{{ m.key }}</span>
               </a>
               <ng-template #dropdown>
                 <mat-divider></mat-divider>
@@ -69,9 +69,9 @@
                     <mat-panel-title>
                       <mat-icon
                         color="accent"
-                        *ngIf="m.value.icon"
+                        *ngIf="m.value[0]"
                         class="mr-1"
-                        >{{ m.value.icon }}</mat-icon
+                        >{{ m.value[0].icon }}</mat-icon
                       >
                       <span class="textmenu">{{ m.key }}</span>
                     </mat-panel-title>

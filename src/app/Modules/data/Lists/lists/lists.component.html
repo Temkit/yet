@@ -96,6 +96,7 @@
             *matHeaderCellDef
             mat-sort-header="{{ key.name }}"
             class="pl-1 pr-2"
+            style="background-color: inherit !important;"
           >
             {{ key.title }}
           </th>
@@ -103,14 +104,14 @@
           <td
             mat-cell
             *matCellDef="let element; let j = index"
-            class="pr-2  pt-2 pb-2"
+            class="pr-2"
             (click)="goto(element)"
           >
             <div [ngSwitch]="true">
               <div *ngSwitchCase="key.name == 'no'">
                 {{ j }}
               </div>
-              <div *ngSwitchCase="key.name == 'delete'">
+              <div *ngSwitchCase="key.name == 'delete'" class="text-center">
                 <button
                   mat-icon-button
                   color="warn"
@@ -144,12 +145,6 @@
               >
                 <mat-icon>photo_album</mat-icon>
               </a>
-
-              <span
-                *ngSwitchCase="element[key.name] === 0"
-                class="d-flex justify-content-center"
-                >0</span
-              >
 
               <span *ngSwitchDefault>
                 <app-decorator

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#1976d2" />
+    <meta name="theme-color" content="#37474f" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css"
@@ -18,12 +18,17 @@
   <body>
     <app-root>
       <div
-        style="width:100%;height:100vh;display: flex;align-items: center;justify-content: center;flex-direction: column"
+        class="w-100 d-flex align-items-center justify-content-center"
+        style="height:100vh;"
       >
-        <img src="./../assets/favicon.gif" alt="yet marketing" />
-        <p style="padding-top:10px;font-size:12px;font-weight:100;">
-          connexion serveur ...
-        </p>
+        <img
+          class="mr-2"
+          style="width:38px"
+          src="./../assets/favicon.gif"
+          alt="yet marketing"
+        /><strong style="font-size:12px">
+          Chargement du logiciel
+        </strong>
       </div>
     </app-root>
     <noscript

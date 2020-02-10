@@ -5,7 +5,6 @@ import { OneService } from "src/app/private/crud/one.service";
 import { QueryService } from "src/app/private/crud/query.service";
 import { AuthService } from "src/app/private/aws/auth.service";
 import { S3Service } from "src/app/private/aws/s3.service";
-import { GenericRetryStrategyService } from "../../../../private/genericRetryStrategy.service";
 
 @Component({
   selector: "app-orderView",

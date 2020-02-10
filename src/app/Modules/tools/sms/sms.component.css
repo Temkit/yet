@@ -1,11 +1,11 @@
 .mt-form {
-    padding-top: 98px;
+  padding-top: 83px;
 }
 
 .compagn {
-    background-color: beige;
-    position: relative;
-    top: 21px;
-    padding-top: 25px;
-    height: calc(100vh - 190px);
+  background-color: beige;
+  position: relative;
+  top: 21px;
+  padding-top: 25px;
+  height: calc(100vh - 190px);
 }

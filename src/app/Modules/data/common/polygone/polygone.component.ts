@@ -7,7 +7,6 @@ import {
   ViewChild,
   ElementRef,
   ViewEncapsulation,
-  OnInit,
   Inject,
   PLATFORM_ID
 } from "@angular/core";

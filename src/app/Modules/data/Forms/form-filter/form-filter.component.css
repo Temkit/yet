@@ -1,63 +1,22 @@
 input[type="date"] {
-    height: 36px;
-    font-size: 17px;
-    display: block;
-    width: 100%;
+  height: 36px;
+  font-size: 17px;
+  display: block;
+  width: 100%;
 }
 
 ::ng-deep .filter .mat-tab-header {
-    display: none !important
-}
-
-.htitle {
-    height: 50px;
+  display: none !important;
 }
 
 form {
-    height: 100%;
+  height: 100%;
 }
 
 h2 {
-    font-size: 13px;
+  font-size: 13px;
 }
 
-#editor {
-    height: 375px;
-}
-
-.ql-omega:after {
-    content: "Ω";
-}
-
-.mustSave a {
-    color: white !important;
-}
-
-@keyframes blinker {
-    50% {
-        opacity: 0;
-    }
-}
-
-.nav-tabs .nav-link {
-    padding: 8px !important;
-    font-size: 12px;
-    font-weight: 900;
-    text-transform: uppercase;
-}
-
-.file svg {
-    width: 140px;
-    height: 81px;
-    cursor: pointer;
-}
-
-.saveBox {
-    position: fixed;
-    top: 4px;
-    left: 219px;
-}
-
-.mat-radio-button~.mat-radio-button {
-    margin-left: 16px;
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
 }

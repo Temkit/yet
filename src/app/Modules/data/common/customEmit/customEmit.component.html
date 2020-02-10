@@ -1,11 +1,19 @@
-<mat-form-field *ngIf="element" class="w-100">
-    <input autocomplete="yet.marketing" matInput [formControl]="formControl" [errorStateMatcher]="matcher" id="{{element.id}}" type="number" [required]="element.required">
-    <mat-hint>{{element.instructions}}</mat-hint>
-    <mat-error>
-        {{element.error}}
-    </mat-error>
-    <mat-label>
-        <mat-icon *ngIf="element.labelicon">{{element.labelicon}}</mat-icon>
-        {{element.label}}
-    </mat-label>
+<mat-form-field appearance="outline" *ngIf="element" class="w-100">
+  <input
+    autocomplete="yet.marketing"
+    matInput
+    [formControl]="formControl"
+    [errorStateMatcher]="matcher"
+    id="{{ element.id }}"
+    type="number"
+    [required]="element.required"
+  />
+  <mat-hint>{{ element.instructions }}</mat-hint>
+  <mat-error>
+    {{ element.error }}
+  </mat-error>
+  <mat-label>
+    <mat-icon *ngIf="element.labelicon">{{ element.labelicon }}</mat-icon>
+    {{ element.label }}
+  </mat-label>
 </mat-form-field>

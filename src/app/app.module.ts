@@ -7,15 +7,10 @@ import { environment } from "../environments/environment";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AuthModule } from "./auth/auth.module";
 import { HttpClientModule } from "@angular/common/http";
-import {
-  LocationStrategy,
-  HashLocationStrategy,
-  registerLocaleData
-} from "@angular/common";
+import { registerLocaleData } from "@angular/common";
 import { AmplifyService } from "aws-amplify-angular";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import localeFr from "@angular/common/locales/fr";
-import { FooterModule } from "./footer/footer.module";
 
 import { AppLoadService } from "src/app/private/appLoad.service";
 
@@ -25,7 +20,6 @@ registerLocaleData(localeFr, "fr_FR");
   declarations: [AppComponent],
   imports: [
     AuthModule,
-    FooterModule,
     HttpClientModule,
     MatProgressSpinnerModule,
     AppRoutingModule,
@@ -42,7 +36,6 @@ registerLocaleData(localeFr, "fr_FR");
       deps: [AppLoadService],
       multi: true
     },
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: LOCALE_ID, useValue: "fr_FR" },
     AmplifyService
   ],

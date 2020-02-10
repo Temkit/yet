@@ -1,44 +1,80 @@
 <h5 mat-dialog-title>Ajouter un produit</h5>
 <div mat-dialog-content>
-    <form [formGroup]="form" data-role="validator" autocomplete="off">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        <mat-form-field class="w-100">
-                            <input autocomplete="off" matInput placeholder="Label produit / service" formControlName="label" id="label" type="text">
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="form-group">
-                        <mat-form-field class="w-100">
-                            <input autocomplete="off" matInput placeholder="Prix" formControlName="price" id="prix" type="number">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="form-group">
-                        <mat-form-field class="w-100">
-                            <input autocomplete="off" matInput placeholder="Quantité" formControlName="quantity" id="quantity" type="number">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <app-select config="{{data.config.taxSelect | json}}" (SelectedElement)="selectedTaxes($event)"></app-select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <app-editor value="{{form.controls['description']}}" (onContentChanged)="handleEditorEvent($event)"></app-editor>
-                </div>
-            </div>
+  <form [formGroup]="form" data-role="validator" autocomplete="off">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                autocomplete="off"
+                matInput
+                placeholder="Label produit / service"
+                formControlName="label"
+                id="label"
+                type="text"
+              />
+            </mat-form-field>
+          </div>
         </div>
-    </form>
+      </div>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                autocomplete="off"
+                matInput
+                placeholder="Prix"
+                formControlName="price"
+                id="prix"
+                type="number"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="w-100">
+              <input
+                autocomplete="off"
+                matInput
+                placeholder="Quantité"
+                formControlName="quantity"
+                id="quantity"
+                type="number"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <app-select
+            config="{{ data.config.taxSelect | json }}"
+            (SelectedElement)="selectedTaxes($event)"
+          ></app-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <app-editor
+            value="{{ form.controls['description'] }}"
+            (onContentChanged)="handleEditorEvent($event)"
+          ></app-editor>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
 <div mat-dialog-actions class="mt-3">
-    <button mat-raised-button color="warn" (click)="onNoClick()" class="mr-3">Annuler</button>
-    <button mat-raised-button color="primary" cdkFocusInitial (click)="onYesClick()">Valider</button>
+  <button mat-raised-button color="warn" (click)="onNoClick()" class="mr-3">
+    Annuler
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    cdkFocusInitial
+    (click)="onYesClick()"
+  >
+    Valider
+  </button>
 </div>

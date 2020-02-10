@@ -1,7 +1,7 @@
 {
   "name": "yet",
   "short_name": "yet",
-  "theme_color": "#1976d2",
+  "theme_color": "#37474f",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",

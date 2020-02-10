@@ -1,15 +1,29 @@
 <form class="w-100">
-    <mat-form-field class="w-100">
-        <mat-label>
-            <mat-icon *ngIf="objectConfig.labelicon">
-                {{objectConfig.labelicon}}</mat-icon>
-            {{objectConfig.label}}
-        </mat-label>
-        <input autocomplete="off" name="{{objectConfig.name}" #typed placeholder="{{objectConfig.placeholder}}" (keyup)="onChanges(typed.value)" matInput [matAutocomplete]="auto" [value]="selected">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="display" (optionSelected)="select($event.option)">
-            <mat-option *ngFor="let option of options | async" [value]="option">
-                {{option[objectConfig.attributeToDisplay]}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>
+      <mat-icon *ngIf="objectConfig.labelicon">
+        {{ objectConfig.labelicon }}</mat-icon
+      >
+      {{ objectConfig.label }}
+    </mat-label>
+    <input
+      autocomplete="off"
+      name="{{objectConfig.name}"
+      #typed
+      placeholder="{{ objectConfig.placeholder }}"
+      (keyup)="onChanges(typed.value)"
+      matInput
+      [matAutocomplete]="auto"
+      [value]="selected"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="display"
+      (optionSelected)="select($event.option)"
+    >
+      <mat-option *ngFor="let option of options | async" [value]="option">
+        {{ option[objectConfig.attributeToDisplay] }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
 </form>

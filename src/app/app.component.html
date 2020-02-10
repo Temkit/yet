@@ -1,6 +1,5 @@
 <div class="h-100 w-100" *ngIf="!(appInit.donePromise | async); else wait">
   <router-outlet></router-outlet>
-  <app-footer></app-footer>
 </div>
 <ng-template #wait>
   <div class="shell">

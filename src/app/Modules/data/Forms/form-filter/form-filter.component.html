@@ -1,98 +1,321 @@
 <div class="container-fluid">
-    <div class="row">
-        <div *ngIf="load | async as data" class="col-lg-12 h-100 p-0">
-            <form [formGroup]="vars.Form" class="filter" data-role="validator" autocomplete="off">
-                <mat-tab-group animationDuration="1000ms">
-                    <mat-tab *ngFor="let tab of vars.Properties;let j = index">
-                        <ng-template mat-tab-label>
-                            {{tab}}
-                        </ng-template>
-                        <ng-template matTabContent>
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div *ngFor="let formItem of vars.Tabs[tab];let i = index" class=" {{vars.Specification.attributes[tab][i].class}} p-1 d-flex align-items-center">
+  <div class="row">
+    <div *ngIf="load | async as data" class="col-lg-12 h-100 p-0">
+      <form
+        [formGroup]="vars.Form"
+        class="filter"
+        data-role="validator"
+        autocomplete="off"
+      >
+        <mat-tab-group animationDuration="1000ms">
+          <mat-tab *ngFor="let tab of vars.Properties; let j = index">
+            <ng-template mat-tab-label>
+              {{ tab }}
+            </ng-template>
+            <ng-template matTabContent>
+              <div class="container-fluid">
+                <div class="row">
+                  <div
+                    *ngFor="let formItem of vars.Tabs[tab]; let i = index"
+                    class=" {{
+                      vars.Specification.attributes[tab][i].class
+                    }} p-1 d-flex align-items-center"
+                  >
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type ==
+                        'autocomplete'
+                      "
+                    >
+                      <app-autocomplete
+                        config="{{
+                          vars.Specification.attributes[tab][i].init.acQuery
+                            | json
+                        }}"
+                        value=""
+                        (patch)="
+                          patchType(
+                            vars.Specification.attributes[tab][i],
+                            $event
+                          )
+                        "
+                      ></app-autocomplete>
+                    </div>
 
-                                        <div class="form-group mb-0 w-100" *ngIf="vars.Specification.attributes[tab][i].type=='autocomplete'">
-                                            <app-autocomplete config="{{vars.Specification.attributes[tab][i].init.acQuery | json}}" value="" (patch)="patchType(vars.Specification.attributes[tab][i],$event)"></app-autocomplete>
-                                        </div>
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type ==
+                        'autocompletetagsinput'
+                      "
+                    >
+                      <app-autocompletetagsinput
+                        config="{{
+                          data[vars.Specification.attributes[tab][i].name]
+                        }}"
+                        (patch)="handleEvent($event)"
+                      ></app-autocompletetagsinput>
+                    </div>
 
-                                        <div class="form-group mb-0 w-100" *ngIf="vars.Specification.attributes[tab][i].type=='autocompletetagsinput'">
-                                            <app-autocompletetagsinput config="{{data[vars.Specification.attributes[tab][i].name]}}" (patch)="handleEvent($event)"></app-autocompletetagsinput>
-                                        </div>
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type === 'tags'
+                      "
+                    >
+                      <app-tagsInput
+                        (patch)="handleEvent($event)"
+                        config="{{
+                          vars.Specification.attributes[tab][i] | json
+                        }}"
+                        value="{{
+                          data[vars.Specification.attributes[tab][i].name]
+                            | json
+                        }}"
+                      ></app-tagsInput>
+                    </div>
 
-                                        <div class="form-group mb-0 w-100" *ngIf="vars.Specification.attributes[tab][i].type === 'tags'">
-                                            <app-tagsInput (patch)="handleEvent($event)" config="{{vars.Specification.attributes[tab][i] | json }}" value="{{data[vars.Specification.attributes[tab][i].name] | json}}"></app-tagsInput>
-                                        </div>
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type == 'checkbox'
+                      "
+                    >
+                      <mat-checkbox
+                        color="primary"
+                        class="w-100"
+                        id="{{ vars.Specification.attributes[tab][i].name }}"
+                        [formControlName]="
+                          vars.Specification.attributes[tab][i].name
+                        "
+                        (change)="
+                          patchType(
+                            vars.Specification.attributes[tab][i],
+                            $event
+                          )
+                        "
+                      >
+                        {{
+                          vars.Specification.attributes[tab][i].label
+                        }}</mat-checkbox
+                      >
+                    </div>
 
-                                        <div class="form-group mb-0 w-100" *ngIf=" vars.Specification.attributes[tab][i].type=='checkbox'">
-                                            <mat-checkbox color="primary" class="w-100" id="{{vars.Specification.attributes[tab][i].name}}" [formControlName]="vars.Specification.attributes[tab][i].name" (change)="patchType(vars.Specification.attributes[tab][i],$event)">
-                                                {{vars.Specification.attributes[tab][i].label}}</mat-checkbox>
-                                        </div>
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type ==
+                        'slidetoggle'
+                      "
+                    >
+                      <mat-slide-toggle
+                        (change)="
+                          patchType(
+                            vars.Specification.attributes[tab][i],
+                            $event
+                          )
+                        "
+                      >
+                        {{
+                          vars.Specification.attributes[tab][i].label
+                        }}</mat-slide-toggle
+                      >
+                    </div>
 
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type == 'radio'
+                      "
+                    >
+                      <mat-radio-group>
+                        <mat-radio-button
+                          *ngFor="
+                            let item of vars.Specification.attributes[tab][i]
+                              .values
+                          "
+                          [value]="item.value"
+                          (change)="
+                            patchType(
+                              vars.Specification.attributes[tab][i],
+                              $event
+                            )
+                          "
+                        >
+                          {{ item.label }}</mat-radio-button
+                        >
+                      </mat-radio-group>
+                    </div>
 
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type == 'select'
+                      "
+                    >
+                      <mat-form-field>
+                        <mat-select
+                          placeholder="{{
+                            vars.Specification.attributes[tab][i].label
+                          }}"
+                          class="w-100"
+                          id="{{ vars.Specification.attributes[tab][i].id }}"
+                          [formControlName]="
+                            vars.Specification.attributes[tab][i].name
+                          "
+                          (selectionChange)="
+                            handleSelect(
+                              vars.Specification.attributes[tab][i].name,
+                              $event
+                            )
+                          "
+                        >
+                          <mat-option
+                            *ngFor="
+                              let option of vars.Specification.attributes[tab][
+                                i
+                              ].options
+                            "
+                            [value]="option"
+                          >
+                            {{ option }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
 
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type === 'date'
+                      "
+                    >
+                      <app-date
+                        (patch)="
+                          patchType(
+                            vars.Specification.attributes[tab][i],
+                            $event
+                          )
+                        "
+                        config="{{
+                          vars.Specification.attributes[tab][i] | json
+                        }}"
+                        value="{{
+                          data[vars.Specification.attributes[tab][i].name]
+                        }}"
+                        (change)="
+                          patchType(
+                            vars.Specification.attributes[tab][i],
+                            $event
+                          )
+                        "
+                      ></app-date>
+                    </div>
 
-                                        <div class="form-group mb-0 w-100" *ngIf="vars.Specification.attributes[tab][i].type=='slidetoggle'">
-                                            <mat-slide-toggle (change)="patchType(vars.Specification.attributes[tab][i],$event)">
-                                                {{vars.Specification.attributes[tab][i].label}}</mat-slide-toggle>
-                                        </div>
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type == 'text' ||
+                        vars.Specification.attributes[tab][i].type == 'time' ||
+                        vars.Specification.attributes[tab][i].type == 'email' ||
+                        vars.Specification.attributes[tab][i].type == 'password'
+                      "
+                    >
+                      <mat-form-field appearance="outline" class="w-100">
+                        <input
+                          #value
+                          autocomplete="yet.marketing"
+                          matInput
+                          placeholder="{{
+                            vars.Specification.attributes[tab][i].label
+                          }}"
+                          [formControlName]="
+                            vars.Specification.attributes[tab][i].name
+                          "
+                          (keyup)="
+                            handleEvent(
+                              vars.Specification.attributes[tab][i],
+                              $event
+                            )
+                          "
+                          [errorStateMatcher]="matcher"
+                          id="{{ vars.Specification.attributes[tab][i].id }}"
+                          type="{{
+                            vars.Specification.attributes[tab][i].type
+                          }}"
+                        />
+                        <mat-hint>{{
+                          vars.Specification.attributes[tab][i].instructions
+                        }}</mat-hint>
+                        <mat-error
+                          *ngIf="
+                            formObject[
+                              vars.Specification.attributes[tab][i].name
+                            ].hasError('email') &&
+                            !formObject[
+                              vars.Specification.attributes[tab][i].name
+                            ].hasError('required')
+                          "
+                        >
+                          Please enter a valid email address
+                        </mat-error>
+                        <mat-error
+                          *ngIf="
+                            formObject[
+                              vars.Specification.attributes[tab][i].name
+                            ].hasError('required')
+                          "
+                        >
+                          Email is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
 
-                                        <div class="form-group mb-0 w-100" *ngIf="vars.Specification.attributes[tab][i].type=='radio'">
-                                            <mat-radio-group>
-                                                <mat-radio-button *ngFor="let item of vars.Specification.attributes[tab][i].values" [value]="item.value" (change)="patchType(vars.Specification.attributes[tab][i],$event)">
-                                                    {{item.label}}</mat-radio-button>
-                                            </mat-radio-group>
-                                        </div>
-
-                                        <div class="form-group mb-0 w-100" *ngIf="vars.Specification.attributes[tab][i].type=='select'">
-                                            <mat-form-field>
-                                                <mat-select placeholder="{{vars.Specification.attributes[tab][i].label}}" class="w-100" id="{{vars.Specification.attributes[tab][i].id}}" [formControlName]="vars.Specification.attributes[tab][i].name" (selectionChange)="handleSelect(vars.Specification.attributes[tab][i].name,$event)">
-                                                    <mat-option *ngFor="let option of vars.Specification.attributes[tab][i].options" [value]="option">
-                                                        {{option}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div class="form-group mb-0 w-100" *ngIf="vars.Specification.attributes[tab][i].type === 'date'">
-                                            <app-date (patch)="patchType(vars.Specification.attributes[tab][i],$event)" config="{{vars.Specification.attributes[tab][i] | json }}" value="{{data[vars.Specification.attributes[tab][i].name]}}" (change)="patchType(vars.Specification.attributes[tab][i],$event)"></app-date>
-                                        </div>
-
-
-
-
-                                        <div class="form-group mb-0 w-100" *ngIf="vars.Specification.attributes[tab][i].type=='text' || vars.Specification.attributes[tab][i].type=='time' || vars.Specification.attributes[tab][i].type=='email' || vars.Specification.attributes[tab][i].type=='password'">
-                                            <mat-form-field class="w-100">
-                                                <input #value autocomplete="yet.marketing" matInput placeholder="{{vars.Specification.attributes[tab][i].label}}" [formControlName]="vars.Specification.attributes[tab][i].name" (keyup)="handleEvent(vars.Specification.attributes[tab][i],$event)" [errorStateMatcher]="matcher"
-                                                    id="{{vars.Specification.attributes[tab][i].id}}" type="{{vars.Specification.attributes[tab][i].type}}">
-                                                <mat-hint>{{vars.Specification.attributes[tab][i].instructions}}</mat-hint>
-                                                <mat-error *ngIf="formObject[vars.Specification.attributes[tab][i].name].hasError( 'email') && !formObject[vars.Specification.attributes[tab][i].name].hasError( 'required')">
-                                                    Please enter a valid email address
-                                                </mat-error>
-                                                <mat-error *ngIf="formObject[vars.Specification.attributes[tab][i].name].hasError( 'required')">
-                                                    Email is <strong>required</strong>
-                                                </mat-error>
-                                            </mat-form-field>
-                                        </div>
-
-                                        <div class="form-group mb-0 w-100" *ngIf="vars.Specification.attributes[tab][i].type=='number'">
-                                            <mat-form-field class="w-100">
-                                                <input autocomplete="yet.marketing" matInput placeholder="{{vars.Specification.attributes[tab][i].label}}" [formControlName]="vars.Specification.attributes[tab][i].name" [errorStateMatcher]="matcher" id="{{vars.Specification.attributes[tab][i].id}}" type="number">
-                                                <mat-hint>{{vars.Specification.attributes[tab][i].instructions}}</mat-hint>
-                                                <mat-error *ngIf="formObject[vars.Specification.attributes[tab][i].name].hasError( 'email') && !formObject[vars.Specification.attributes[tab][i].name].hasError( 'required')">
-                                                    Please enter a valid email address
-                                                </mat-error>
-                                            </mat-form-field>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </ng-template>
-                    </mat-tab>
-                </mat-tab-group>
-            </form>
-        </div>
+                    <div
+                      class="form-group mb-0 w-100"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type == 'number'
+                      "
+                    >
+                      <mat-form-field appearance="outline" class="w-100">
+                        <input
+                          autocomplete="yet.marketing"
+                          matInput
+                          placeholder="{{
+                            vars.Specification.attributes[tab][i].label
+                          }}"
+                          [formControlName]="
+                            vars.Specification.attributes[tab][i].name
+                          "
+                          [errorStateMatcher]="matcher"
+                          id="{{ vars.Specification.attributes[tab][i].id }}"
+                          type="number"
+                        />
+                        <mat-hint>{{
+                          vars.Specification.attributes[tab][i].instructions
+                        }}</mat-hint>
+                        <mat-error
+                          *ngIf="
+                            formObject[
+                              vars.Specification.attributes[tab][i].name
+                            ].hasError('email') &&
+                            !formObject[
+                              vars.Specification.attributes[tab][i].name
+                            ].hasError('required')
+                          "
+                        >
+                          Please enter a valid email address
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </form>
     </div>
+  </div>
 </div>

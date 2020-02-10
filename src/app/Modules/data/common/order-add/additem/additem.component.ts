@@ -1,8 +1,7 @@
 import { Component, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { HttpClient } from "@angular/common/http";
-import { map, retryWhen } from "rxjs/operators";
-import { GenericRetryStrategyService } from "./../../../../../private/genericRetryStrategy.service";
+import { map } from "rxjs/operators";
+import { S3Service } from "./../../../../../private/aws/s3.service";
 @Component({
   selector: "app-additem",
   templateUrl: "./additem.component.html",
@@ -19,9 +18,8 @@ export class AdditemComponent {
   taxes;
   constructor(
     public dialogRef: MatDialogRef<AdditemComponent>,
-    private retry: GenericRetryStrategyService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private http: HttpClient
+    private S3Service: S3Service,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.domain = localStorage.getItem("domain");
     this.link = localStorage.getItem("group");
@@ -33,24 +31,19 @@ export class AdditemComponent {
       this.product = data.value.product;
     }
 
-    this.objectConfig = this.http
-      .get(
-        "https://s3.eu-west-3.amazonaws.com/spec.yet.expert/" +
-          this.domain +
-          "/" +
-          this.link +
-          "/forms" +
-          "/" +
-          this.data.config.item +
-          ".form.json?cache=" +
-          new Date().getMilliseconds()
-      )
-      .pipe(
-        retryWhen(this.retry.genericRetryStrategy()),
-        map(data => {
-          return data;
-        })
-      );
+    this.objectConfig = this.S3Service.getSpec(
+      this.domain +
+        "/" +
+        this.link +
+        "/forms" +
+        "/" +
+        this.data.config.item +
+        ".form.json"
+    ).pipe(
+      map(data => {
+        return data;
+      })
+    );
   }
 
   handleEvent(config, event) {

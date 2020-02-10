@@ -32,14 +32,3 @@
   border-style: solid;
   box-shadow: inset 0px 0px 0px 0.25em currentColor;
 }
-
-.number {
-  font-size: 20px;
-  font-weight: bolder;
-  color: #ec2e4e;
-  font-style: italic;
-}
-
-.progress {
-  height: 2px;
-}

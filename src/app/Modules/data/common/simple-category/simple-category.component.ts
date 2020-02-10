@@ -1,18 +1,18 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { FlatTreeControl } from "@angular/cdk/tree";
 import { MatDialog } from "@angular/material/dialog";
-import { MatTreeFlattener, MatTreeFlatDataSource } from "@angular/material/tree";
+import {
+  MatTreeFlattener,
+  MatTreeFlatDataSource
+} from "@angular/material/tree";
 import { SelectionModel } from "@angular/cdk/collections";
 import { UpdateService } from "src/app/private/crud/update.service";
-import { CrudToolsService } from "src/app/private/crud/crud-tools.service";
 import { CreateService } from "src/app/private/crud/create.service";
 import { S3Service } from "./../../../../private/aws/s3.service";
 import { map, flatMap } from "rxjs/operators";
 import { AdditemComponent } from "./additem/additem.component";
 import { OneService } from "src/app/private/crud/one.service";
 import { CheckListDatabaseService } from "src/app/private/soft/CheckListDatabase.service";
-import { AuthService } from "src/app/private/aws/auth.service";
-import { GenericRetryStrategyService } from "./../../../../private/genericRetryStrategy.service";
 
 @Component({
   selector: "app-simple-category",
@@ -80,7 +80,7 @@ export class SimpleCategoryComponent implements OnInit {
             this.isNewTree = true;
             this.tree = [
               {
-                item: { name: "racine", _id: "category" },
+                item: { name: "__", _id: "category" },
                 level: 0,
                 children: []
               }
@@ -96,6 +96,8 @@ export class SimpleCategoryComponent implements OnInit {
             );
             this.init = false;
           }
+
+          this.treeControl.expandAll();
 
           return this.objectConfig;
         })

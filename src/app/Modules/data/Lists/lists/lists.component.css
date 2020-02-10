@@ -3,7 +3,7 @@ td {
 }
 
 .mt-list {
-  padding-top: 96px;
+  padding-top: 84px;
 }
 
 tr,
@@ -23,8 +23,16 @@ th.mat-sort-header-sorted {
   padding-left: 24px !important;
 }
 
-.mat-row:nth-child(odd) {
+::ng-deep .mat-row:nth-child(odd) {
   background-color: #fafafa;
+}
+::ng-deep tr.mat-row {
+  height: 42px !important;
+}
+
+::ng-deep tr.mat-header-row {
+  height: 36px !important;
+  background-color: #e4e4e4 !important;
 }
 
 .mat-paginator {
@@ -40,11 +48,13 @@ th.mat-sort-header-sorted {
 
 .yet-container {
   position: relative;
+  border-radius: 4px;
 }
 
 .yet-table-container {
+  border-radius: 4px;
   position: relative;
-  max-height: calc(100vh - 303px);
+  max-height: calc(100vh - 208px);
   overflow: auto;
 }
 

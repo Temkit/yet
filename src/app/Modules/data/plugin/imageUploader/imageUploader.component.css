@@ -87,18 +87,3 @@ label.myLabel input[type="file"] {
   opacity: 0.4;
   cursor: pointer;
 }
-
-#preview {
-  width: 100%;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.size {
-  color: #78729d;
-  font-weight: 100;
-  font-size: 10px;
-  display: flex;
-  width: 40%;
-  flex-wrap: wrap;
-}

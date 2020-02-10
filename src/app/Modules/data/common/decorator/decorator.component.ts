@@ -142,7 +142,7 @@ export class DecoratorComponent implements OnInit {
         "?dummy=" +
         this.now;
     } else {
-      this.valueToDisplay = of(this.data);
+      this.valueToDisplay = this.data === 0 ? of("0") : of(this.data);
     }
   }
 

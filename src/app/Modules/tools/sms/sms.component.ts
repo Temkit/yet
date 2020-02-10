@@ -4,10 +4,9 @@ import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { AuthService } from "src/app/private/aws/auth.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
-import { switchMap, flatMap, map, retry, retryWhen } from "rxjs/operators";
+import { flatMap, map } from "rxjs/operators";
 import { OneService } from "src/app/private/crud/one.service";
 import { CreateService } from "src/app/private/crud/create.service";
-import { GenericRetryStrategyService } from "./../../../private/genericRetryStrategy.service";
 import { S3Service } from "./../../../private/aws/s3.service";
 
 const header = new HttpHeaders({
@@ -47,7 +46,6 @@ export class SmsComponent implements OnInit {
     private snackBar: MatSnackBar,
     private __o_: OneService,
     private __c_: CreateService,
-    private retry: GenericRetryStrategyService,
     private S3Service: S3Service
   ) {
     this.domain = localStorage.getItem("domain");
@@ -68,7 +66,6 @@ export class SmsComponent implements OnInit {
           })
         );
       }),
-      retryWhen(this.retry.genericRetryStrategy()),
       map(data => {
         this.Specification = data;
         return data;

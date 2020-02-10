@@ -122,16 +122,16 @@
       </div>
     </div>
     <div *ngSwitchCase="element.type.includes('boolean')">
-      <div *ngIf="valueToDisplay | async as val; else closeb" class="d-flex">
+      <div *ngIf="valueToDisplay | async as val" class="d-flex">
         <mat-icon
-          *ngIf="val === 1 || val === 'true' || val === 'open'"
+          *ngIf="val === 1 || val === 'true' || val === 'open'; else closeb"
           color="primary"
           >done</mat-icon
         >
+        <ng-template #closeb>
+          <mat-icon color="warn">close</mat-icon>
+        </ng-template>
       </div>
-      <ng-template #closeb>
-        <mat-icon color="warn">close</mat-icon>
-      </ng-template>
     </div>
     <div *ngSwitchCase="element.type.includes('lastchar')">
       <div *ngIf="valueToDisplay | async as val" class="d-flex">

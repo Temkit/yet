@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { map, flatMap, retryWhen } from "rxjs/operators";
+import { map, flatMap } from "rxjs/operators";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Sort, MatSort } from "@angular/material/sort";
@@ -15,7 +15,6 @@ import { empty, of } from "rxjs";
 import { CartService } from "src/app/private/crud/cart.service";
 import { AddCartComponent } from "../../modal/addCart/addCart.component";
 import { ShowDataComponent } from "../../modal/showData/showData.component";
-import { GenericRetryStrategyService } from "./../../../../private/genericRetryStrategy.service";
 import { S3Service } from "./../../../../private/aws/s3.service";
 import { Store, select, State } from "@ngrx/store";
 import {
@@ -67,7 +66,6 @@ export class ListsComponent implements OnInit, OnDestroy {
     private __d_: DeleteService,
     private ct: CrudToolsService,
     private cartService: CartService,
-    private retry: GenericRetryStrategyService,
     private store: Store<{ position: object }>,
     private state: State<{ postions: Array<object> }>
   ) {

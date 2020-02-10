@@ -7,18 +7,14 @@ import {
   Inject
 } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { map, retryWhen, catchError } from "rxjs/operators";
-import { HttpClient } from "@angular/common/http";
+import { map, catchError } from "rxjs/operators";
 import { MediaMatcher } from "@angular/cdk/layout";
-import { DomSanitizer } from "@angular/platform-browser";
 import { MatAccordion } from "@angular/material/expansion";
 import { MatSidenav } from "@angular/material/sidenav";
 import { AuthService } from "../private/aws/auth.service";
-import { CognitoService } from "../private/aws/cognito.service";
 import { CartService } from "../private/crud/cart.service";
 import { PLATFORM_ID } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
-import { GenericRetryStrategyService } from "./../private/genericRetryStrategy.service";
 import { S3Service } from "./../private/aws/s3.service";
 import { of } from "rxjs";
 
@@ -54,7 +50,7 @@ export class DashbordComponent implements OnInit, OnDestroy {
   Object;
   show = [false, false, false, false, false, false];
   badges = {};
-  marginleft = 194;
+  marginleft = 251;
 
   isBrowser;
 
@@ -155,7 +151,7 @@ export class DashbordComponent implements OnInit, OnDestroy {
       this.show[icon] = !tmp;
 
       if (this.isBrowser) {
-        this.marginleft = 330 - (window.innerWidth - event.target.offsetLeft);
+        this.marginleft = 208 - (window.innerWidth - event.target.offsetLeft);
       }
     }
   }

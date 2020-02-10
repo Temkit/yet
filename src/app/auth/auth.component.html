@@ -1,36 +1,9 @@
 <div class="container-fluid h-100" *ngIf="spec | async as spec">
-  <div
-    class="row backing h-100"
-    [style.backgroundImage]="
-      'url(' + spec.backgroundImage + '?cache=' + date + ')'
-    "
-  >
+  <div class="row  h-100">
     <div
-      class="col-lg-7   h-100 p-0 d-lg-flex d-none align-items-center justify-content-center"
+      class="col-lg-7 col-12 h-100  d-flex align-items-center justify-content-center auth"
     >
-      <div class="logo"></div>
-      <div class="content">
-        <h1 class="title mb-2">
-          Bienvenue sur le tableau de bord de yet.marketing !
-        </h1>
-        <p>
-          Logiciel complet, dans le cloud, accessible sur toutes les
-          plateformes, PC, Mobile, Tablette. Yet.marketing software est fait
-          pour vous facilitez la vie.?
-        </p>
-        <ul>
-          <li>Logiciel de gesiton d'entreprise</li>
-          <li>Logiciel d'adminstration de site web / applicaiton mobile</li>
-          <li>Tableau de bord analytics</li>
-        </ul>
-        <a href="yet.marketing" class="btn btn-link"
-          >demandez un test gratuit</a
-        >
-      </div>
-    </div>
-    <div
-      class="col-lg-5 col-12 h-100  d-flex align-items-center justify-content-center auth"
-    >
+      <a href="https://yet.marketing" class="logo"></a>
       <app-authw
         state="login"
         go="go"
@@ -40,5 +13,11 @@
       >
       </app-authw>
     </div>
+    <div
+      class="col-lg-5 backing  h-100 p-0 d-lg-flex d-none align-items-center justify-content-center"
+      [style.backgroundImage]="
+        'url(' + spec.backgroundImage + '?dummy=' + date + ')'
+      "
+    ></div>
   </div>
 </div>

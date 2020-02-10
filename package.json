@@ -22,7 +22,8 @@
     "uc:ritajmall": "aws s3 rm s3://spec.yet.expert/ritajmall --recursive && aws s3 sync ./specs/ritajmall s3://spec.yet.expert/ritajmall && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'",
     "uc:eyewear": "aws s3 rm s3://spec.yet.expert/eyewear-algerie.com --recursive && aws s3 sync ./specs/eyewear-algerie.com  s3://spec.yet.expert/eyewear-algerie.com && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'",
     "uc:oxygen": "aws s3 rm s3://spec.yet.expert/oxygen --recursive && aws s3 sync ./specs/oxygen  s3://spec.yet.expert/oxygen && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'",
-    "uc:felyna": "aws s3 rm s3://spec.yet.expert/felyna --recursive && aws s3 sync ./specs/felyna  s3://spec.yet.expert/felyna && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'"
+    "uc:felyna": "aws s3 rm s3://spec.yet.expert/felyna --recursive && aws s3 sync ./specs/felyna  s3://spec.yet.expert/felyna && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'",
+    "uc:savitem": "aws s3 rm s3://spec.yet.expert/savitem --recursive && aws s3 sync ./specs/savitem  s3://spec.yet.expert/savitem && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'"
   },
   "private": true,
   "dependencies": {

@@ -1,12 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
-import { HttpClient } from "@angular/common/http";
 import { OneService } from "src/app/private/crud/one.service";
 import isEqual from "lodash/isEqual";
 import { MatDialog } from "@angular/material/dialog";
 import { AdditemComponent } from "./additem/additem.component";
-import { GenericRetryStrategyService } from "./../../../../private/genericRetryStrategy.service";
 import { S3Service } from "./../../../../private/aws/s3.service";
 import findIndex from "lodash/findIndex";
 
@@ -64,8 +62,7 @@ export class ItemAddComponent implements OnInit {
   constructor(
     private S3Service: S3Service,
     private __o_: OneService,
-    public dialog: MatDialog,
-    private retry: GenericRetryStrategyService
+    public dialog: MatDialog
   ) {
     this.domain = localStorage.getItem("domain");
     this.link = localStorage.getItem("group");

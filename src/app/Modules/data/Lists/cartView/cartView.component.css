@@ -1,10 +1,11 @@
 .yet-container {
   position: relative;
+  border-radius: 4px;
 }
 
 .yet-table-container {
   position: relative;
-  max-height: calc(100vh - 303px);
+  max-height: calc(100vh - 208px);
   overflow: auto;
 }
 
@@ -28,7 +29,7 @@
 }
 
 .mt-form {
-  padding-top: 98px;
+  padding-top: 83px;
 }
 
 table {
@@ -57,9 +58,4 @@ tr.mat-footer-row {
   font-size: 18px;
   font-weight: 200;
   color: #36474f;
-}
-
-.but {
-  margin-left: auto;
-  margin-top: 14px;
 }
