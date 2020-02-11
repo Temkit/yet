@@ -12,13 +12,7 @@ export class AppLoadService {
   initializeApp(): Promise<any> {
     let host = "";
 
-    host = window.location
-      .toString()
-      .replace(".yet.marketing", "")
-      .replace("https://", "")
-      .replace("http://", "")
-      .replace("/auth", "")
-      .replace("/", "");
+    host = window.location.host.toString().replace(".yet.marketing", "");
 
     // host = "mlm";
     // host = 'smartelectronicx.com';
