@@ -73,8 +73,7 @@ input {
 }
 
 .mt-6 {
-  margin-top: 64px;
-  padding-top: 12px;
+  margin-top: 40px;
 }
 
 .space {
@@ -107,7 +106,6 @@ input {
 
 .spinner p {
   color: #36474fbd;
-  text-transform: uppercase;
   font-weight: 500;
   font-size: 18px;
 }
@@ -127,17 +125,19 @@ input {
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-  background: #689090;
+  background: #37464f;
 }
 
 /* Handle on hover */
 
 ::-webkit-scrollbar-thumb:hover {
+  cursor: grabbing;
   width: 10px;
   background: #555;
 }
 
 ::-webkit-scrollbar:hover {
+  cursor: grabbing;
   width: 10px;
 }
 

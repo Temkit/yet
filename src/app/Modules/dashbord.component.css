@@ -48,6 +48,10 @@ mat-expansion-panel {
   width: 200px !important;
 }
 
+::ng-deep .mat-content {
+  overflow: visible !important;
+}
+
 .textmenu,
 ::ng-deep .mat-list-item-content {
   font-size: 14px;
@@ -92,8 +96,7 @@ mat-icon {
   left: 51px;
   z-index: 2344;
   background-color: #fafafa;
-  border: solid 1px #f1f1f1;
-  border-right: solid 4px #f1f1f1;
+  border-right: solid 4px #37464f;
 }
 
 #notifications {
