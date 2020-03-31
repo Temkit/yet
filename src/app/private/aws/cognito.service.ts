@@ -3,7 +3,7 @@ import { Observable, pipe, from, bindCallback, bindNodeCallback } from "rxjs";
 import { map, flatMap } from "rxjs/operators";
 
 import Auth from "@aws-amplify/auth";
-import { AmplifyService } from "aws-amplify-angular";
+import { AmplifyService } from "@flowaccount/aws-amplify-angular";
 import * as AWS from "aws-sdk";
 import { isPlatformBrowser } from "@angular/common";
 

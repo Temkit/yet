@@ -1,4 +1,4 @@
-import { AmplifyService } from "aws-amplify-angular";
+import { AmplifyService } from "@flowaccount/aws-amplify-angular";
 import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
 import {
   Observable,

@@ -46,7 +46,7 @@ th.mat-sort-header-sorted {
 .yet-table-container {
   border-radius: 4px;
   position: relative;
-  max-height: calc(100vh - 208px);
+  max-height: calc(100vh - 290px);
   overflow: auto;
 }
 

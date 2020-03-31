@@ -43,6 +43,7 @@ export class FormFilterComponent implements OnChanges, OnInit {
     const config: SimpleChange = changes.config;
 
     this.objectConfig = JSON.parse(config.currentValue);
+    console.log(this.objectConfig);
     this.vars.UrlItem = this.objectConfig.config.item;
 
     this.load = this.S3Service.getSpec(

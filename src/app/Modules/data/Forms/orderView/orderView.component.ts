@@ -28,6 +28,8 @@ export class OrderViewComponent implements OnInit {
   products = [];
 
   total = 0;
+  totalht = 0;
+  totaltva = 0;
 
   displayedColumns = ["produit", "prix_vente", "quantite", "total"];
 
@@ -65,6 +67,7 @@ export class OrderViewComponent implements OnInit {
             this.Specification.owner.Key[key]
           );
         });
+
         return this.__o_.one$(
           this.Specification.owner.TableName,
           this.Specification.owner.Key,
@@ -72,10 +75,11 @@ export class OrderViewComponent implements OnInit {
           this.Specification.owner.AttributesToGet
         );
       }),
+
       flatMap(data => {
         this.commande = data;
 
-        this.reffacture = data.ref_facture;
+        this.reffacture = data.ref;
         Object.keys(this.Specification.items.ExpressionAttributeValues).map(
           key => {
             this.Specification.items.ExpressionAttributeValues[
@@ -100,10 +104,20 @@ export class OrderViewComponent implements OnInit {
           null,
           true,
           this.Specification.items.Region,
+          null,
           false
         );
       }),
       map(data => {
+        console.log(data);
+
+        data.Items.forEach(item => {
+          this.totaltva =
+            this.totaltva +
+            (item.prix_vente * item.tva * item.quantite +
+              item.prix_vente * item.quantite);
+          this.totalht = this.totalht + item.prix_vente * item.quantite;
+        });
         this.products = data.Items;
 
         return data.Items;

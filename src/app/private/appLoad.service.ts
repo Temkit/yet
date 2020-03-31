@@ -25,8 +25,11 @@ export class AppLoadService {
     // host = "savitem";
     // host = "all-sticker.com";
     // host = "ritajmall";
+    // host = "beb";
+    // host = "pharmaciens";
     // host = "eyewear-algerie.com";
-    host = "krd";
+    // host = "krd";
+    // host = "__";
     // host = "felyna";
     // host = "dkeere";
     // host = 'deluxe-marbre.com';

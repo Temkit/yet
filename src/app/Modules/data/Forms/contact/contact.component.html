@@ -1,4 +1,4 @@
-<div class="h-100 w-100">
+<div class="h-100 w-100" *ngIf="load | async as load; else spinner">
   <div id="bread">
     <mat-icon class="item" routerLink="/">home</mat-icon>
     <mat-icon class="item">keyboard_arrow_right</mat-icon>
@@ -56,10 +56,10 @@
             <input
               matInput
               type="text"
-              name="pharmacie"
+              name="raison_sociale"
               class="input"
-              placeholder="Le nom de votre pharmacie "
-              [(ngModel)]="pharmacie"
+              placeholder="Raison Sociale"
+              [(ngModel)]="raison_sociale"
             />
           </mat-form-field>
 
@@ -80,3 +80,13 @@
     </div>
   </div>
 </div>
+<ng-template #spinner>
+  <div class="spinner">
+    <div class="lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</ng-template>

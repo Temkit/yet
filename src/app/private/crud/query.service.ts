@@ -6,6 +6,7 @@ import Auth from "@aws-amplify/auth";
 import { map, flatMap } from "rxjs/operators";
 import { CacheService } from "./cache.service";
 import { isPlatformBrowser } from "@angular/common";
+import { orderBy } from "lodash";
 
 @Injectable({
   providedIn: "root"
@@ -35,6 +36,7 @@ export class QueryService {
     lastEvaluatedKey,
     ScanIndexForward,
     region,
+    sort,
     cached
   ) {
     if (this.isBrowser) {
@@ -57,6 +59,8 @@ export class QueryService {
       if (IndexName) {
         params["IndexName"] = IndexName;
       }
+
+      console.log(params);
 
       const cacheKey =
         "q" +
@@ -90,8 +94,7 @@ export class QueryService {
 
             Object.keys(params.ExpressionAttributeValues).map(key => {
               if (
-                params.ExpressionAttributeValues[key] ===
-                "$var$yet.|pass-custom-aws.api.eu-central-1"
+                params.ExpressionAttributeValues[key] === "fine-grained-access"
               ) {
                 params.ExpressionAttributeValues[key] = credentials.identityId;
               }
@@ -111,6 +114,13 @@ export class QueryService {
             return data;
           }),
           flatMap((data: any) => {
+            if (sort && sort.length > 0) {
+              data.Items =
+                data.Items.length > 0
+                  ? orderBy(data.Items, [sort[0]], [sort[1]])
+                  : [];
+            }
+
             return forkJoin([
               of(data),
               this.count$(
@@ -154,10 +164,7 @@ export class QueryService {
           });
 
           Object.keys(ExpressionAttributeValues).map(key => {
-            if (
-              ExpressionAttributeValues[key] ===
-              "$var$yet.|pass-custom-aws.api.eu-central-1"
-            ) {
+            if (ExpressionAttributeValues[key] === "fine-grained-access") {
               ExpressionAttributeValues[key] = credentials.identityId;
             }
           });

@@ -97,7 +97,10 @@ export class DashbordComponent implements OnInit, OnDestroy {
 
         return spec.menu;
       }),
-      catchError(error => of(error))
+      catchError(error => {
+        console.log(error);
+        return of(error);
+      })
     );
 
     this.badges["shopping_cart"] = this.cartService.cart.length;

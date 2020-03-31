@@ -21,33 +21,40 @@ export class CreateService {
         map(credentials => {
           AWS.config.update({
             region: "eu-central-1",
-            credentials: credentials,
+            credentials,
             apiVersions: {
               dynamodb: "2012-08-10"
             }
           });
 
           const documentClient = new AWS.DynamoDB.DocumentClient({
-            region: region
+            region
           });
 
           Object.keys(Item).map(key => {
             if (typeof Item[key] === "string") {
               Item[key] = Item[key].toLowerCase();
             }
-          });
 
-          if (Item.hasOwnProperty("cognitoid")) {
-            Item.cognitoid = credentials.identityId;
-          }
+            if (Item[key] === "fine-grained-access") {
+              Item[key] = credentials.identityId;
+            }
+
+            if (Item[key].includes("$date")) {
+              Item[key] = Item[key].replace(
+                "$date",
+                new Date().getTime().toString()
+              );
+            }
+          });
 
           if (!Item.hasOwnProperty("dat")) {
             Item.dat = new Date().getTime();
           }
 
           const params = {
-            TableName: TableName,
-            Item: Item
+            TableName,
+            Item
           };
 
           return documentClient.put(params).promise();

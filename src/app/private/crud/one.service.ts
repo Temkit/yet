@@ -27,7 +27,7 @@ export class OneService {
           });
 
           Object.keys(Key).map(k => {
-            if (Key[k] === "$var$yet.|pass-custom-aws.api.eu-central-1") {
+            if (Key[k] === "fine-grained-access") {
               Key[k] = credentials.identityId;
             }
           });

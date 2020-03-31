@@ -84,6 +84,7 @@ export class EmailComponent implements OnInit {
             null,
             true,
             this.Specification.contacts.Region,
+            null,
             false
           )
           .pipe(

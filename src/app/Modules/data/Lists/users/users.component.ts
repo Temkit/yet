@@ -78,7 +78,6 @@ export class UsersComponent implements OnInit {
       flatMap((spec: any) => {
         let data = JSON.parse(spec.Body.toString());
 
-        console.log(data);
         this.name = data.name;
         this.vars.Specification = data;
         this.vars.title = data.title;
@@ -107,7 +106,6 @@ export class UsersComponent implements OnInit {
       )
       .pipe(
         map((data: any) => {
-          console.log(data);
           this.vars.Count = data.Count;
           this.tokens.push(data.PaginationToken);
 
@@ -201,7 +199,6 @@ export class UsersComponent implements OnInit {
         })
       )
       .subscribe(result => {
-        console.log(result);
         this.refresh();
       });
   }

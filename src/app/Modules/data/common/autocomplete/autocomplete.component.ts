@@ -104,6 +104,7 @@ export class AutocompleteComponent implements OnInit {
           null,
           true,
           this.objectConfig.Region,
+          this.objectConfig.sort,
           false
         )
         .pipe(

@@ -72,6 +72,7 @@ export class QuesitonnaireReponsesComponent implements OnInit {
           null,
           true,
           this.objectConfig.Region,
+          null,
           false
         )
         .pipe(

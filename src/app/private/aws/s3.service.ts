@@ -22,9 +22,9 @@ export class S3Service {
   getMetadata(region, IdentityPoolId, bucketName, file, metadata) {
     if (this.isBrowser) {
       AWS.config.update({
-        region: region,
+        region,
         credentials: new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: IdentityPoolId
+          IdentityPoolId
         })
       });
 

@@ -74,18 +74,20 @@ export class AuthwComponent implements OnInit {
           );
           this.group =
             data.signInUserSession.accessToken.payload["cognito:groups"];
+
           return this.authService.getData(data);
         }),
         map(data => {
           if (data) {
             data.map(attribute => {
-              if (attribute.Name === "custom:id") {
-                this.authService.Cache.setItem("id", attribute.Value);
-              }
+              this.spec.cache.map(item => {
+                if (attribute.Name === item) {
+                  localStorage.setItem(item, attribute.Value);
+                }
+              });
             });
 
             this.authService.Cache.setItem("user", this.username);
-
             this.authService.Cache.setItem("logo", this.logo);
           }
 

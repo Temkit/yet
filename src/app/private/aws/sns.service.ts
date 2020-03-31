@@ -35,7 +35,7 @@ export class SnsService {
           });
 
           this.sns = new AWS.SNS();
-          console.log(DisplayName);
+
           return from(
             this.sns
               .createTopic({

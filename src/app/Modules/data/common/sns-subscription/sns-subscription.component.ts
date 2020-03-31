@@ -129,7 +129,6 @@ export class SnsSubscriptionComponent {
   }
 
   private compileTable() {
-    console.log(this.source);
     this.dataSource = of(this.source);
   }
 

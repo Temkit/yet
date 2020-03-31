@@ -9,3 +9,27 @@
 .quantity {
   padding: 12px;
 }
+
+.font {
+  font-size: 16px !important;
+}
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.2;
+  z-index: 2334343434343434;
+  background: repeating-linear-gradient(
+    -55deg,
+    #22222220,
+    #22222220 10px,
+    #33333330 10px,
+    #33333330 20px
+  );
+}
+
+.height {
+  height: calc(100vh - 154px);
+}

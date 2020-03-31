@@ -5,7 +5,7 @@
 
 .yet-table-container {
   position: relative;
-  max-height: calc(100vh - 208px);
+  max-height: calc(100vh - 290px);
   overflow: auto;
 }
 

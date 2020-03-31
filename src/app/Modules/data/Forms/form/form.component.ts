@@ -198,21 +198,9 @@ export class FormComponent implements OnInit {
   }
 
   patchType(element, event) {
-    const patch = {};
-    switch (element.datatype) {
-      case "int":
-        if (element.type === "checkbox" && event.checked) {
-          patch[element.name] = 1;
-        } else {
-          patch[element.name] = 0;
-        }
-
-        this.vars.Form.patchValue(patch);
-        break;
-
-      default:
-        true;
-    }
+    const patch = this.vars.FormValue ? this.vars.FormValue["active"] : [];
+    patch.push(element.name);
+    this.vars.Form.patchValue({ active: patch });
   }
 
   getItem() {

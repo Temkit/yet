@@ -43,11 +43,6 @@ export class CognitoUserComponent implements OnInit {
       this.cognitoService
         .getUser(this.objectConfig.UserPoolId, this.val.username)
         .subscribe(data => {
-          console.log(
-            this.objectConfig["attributeToDisplay"],
-            data[this.objectConfig["attributeToDisplay"]]
-          );
-
           let tmp = {};
           tmp[this.objectConfig["name"]] =
             data[this.objectConfig["attributeToDisplay"]];

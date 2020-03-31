@@ -7,7 +7,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatInputModule } from "@angular/material/input";
-import { AmplifyAngularModule } from "aws-amplify-angular";
+import { AmplifyAngularModule } from "@flowaccount/aws-amplify-angular";
 import { AuthwComponent } from "./authw.component";
 import { RouterModule } from "@angular/router";
 

@@ -142,6 +142,7 @@ export class AutocompleteTagsInputComponent implements OnInit {
           null,
           true,
           this.objectConfig.Region,
+          null,
           false
         )
         .pipe(

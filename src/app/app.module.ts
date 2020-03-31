@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AuthModule } from "./auth/auth.module";
 import { HttpClientModule } from "@angular/common/http";
 import { registerLocaleData } from "@angular/common";
-import { AmplifyService } from "aws-amplify-angular";
+import { AmplifyService } from "@flowaccount/aws-amplify-angular";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import localeFr from "@angular/common/locales/fr";
 

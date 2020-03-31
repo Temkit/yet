@@ -225,9 +225,7 @@ export class ListsComponent implements OnInit, OnDestroy {
           key === this.vars.Specification.queryType.dataKey &&
           this.vars.ExpressionAttributeValues[key] === "undefined"
         ) {
-          this.vars.ExpressionAttributeValues[
-            key
-          ] = this.authService.Cache.getItem(
+          this.vars.ExpressionAttributeValues[key] = localStorage.getItem(
             this.vars.Specification.queryType.cacheKey
           );
         } else {
@@ -267,6 +265,7 @@ export class ListsComponent implements OnInit, OnDestroy {
         lek,
         true,
         this.vars.Region,
+        (<any>this.vars.Specification).sort,
         cached
       )
       .pipe(

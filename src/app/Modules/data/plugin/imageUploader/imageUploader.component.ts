@@ -115,8 +115,6 @@ export class ImageUploaderComponent implements OnInit {
         uploader
           .on("httpUploadProgress", evt => {
             this.imageUpload = (evt.loaded / evt.total) * 100;
-
-            console.log(this.imageUpload);
           })
           .send((err, data) => {
             if (err) {
