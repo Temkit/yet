@@ -80,11 +80,13 @@ export class AuthwComponent implements OnInit {
         map(data => {
           if (data) {
             data.map(attribute => {
-              this.spec.cache.map(item => {
-                if (attribute.Name === item) {
-                  localStorage.setItem(item, attribute.Value);
-                }
-              });
+              if (this.spec.cache) {
+                this.spec.cache.map(item => {
+                  if (attribute.Name === item) {
+                    localStorage.setItem(item, attribute.Value);
+                  }
+                });
+              }
             });
 
             this.authService.Cache.setItem("user", this.username);

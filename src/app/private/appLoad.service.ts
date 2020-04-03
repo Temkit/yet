@@ -15,11 +15,11 @@ export class AppLoadService {
     host = window.location.host.toString().replace(".yet.marketing", "");
 
     // host = "mlm";
-    // host = 'smartelectronicx.com';
+    // host = "smartelectronicx.com";
     // host = 'transportachat.com';
     // host = 'apostrophe-ecole.dz';
     // host = 'robokids.tech' ;
-    // host = "titanmedia.site";
+    // host = "titanmedia";
     // host = "gest";
     // host = "oxygen";
     // host = "savitem";
