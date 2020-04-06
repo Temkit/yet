@@ -27,7 +27,8 @@
     "uc:felyna": "aws s3 rm s3://spec.yet.expert/felyna --recursive && aws s3 sync ./specs/felyna  s3://spec.yet.expert/felyna && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'",
     "uc:savitem": "aws s3 rm s3://spec.yet.expert/savitem --recursive && aws s3 sync ./specs/savitem  s3://spec.yet.expert/savitem && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'",
     "uc:__": "aws s3 rm s3://spec.yet.expert/__ --recursive && aws s3 sync ./specs/__  s3://spec.yet.expert/__ && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'",
-    "uc:beb": "aws s3 rm s3://spec.yet.expert/beb --recursive && aws s3 sync ./specs/beb  s3://spec.yet.expert/beb && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'"
+    "uc:beb": "aws s3 rm s3://spec.yet.expert/beb --recursive && aws s3 sync ./specs/beb  s3://spec.yet.expert/beb && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'",
+    "uc:snt": "aws s3 rm s3://spec.yet.expert/snt --recursive && aws s3 sync ./specs/snt  s3://spec.yet.expert/snt && aws cloudfront create-invalidation --distribution-id $npm_package_config_speccloudfront --paths '/*'"
   },
   "private": true,
   "dependencies": {
@@ -54,7 +55,7 @@
     "@types/lodash-es": "^4.17.3",
     "aws-amplify": "^3.0.5",
     "@flowaccount/aws-amplify-angular": "^4.2.11",
-    "aws-sdk": "^2.652.0",
+    "aws-sdk": "^2.653.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap-css-only": "^4.4.1",
@@ -92,7 +93,7 @@
     "karma-jasmine-html-reporter": "^1.5.3",
     "node-sass": "^4.13.1",
     "protractor": "~5.4.3",
-    "ts-node": "~8.8.1",
+    "ts-node": "~8.8.2",
     "tslint": "~6.1.1",
     "typescript": "~3.8.3"
   }

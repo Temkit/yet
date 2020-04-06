@@ -5,7 +5,7 @@ import { S3Service } from "./../../../../private/aws/s3.service";
 import { of, Observable } from "rxjs";
 import {
   FormVars,
-  FormSpecification
+  FormSpecification,
 } from "src/app/private/interfaces/form.vars";
 import { OneService } from "src/app/private/crud/one.service";
 import { FormValueDecoratorService } from "src/app/private/soft/FormValueDecorator.service";
@@ -13,7 +13,7 @@ import { FormValueDecoratorService } from "src/app/private/soft/FormValueDecorat
 @Component({
   selector: "app-form",
   templateUrl: "./form.component.html",
-  styleUrls: ["./form.component.css"]
+  styleUrls: ["./form.component.css"],
 })
 export class FormComponent implements OnInit {
   vars = {
@@ -23,7 +23,7 @@ export class FormComponent implements OnInit {
     Tabs: {},
     newForm: true,
     Item: {},
-    files: {}
+    files: {},
   } as FormVars;
 
   load;
@@ -80,15 +80,15 @@ export class FormComponent implements OnInit {
 
         return of(null);
       }),
-      flatMap(data => {
+      flatMap((data) => {
         return this.initFormValues(data);
       }),
-      map(data => {
+      map((data) => {
         this.vars.FormValue = data;
 
         this.patch.emit(this.vars.Form.value);
 
-        this.vars.Form.valueChanges.subscribe(data => {
+        this.vars.Form.valueChanges.subscribe((data) => {
           if ((<any>this.vars.Specification).pluralName) {
             this.vars.SameFormAsStart = this.fvd.isDifferent(
               this.vars.FormValue,
@@ -107,24 +107,24 @@ export class FormComponent implements OnInit {
   private initFormUI() {
     this.vars.Specification.attributes.map((tab: any) => {
       this.vars.Properties.push(tab);
-      tab.specs.map(property => {
+      tab.specs.map((property) => {
         if (Array.isArray(property.name)) {
-          property.name.map(name => {
+          property.name.map((name) => {
             this.formObject[name] = new FormControl({
               value: null,
-              disabled: property.disabled
+              disabled: property.disabled,
             });
           });
         } else if (property.name) {
           this.formObject[property.name] = new FormControl(
             {
               value: null,
-              disabled: property.disabled
+              disabled: property.disabled,
             },
             {
               validators: property.required
                 ? Validators.required
-                : Validators.min(0)
+                : Validators.min(0),
             }
           );
         }
@@ -132,13 +132,13 @@ export class FormComponent implements OnInit {
         if (this.vars.Tabs[tab["name"]]) {
           this.vars.Tabs[tab["name"]].push({
             formItem: this.formObject[property.name],
-            itemSpec: property
+            itemSpec: property,
           });
         } else {
           this.vars.Tabs[tab["name"]] = [];
           this.vars.Tabs[tab["name"]].push({
             formItem: this.formObject[property.name],
-            itemSpec: property
+            itemSpec: property,
           });
         }
       });
@@ -148,16 +148,16 @@ export class FormComponent implements OnInit {
   }
 
   private initFormValues(item) {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       const obj = {};
 
-      this.vars.Specification["attributes"].map(tab => {
-        tab.specs.map(property => {
+      this.vars.Specification["attributes"].map((tab) => {
+        tab.specs.map((property) => {
           if (property.hasOwnProperty("name")) {
             const value: any = this.fvd.getValue(property, item);
 
             if (value instanceof Observable) {
-              value.subscribe(data => {
+              value.subscribe((data) => {
                 obj[property.name] = data;
                 this.vars.Form.get(property.name).setValue(data);
               });
@@ -191,21 +191,33 @@ export class FormComponent implements OnInit {
   save() {
     this.data.emit({
       vars: this.vars,
-      key: this.key
+      key: this.key,
     });
 
     this.vars.SameFormAsStart = true;
   }
 
   patchType(element, event) {
-    const patch = this.vars.FormValue ? this.vars.FormValue["active"] : [];
-    patch.push(element.name);
-    this.vars.Form.patchValue({ active: patch });
+    const patch = {};
+    switch (element.datatype) {
+      case "int":
+        if (element.type === "checkbox" && event.checked) {
+          patch[element.name] = 1;
+        } else {
+          patch[element.name] = 0;
+        }
+
+        this.vars.Form.patchValue(patch);
+        break;
+
+      default:
+        true;
+    }
   }
 
   getItem() {
     this.key = JSON.parse(JSON.stringify(this.vars.Specification.Key));
-    Object.keys(this.key).map(k => {
+    Object.keys(this.key).map((k) => {
       if (this.key[k] === "undefined") {
         this.key[k] = this.queryParams[k];
       }

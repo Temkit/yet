@@ -6,7 +6,7 @@ import * as AWS from "aws-sdk";
 import { isPlatformBrowser } from "@angular/common";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class CreateService {
   isBrowser;
@@ -18,33 +18,26 @@ export class CreateService {
   public create$(TableName, Item, region) {
     if (this.isBrowser) {
       return from(Auth.currentCredentials()).pipe(
-        map(credentials => {
+        map((credentials) => {
           AWS.config.update({
             region: "eu-central-1",
             credentials,
             apiVersions: {
-              dynamodb: "2012-08-10"
-            }
+              dynamodb: "2012-08-10",
+            },
           });
 
           const documentClient = new AWS.DynamoDB.DocumentClient({
-            region
+            region,
           });
-
-          Object.keys(Item).map(key => {
+          console.log(Item);
+          Object.keys(Item).map((key) => {
             if (typeof Item[key] === "string") {
               Item[key] = Item[key].toLowerCase();
             }
 
             if (Item[key] === "fine-grained-access") {
               Item[key] = credentials.identityId;
-            }
-
-            if (Item[key].includes("$date")) {
-              Item[key] = Item[key].replace(
-                "$date",
-                new Date().getTime().toString()
-              );
             }
           });
 
@@ -54,12 +47,12 @@ export class CreateService {
 
           const params = {
             TableName,
-            Item
+            Item,
           };
 
           return documentClient.put(params).promise();
         }),
-        flatMap(data => {
+        flatMap((data) => {
           return data;
         })
       );
@@ -69,17 +62,17 @@ export class CreateService {
   public batchWrite$(TableName, Items, region) {
     if (this.isBrowser) {
       return from(Auth.currentCredentials()).pipe(
-        map(credentials => {
+        map((credentials) => {
           AWS.config.update({
             region: "eu-central-1",
             credentials: credentials,
             apiVersions: {
-              dynamodb: "2012-08-10"
-            }
+              dynamodb: "2012-08-10",
+            },
           });
 
           const documentClient = new AWS.DynamoDB.DocumentClient({
-            region: region
+            region: region,
           });
 
           let i, j, temparray;
@@ -88,20 +81,20 @@ export class CreateService {
             temparray = Items.slice(i, i + chunk);
 
             const params = {
-              RequestItems: {}
+              RequestItems: {},
             };
 
             params.RequestItems[TableName] = [];
 
-            Items.map(item => {
+            Items.map((item) => {
               params.RequestItems[TableName].push({
                 PutRequest: {
-                  Item: item
-                }
+                  Item: item,
+                },
               });
             });
 
-            documentClient.batchWrite(params, function(err, data) {
+            documentClient.batchWrite(params, function (err, data) {
               if (err) {
                 console.log(err, err.stack);
               } else {

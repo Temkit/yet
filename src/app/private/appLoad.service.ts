@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 import { S3Service } from "src/app/private/aws/s3.service";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class AppLoadService {
   constructor(private S3Service: S3Service) {}
@@ -28,6 +28,7 @@ export class AppLoadService {
     // host = "beb";
     // host = "pharmaciens";
     // host = "eyewear-algerie.com";
+    // host = "snt";
     // host = "krd";
     // host = "__";
     // host = "felyna";
