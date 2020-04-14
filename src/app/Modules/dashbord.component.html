@@ -19,13 +19,13 @@
         </div>
       </div>
       <div class="space"></div>
-      <div class="notification mr-3 h-100 d-flex justify-content-end ">
+      <div class="notification mr-3 h-100 d-flex justify-content-end">
         <mat-icon
           *ngFor="let icon of config.header.icons"
           matBadge="{{ badges[icon] }}"
           matBadgeColor="warn"
           (click)="toggleNotificationPanel(icon, $event)"
-          class="ml-2  top-icon"
+          class="ml-2 top-icon"
         >
           {{ icon }}
         </mat-icon>
@@ -106,17 +106,38 @@
   </div>
 </div>
 
-<div *ngIf="!shouldRun">Vous n'avez pas le droit de voir cette application</div>
+<div *ngIf="!shouldRun" class="notrun">
+  <div class="logoUn m-3" [style.backgroundImage]="'url(' + logo + ')'"></div>
+  <h1>{{ domain }}</h1>
+  <h3 class="m-3">
+    {{ config.unauthorized.title }} {{ config.unauthorized.content }}
+  </h3>
+
+  <div class="contact">
+    <a class="mr-3" href="mailto:{{ config.unauthorized.contact.mail }}"
+      ><strong>Email :</strong> {{ config.unauthorized.contact.mail }}</a
+    ><a href="tel:{{ config.unauthorized.contact.phone }}"
+      ><strong>téléphone :</strong> {{ config.unauthorized.contact.phone }}</a
+    >
+  </div>
+
+  <button
+    mat-raised-button
+    color="primary"
+    class="float-right m-4"
+    (click)="logout()"
+  >
+    déconnexion
+  </button>
+</div>
 
 <div
   *ngIf="show['notifications']"
   id="notifications"
-  [attr.style]="
-    sanitizer.bypassSecurityTrustStyle('--margin-left:' + marginleft + 'px')
-  "
+  [ngClass]="show['notifications'] ? 'notification_alerte' : ''"
 >
   <h3>Notifications</h3>
-  <div style="height:100%;max-height: 300px">
+  <div style="height: 100%; max-height: 300px;">
     <div *ngFor="let notification of notifications" class="notif">
       {{ notification }}
     </div>
@@ -127,12 +148,10 @@
 <div
   *ngIf="show['message']"
   id="notifications"
-  [attr.style]="
-    sanitizer.bypassSecurityTrustStyle('--margin-left:' + marginleft + 'px')
-  "
+  [ngClass]="show['message'] ? 'notification_message' : ''"
 >
   <h3>Messages</h3>
-  <div style="height:100%;max-height: 300px">
+  <div style="height: 100%; max-height: 300px;">
     <div *ngFor="let message of messages" class="notif">{{ message }}</div>
   </div>
   <div class="seeAll"><a href="#">Tout voir</a></div>
@@ -141,19 +160,17 @@
 <div
   *ngIf="show['account_circle']"
   id="notifications"
-  [attr.style]="
-    sanitizer.bypassSecurityTrustStyle('--margin-left:' + marginleft + 'px')
-  "
+  [ngClass]="show['account_circle'] ? 'notification_account' : ''"
 >
   <h3>Compte</h3>
-  <div style="height:100%;">
+  <div style="height: 100%;">
     <span class="notif d-flex align-items-center"
       >Adminstrateur pour le compte de :
       <a href="https://{{ domain }}">{{ domain }}</a></span
     >
     <div
       *ngFor="let item of account | keyvalue"
-      class=" d-flex align-items-center justify-content-start"
+      class="d-flex align-items-center justify-content-start"
     >
       <div class="key">{{ item.key + " : " }}</div>
       <div class="value">{{ item.value }}</div>

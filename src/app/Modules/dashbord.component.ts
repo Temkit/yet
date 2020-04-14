@@ -1,10 +1,11 @@
+import { DomSanitizer } from "@angular/platform-browser";
 import {
   Component,
   OnInit,
   ChangeDetectorRef,
   OnDestroy,
   ViewChild,
-  Inject
+  Inject,
 } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { map, catchError } from "rxjs/operators";
@@ -21,7 +22,7 @@ import { of } from "rxjs";
 @Component({
   selector: "app-dashbord",
   templateUrl: "./dashbord.component.html",
-  styleUrls: ["./dashbord.component.css"]
+  styleUrls: ["./dashbord.component.css"],
 })
 export class DashbordComponent implements OnInit, OnDestroy {
   domain;
@@ -66,6 +67,7 @@ export class DashbordComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private cartService: CartService,
     private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
     private S3Service: S3Service,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
@@ -82,47 +84,54 @@ export class DashbordComponent implements OnInit, OnDestroy {
     this.link = localStorage.getItem("group");
 
     if (this.isBrowser) {
-      this.shouldRun = [/localhost\:[0-9]+$/, /(^|\.)yet\.marketing$/].some(h =>
-        h.test(window.location.host)
-      );
+      this.shouldRun =
+        [/localhost\:[0-9]+$/, /(^|\.)yet\.marketing$/].some((h) =>
+          h.test(window.location.host)
+        ) && this.link !== "undefined"
+          ? true
+          : false;
+
+      console.log(this.shouldRun);
     }
   }
 
   ngOnInit() {
-    this.menu = this.S3Service.getSpec(
-      this.domain + "/" + this.link + "/menu.json"
-    ).pipe(
-      map((data: any) => {
-        let spec = JSON.parse(data.Body.toString());
+    if (this.link) {
+      this.menu = this.S3Service.getSpec(
+        this.domain + "/" + this.link + "/menu.json"
+      ).pipe(
+        map((data: any) => {
+          let spec = JSON.parse(data.Body.toString());
 
-        return spec.menu;
-      }),
-      catchError(error => {
-        console.log(error);
-        return of(error);
-      })
-    );
+          return spec.menu;
+        }),
+        catchError((error) => {
+          console.log(error);
+          return of(error);
+        })
+      );
 
-    this.badges["shopping_cart"] = this.cartService.cart.length;
+      this.badges["shopping_cart"] = this.cartService.cart.length;
 
-    this.authService.hMessages.asObservable().subscribe(data => {
-      this.badges["message"] = Object.keys(data).length;
-      this.message = data;
-    });
+      this.authService.hMessages.asObservable().subscribe((data) => {
+        this.badges["message"] = Object.keys(data).length;
+        this.message = data;
+      });
 
-    this.cartService.hCart.asObservable().subscribe((data: any) => {
-      this.badges["shopping_cart"] = data.length;
-      this.cart = data;
-    });
+      this.cartService.hCart.asObservable().subscribe((data: any) => {
+        this.badges["shopping_cart"] = data.length;
+        this.cart = data;
+      });
 
-    this.authService.hAccount.asObservable().subscribe(data => {
-      this.account = data;
-    });
+      this.authService.hAccount.asObservable().subscribe((data) => {
+        this.account = data;
+      });
 
-    this.authService.hNotifications.asObservable().subscribe(data => {
-      this.badges["notifications"] = Object.keys(data).length;
-      this.notifications = data;
-    });
+      this.authService.hNotifications.asObservable().subscribe((data) => {
+        this.badges["notifications"] = Object.keys(data).length;
+        this.notifications = data;
+      });
+    }
 
     this.config = JSON.parse(localStorage.getItem("spec"));
     this.icons = this.config.header.icons;
@@ -164,7 +173,7 @@ export class DashbordComponent implements OnInit, OnDestroy {
 
     this.router.navigate(["/yet/" + path], {
       queryParams: { item: queryParams },
-      relativeTo: this.route
+      relativeTo: this.route,
     });
   }
 

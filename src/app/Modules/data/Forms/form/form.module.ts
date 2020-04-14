@@ -32,11 +32,13 @@ import { LocationModule } from "../../common/location/location.module";
 import { CognitoUserModule } from "../../common/cognitoUser/cognitoUser.module";
 import { QuesitonnaireReponsesModule } from "../../plugin/quesitonnaire-reponses/quesitonnaire-reponses.module";
 import { SelectModule } from "../../common/select/select.module";
+import { PickerModule } from "../../common/color-picker/picker.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    PickerModule,
     SnsSubscriptionModule,
     OrderAddModule,
     OrderAddFreeModule,
@@ -66,9 +68,9 @@ import { SelectModule } from "../../common/select/select.module";
     MatTabsModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   exports: [FormComponent],
-  declarations: [FormComponent, ParsePipe]
+  declarations: [FormComponent, ParsePipe],
 })
 export class FormModule {}

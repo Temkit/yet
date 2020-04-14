@@ -33,7 +33,23 @@
                       >
                       </app-editor>
                     </div>
-
+                    <div
+                      class="form-group"
+                      *ngIf="
+                        vars.Specification.attributes[tab][i].type === 'picker'
+                      "
+                    >
+                      <app-picker
+                        config="{{
+                          vars.Specification.attributes[tab][i] | json
+                        }}"
+                        value="{{
+                          data[vars.Specification.attributes[tab][i].name]
+                            | json
+                        }}"
+                        (patch)="handleEvent($event)"
+                      ></app-picker>
+                    </div>
                     <div
                       class="form-group"
                       *ngIf="

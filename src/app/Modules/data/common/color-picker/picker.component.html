@@ -1,0 +1,19 @@
+<form class="w-100">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>
+      <mat-icon *ngIf="objectConfig.labelicon">
+        {{ objectConfig.labelicon }}</mat-icon
+      >
+      {{ objectConfig.label }}
+
+      {{ color }}
+    </mat-label>
+    <input
+      matInput
+      name="{{objectConfig.name}"
+      [(colorPicker)]="color"
+      [style.background]="color"
+      (colorPickerChange)="emit($event)"
+    />
+  </mat-form-field>
+</form>

@@ -6,7 +6,7 @@ import * as moment from "moment";
 @Component({
   selector: "app-date",
   templateUrl: "./date.component.html",
-  styleUrls: ["./date.component.css"]
+  styleUrls: ["./date.component.css"],
 })
 export class DateComponent {
   @Output() patch: EventEmitter<object> = new EventEmitter<object>();
@@ -19,6 +19,7 @@ export class DateComponent {
   update(event) {
     const obj = {};
     obj[this.objectConfig.name] = new Date(event.value).valueOf();
+    console.log(obj);
     this.patch.emit(obj);
   }
 
@@ -35,8 +36,9 @@ export class DateComponent {
   @Input()
   set value(val) {
     if (val) {
+      console.log(typeof parseInt(val));
       // tslint:disable-next-line:radix
-      this.valueToDisplay.setValue(new Date(val));
+      this.valueToDisplay.setValue(new Date(parseInt(val)));
     }
   }
 }

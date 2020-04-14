@@ -11,7 +11,7 @@ import { FormValueDecoratorService } from "src/app/private/soft/FormValueDecorat
 @Component({
   selector: "app-form-mini",
   templateUrl: "./form-mini.component.html",
-  styleUrls: ["./form-mini.component.css"]
+  styleUrls: ["./form-mini.component.css"],
 })
 export class FormMiniComponent implements OnInit {
   @Output() save: EventEmitter<object> = new EventEmitter<object>();
@@ -25,7 +25,7 @@ export class FormMiniComponent implements OnInit {
     Tabs: {},
     newForm: true,
     Item: {},
-    files: {}
+    files: {},
   } as FormVars;
 
   type = null;
@@ -75,10 +75,10 @@ export class FormMiniComponent implements OnInit {
         }
         return of(null);
       }),
-      flatMap(data => {
+      flatMap((data) => {
         return this.initFormValues(data);
       }),
-      map(data => {
+      map((data) => {
         this.vars.FormValue = data;
         this.vars.Form.valueChanges.subscribe(() => {
           this.vars.SameFormAsStart = isEqualWith(
@@ -98,20 +98,20 @@ export class FormMiniComponent implements OnInit {
   }
 
   private initFormUI() {
-    Object.keys(this.vars.Specification.attributes).map(tab => {
+    Object.keys(this.vars.Specification.attributes).map((tab) => {
       this.vars.Properties.push(tab);
-      this.vars.Specification["attributes"][tab].map(property => {
+      this.vars.Specification["attributes"][tab].map((property) => {
         if (Array.isArray(property.name)) {
-          property.name.map(name => {
+          property.name.map((name) => {
             this.formObject[name] = new FormControl({
               value: null,
-              disabled: property.disabled
+              disabled: property.disabled,
             });
           });
         } else if (property.name) {
           this.formObject[property.name] = new FormControl({
             value: null,
-            disabled: property.disabled
+            disabled: property.disabled,
           });
         }
 
@@ -128,14 +128,14 @@ export class FormMiniComponent implements OnInit {
   }
 
   private initFormValues(item) {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       const obj = {};
-      Object.keys(this.vars.Specification["attributes"]).map(tab => {
-        this.vars.Specification["attributes"][tab].map(property => {
+      Object.keys(this.vars.Specification["attributes"]).map((tab) => {
+        this.vars.Specification["attributes"][tab].map((property) => {
           if (property.hasOwnProperty("name")) {
             const value: any = this.fvd.getValue(property, item);
             if (value instanceof Observable) {
-              value.subscribe(data => {
+              value.subscribe((data) => {
                 obj[property.name] = data;
                 this.vars.Form.patchValue(obj);
               });

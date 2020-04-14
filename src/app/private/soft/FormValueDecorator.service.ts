@@ -13,7 +13,7 @@ import { SnsService } from "../aws/sns.service";
 import { OneService } from "../crud/one.service";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class FormValueDecoratorService {
   public vars = {
@@ -24,7 +24,7 @@ export class FormValueDecoratorService {
     newForm: true,
     FirstCall: true,
     Item: {},
-    files: {}
+    files: {},
   } as FormVars;
 
   constructor(
@@ -67,6 +67,12 @@ export class FormValueDecoratorService {
             ? item[property.name]
             : property.value;
         break;
+      case property.type === "color":
+        value =
+          item != null && item.hasOwnProperty(property.name)
+            ? item[property.name]
+            : property.value;
+        break;
       case property.type === "autocomplete" ||
         property.type === "custom" ||
         property.type === "autocompletetagsinput":
@@ -81,7 +87,7 @@ export class FormValueDecoratorService {
             ? item[property.name]
             : {
                 TopicARN: undefined,
-                value: []
+                value: [],
               };
         break;
 
@@ -117,7 +123,7 @@ export class FormValueDecoratorService {
                     property.count.ExpressionAttributeValues
                   )
                   .pipe(
-                    map(data => {
+                    map((data: any) => {
                       let actualCount = data.Count + 1;
                       let count = "";
                       const length = 6 - actualCount.toString().length;
@@ -195,7 +201,7 @@ export class FormValueDecoratorService {
 
   private changes(object, base) {
     const _this_ = this;
-    return transform(object, function(result, value, key) {
+    return transform(object, function (result, value, key) {
       if (!isEqual(value, base[key])) {
         result[key] =
           isObject(value) && isObject(base[key] && !isArray(value))

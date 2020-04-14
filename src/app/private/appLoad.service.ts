@@ -28,7 +28,7 @@ export class AppLoadService {
     // host = "beb";
     // host = "pharmaciens";
     // host = "eyewear-algerie.com";
-    // host = "snt";
+    // host = "innpactus";
     // host = "krd";
     // host = "__";
     // host = "felyna";

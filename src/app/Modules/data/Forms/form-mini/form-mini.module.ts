@@ -21,10 +21,12 @@ import { QuestionnaireModule } from "../../plugin/questionnaire/questionnaire.mo
 import { DateModule } from "../../common/date/date.module";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { SelectModule } from "../../common/select/select.module";
+import { PickerModule } from "../../common/color-picker/picker.module";
 
 @NgModule({
   imports: [
     CommonModule,
+    PickerModule,
     FormsModule,
     DateModule,
     SelectModule,
@@ -45,9 +47,9 @@ import { SelectModule } from "../../common/select/select.module";
     MatTabsModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   exports: [FormMiniComponent],
-  declarations: [FormMiniComponent]
+  declarations: [FormMiniComponent],
 })
 export class FormMiniModule {}

@@ -14,7 +14,7 @@ import { empty } from "rxjs";
 @Component({
   selector: "app-users",
   templateUrl: "./users.component.html",
-  styleUrls: ["./users.component.css"]
+  styleUrls: ["./users.component.css"],
 })
 export class UsersComponent implements OnInit {
   vars = {
@@ -25,7 +25,7 @@ export class UsersComponent implements OnInit {
     Index: 0,
     Filters: {},
     delete: {},
-    Count: 0
+    Count: 0,
   } as ListVars;
 
   Filter = "";
@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.vars.Items = this.router.queryParams.pipe(
-      flatMap(params => {
+      flatMap((params) => {
         this.vars.File = params.item;
         this.vars.Domain = localStorage.getItem("domain");
 
@@ -119,7 +119,7 @@ export class UsersComponent implements OnInit {
     this.vars.Specification["filtres"].map((property: any) => {
       formObject[property.name] = new FormControl({
         value: null,
-        disabled: property.disabled
+        disabled: property.disabled,
       });
       this.vars.FormElements.push(formObject[property.name]);
       this.vars.Filters[property.name] = JSON.stringify(property);
@@ -143,7 +143,7 @@ export class UsersComponent implements OnInit {
       queryParams = JSON.parse(
         JSON.stringify(this.vars.Specification.QueryParams)
       );
-      Object.keys(queryParams).map(key => {
+      Object.keys(queryParams).map((key) => {
         if (queryParams[key] === "undefined") {
           queryParams[key] = item[key];
         }
@@ -153,14 +153,14 @@ export class UsersComponent implements OnInit {
     }
 
     this.route.navigate([this.vars.Specification.Link], {
-      queryParams: queryParams
+      queryParams: queryParams,
     });
   }
 
   refresh() {
     const values = Object.keys(localStorage)
-      .filter(key => key.startsWith(this.vars.File))
-      .map(key => {
+      .filter((key) => key.startsWith(this.vars.File))
+      .map((key) => {
         delete localStorage[key];
       });
 
@@ -174,15 +174,15 @@ export class UsersComponent implements OnInit {
 
   createUser(): void {
     const dialogRef = this.dialog.open(AdditemComponent, {
-      width: "450px",
-      height: "450px",
-      data: null
+      width: "650px",
+      height: "650px",
+      data: null,
     });
 
     dialogRef
       .afterClosed()
       .pipe(
-        flatMap(data => {
+        flatMap((data) => {
           if (data) {
             return this.cognito.createUser(
               data.name,
@@ -198,7 +198,7 @@ export class UsersComponent implements OnInit {
           }
         })
       )
-      .subscribe(result => {
+      .subscribe((result) => {
         this.refresh();
       });
   }
@@ -215,26 +215,26 @@ export class UsersComponent implements OnInit {
     element.validation = "delete";
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "500px",
-      data: element
+      data: element,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === "JE CONFIRME") {
-        this.cognito.deleteUser(element.username).subscribe(data => {
+        this.cognito.deleteUser(element.username).subscribe((data) => {
           this.refresh();
           this.snackBar.open(
             element.email + "a été supprimé avec succès",
             "fermé",
             {
               verticalPosition: "top",
-              horizontalPosition: "right"
+              horizontalPosition: "right",
             }
           );
         });
       } else {
         this.snackBar.open(element.email + " n'a pas été supprimé", "fermé", {
           verticalPosition: "top",
-          horizontalPosition: "right"
+          horizontalPosition: "right",
         });
       }
     });
