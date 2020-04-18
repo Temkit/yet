@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { map, flatMap } from "rxjs/operators";
@@ -11,7 +12,7 @@ import { DeleteService } from "src/app/private/crud/delete.service";
 import { CrudToolsService } from "src/app/private/crud/crud-tools.service";
 import { OneService } from "src/app/private/crud/one.service";
 import { AuthService } from "src/app/private/aws/auth.service";
-import { empty, of } from "rxjs";
+import { empty, of, forkJoin } from "rxjs";
 import { CartService } from "src/app/private/crud/cart.service";
 import { AddCartComponent } from "../../modal/addCart/addCart.component";
 import { ShowDataComponent } from "../../modal/showData/showData.component";
@@ -20,25 +21,25 @@ import { Store, select, State } from "@ngrx/store";
 import {
   addPosition,
   setPositions,
-  setPageSize
+  setPageSize,
 } from "../../../../redux/actions/list.actions";
 
 @Component({
   selector: "app-lists",
   templateUrl: "./lists.component.html",
-  styleUrls: ["./lists.component.css"]
+  styleUrls: ["./lists.component.css"],
 })
 export class ListsComponent implements OnInit, OnDestroy {
   vars = {
     Filters: {},
     FormElements: [],
     Specification: {
-      ScanIndexForward: true
+      ScanIndexForward: true,
     },
     Index: 0,
     delete: {},
     Count: 0,
-    ExclusiveStartKey: null
+    ExclusiveStartKey: null,
   } as ListVars;
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -55,6 +56,7 @@ export class ListsComponent implements OnInit, OnDestroy {
   isSorting = false;
 
   constructor(
+    private HttpClient: HttpClient,
     private router: ActivatedRoute,
     private S3Service: S3Service,
     private route: Router,
@@ -81,6 +83,7 @@ export class ListsComponent implements OnInit, OnDestroy {
   panelOpenState = false;
   dorefresh = true;
   link;
+  search;
 
   togglePanel() {
     this.FilterOpenState = !this.FilterOpenState;
@@ -111,12 +114,12 @@ export class ListsComponent implements OnInit, OnDestroy {
       positions = [null];
     }
 
-    this.store.dispatch(setPositions({ positions: positions }));
+    this.store.dispatch(setPositions({ positions }));
   }
 
   ngOnInit() {
     this.pageload = this.router.queryParams.pipe(
-      map(params => {
+      map((params) => {
         this.FilterOpenState = true;
         this.vars.ExpressionAttributeValues = {};
         this.vars.File = params.item;
@@ -151,7 +154,7 @@ export class ListsComponent implements OnInit, OnDestroy {
 
         this.filter(false, (<any>this.vars.Specification).init);
 
-        return empty();
+        return this.vars.Specification;
       })
     );
   }
@@ -203,14 +206,6 @@ export class ListsComponent implements OnInit, OnDestroy {
 
     let refresh = false;
 
-    Object.keys(event.value).map(key => {
-      if (event.value[key] !== undefined && event.value[key].length === 0) {
-        refresh = true;
-      } else if (event.value[key]) {
-        ExpressionAttributeValues[":" + key] = event.value[key];
-      }
-    });
-
     if (refresh) {
       this.refresh();
     } else {
@@ -218,21 +213,16 @@ export class ListsComponent implements OnInit, OnDestroy {
       this.vars.ExpressionAttributeNames = ExpressionAttributeNames;
       this.vars.ExpressionAttributeValues = ExpressionAttributeValues;
 
-      Object.keys(this.vars.ExpressionAttributeValues).map(key => {
-        if (
-          this.vars.Specification.queryType &&
-          this.vars.Specification.queryType.type === "fromCache" &&
-          key === this.vars.Specification.queryType.dataKey &&
-          this.vars.ExpressionAttributeValues[key] === "undefined"
+      Object.keys(this.vars.ExpressionAttributeValues).map((key) => {
+        if (this.vars.ExpressionAttributeValues[key] === "undefined") {
+          this.vars.ExpressionAttributeValues[key] =
+            event.value[key.substring(1)];
+        } else if (
+          this.vars.ExpressionAttributeValues[key].startsWith("cache|")
         ) {
           this.vars.ExpressionAttributeValues[key] = localStorage.getItem(
-            this.vars.Specification.queryType.cacheKey
+            this.vars.ExpressionAttributeValues[key].replace("cache|", "")
           );
-        } else {
-          if (this.vars.ExpressionAttributeValues[key] === "undefined") {
-            this.vars.ExpressionAttributeValues[key] =
-              event.value[key.substring(1)];
-          }
         }
       });
 
@@ -270,12 +260,13 @@ export class ListsComponent implements OnInit, OnDestroy {
       )
       .pipe(
         map((items: any) => {
+          console.log(items);
           this.vars.ExclusiveStartKey = items.LastEvaluatedKey;
 
           setTimeout(() => (this.vars.Count = items.Count), 0);
 
           const data = [];
-          items.Items.map(i => {
+          items.Items.map((i) => {
             i["imagecache"] = this.ct.id(12);
             data.push(i);
           });
@@ -289,7 +280,7 @@ export class ListsComponent implements OnInit, OnDestroy {
     this.vars.Items = this.__o_
       .one$(this.vars.TableName, key, this.vars.Region)
       .pipe(
-        map(data => {
+        map((data) => {
           data["imagecache"] = new Date().getTime();
           return [data];
         })
@@ -315,7 +306,7 @@ export class ListsComponent implements OnInit, OnDestroy {
       this.route.navigate([link], {
         queryParams: this.vars.Specification.QueryParams
           ? JSON.parse(JSON.stringify(this.vars.Specification.QueryParams))
-          : null
+          : null,
       });
     } else {
       let queryParams;
@@ -325,26 +316,27 @@ export class ListsComponent implements OnInit, OnDestroy {
           JSON.stringify(this.vars.Specification.QueryParams)
         );
 
-        Object.keys(queryParams).map(key => {
+        Object.keys(queryParams).map((key) => {
           if (queryParams[key] === "undefined") {
             queryParams[key] = item[key];
           }
         });
 
         this.route.navigate([this.vars.Specification.Link], {
-          queryParams
+          queryParams,
         });
       }
     }
   }
 
   refresh() {
+    this.search = "";
     this.initialFilterForm = this.filterForm;
     this.filter(false, this.vars.Specification.init);
   }
 
   deleteDialog(element) {
-    Object.keys(this.vars.Specification.Key).map(key => {
+    Object.keys(this.vars.Specification.Key).map((key) => {
       this.vars.Specification.Key[key] = element[key];
     });
 
@@ -407,13 +399,13 @@ export class ListsComponent implements OnInit, OnDestroy {
     element.validation = "delete";
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "500px",
-      data: element
+      data: element,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === "JE CONFIRME") {
         const key = JSON.parse(JSON.stringify(this.vars.Specification.Key));
-        Object.keys(key).map(k => {
+        Object.keys(key).map((k) => {
           if (key[k] === "undefined") {
             key[k] = element[k];
           }
@@ -421,13 +413,13 @@ export class ListsComponent implements OnInit, OnDestroy {
 
         this.__d_
           .delete$(this.vars.TableName, key, this.vars.Region)
-          .subscribe(data => {
+          .subscribe((data) => {
             this.snackBar.open(
               (element.name || element.title) + " suprimé avec succés",
               "fermé",
               {
                 verticalPosition: "top",
-                horizontalPosition: "right"
+                horizontalPosition: "right",
               }
             );
             this.refresh();
@@ -438,7 +430,7 @@ export class ListsComponent implements OnInit, OnDestroy {
           "fermé",
           {
             verticalPosition: "top",
-            horizontalPosition: "right"
+            horizontalPosition: "right",
           }
         );
       }
@@ -450,10 +442,10 @@ export class ListsComponent implements OnInit, OnDestroy {
     element.data = item;
     const adddialogRef = this.dialog.open(AddCartComponent, {
       width: "80vw",
-      data: element
+      data: element,
     });
 
-    adddialogRef.afterClosed().subscribe(result => {
+    adddialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.cartService.add(item, result);
       }
@@ -465,10 +457,10 @@ export class ListsComponent implements OnInit, OnDestroy {
     element.data = item;
     const showDataDialogRef = this.dialog.open(ShowDataComponent, {
       width: "50%",
-      data: element
+      data: element,
     });
 
-    showDataDialogRef.afterClosed().subscribe(result => {
+    showDataDialogRef.afterClosed().subscribe((result) => {
       console.log(result);
     });
   }
@@ -490,11 +482,57 @@ export class ListsComponent implements OnInit, OnDestroy {
     // console.log(data, sorted);
 
     this.load = of(sorted).pipe(
-      map(data => {
+      map((data) => {
         this.isSorting = false;
         return data;
       })
     );
+  }
+
+  dosearch(event) {
+    let headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      "x-api-key": (<any>this.vars.Specification).search.key,
+    });
+
+    if (
+      this.search.length >= (<any>this.vars.Specification).search.startquery
+    ) {
+      this.load = this.HttpClient.get(
+        (<any>this.vars.Specification).search.endpoint + this.search,
+        {
+          headers,
+        }
+      ).pipe(
+        flatMap((data: any) => {
+          let data$ = data.map((item) => {
+            let key = this.vars.Specification.Key;
+            key.index = item;
+
+            console.log(
+              (<any>this.vars.Specification).init.query.TableName,
+              key,
+              (<any>this.vars.Specification).init.query.Region
+            );
+
+            return this.__o_
+              .one$(
+                (<any>this.vars.Specification).init.query.TableName,
+                key,
+                (<any>this.vars.Specification).init.query.Region
+              )
+              .pipe(
+                map((data) => {
+                  console.log(data);
+                  return data;
+                })
+              );
+          });
+
+          return forkJoin(data$);
+        })
+      );
+    }
   }
 }
 

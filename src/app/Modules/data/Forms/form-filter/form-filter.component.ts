@@ -6,7 +6,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
-  SimpleChange
+  SimpleChange,
 } from "@angular/core";
 import { FormVars } from "src/app/private/interfaces/form.vars";
 import { map } from "rxjs/operators";
@@ -15,7 +15,7 @@ import { S3Service } from "./../../../../private/aws/s3.service";
 @Component({
   selector: "app-form-filter",
   templateUrl: "./form-filter.component.html",
-  styleUrls: ["./form-filter.component.css"]
+  styleUrls: ["./form-filter.component.css"],
 })
 export class FormFilterComponent implements OnChanges, OnInit {
   @Input() config;
@@ -43,7 +43,6 @@ export class FormFilterComponent implements OnChanges, OnInit {
     const config: SimpleChange = changes.config;
 
     this.objectConfig = JSON.parse(config.currentValue);
-    console.log(this.objectConfig);
     this.vars.UrlItem = this.objectConfig.config.item;
 
     this.load = this.S3Service.getSpec(
@@ -68,20 +67,20 @@ export class FormFilterComponent implements OnChanges, OnInit {
   }
 
   private initFormUI() {
-    Object.keys(this.vars.Specification.attributes).map(tab => {
+    Object.keys(this.vars.Specification.attributes).map((tab) => {
       this.vars.Properties.push(tab);
-      this.vars.Specification["attributes"][tab].map(property => {
+      this.vars.Specification["attributes"][tab].map((property) => {
         if (Array.isArray(property.name)) {
-          property.name.map(name => {
+          property.name.map((name) => {
             this.formObject[name] = new FormControl({
               value: property.value,
-              disabled: property.disabled
+              disabled: property.disabled,
             });
           });
         } else if (property.name) {
           this.formObject[property.name] = new FormControl({
             value: property.value,
-            disabled: property.disabled
+            disabled: property.disabled,
           });
         }
 

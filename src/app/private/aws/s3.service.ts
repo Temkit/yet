@@ -6,7 +6,7 @@ import { map } from "rxjs/operators";
 import { isPlatformBrowser } from "@angular/common";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class S3Service {
   isBrowser;
@@ -15,7 +15,7 @@ export class S3Service {
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
     this.creds = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: "eu-central-1:31394830-9e7b-40b8-8216-9e9a98eaa277"
+      IdentityPoolId: "eu-central-1:31394830-9e7b-40b8-8216-9e9a98eaa277",
     });
   }
 
@@ -24,12 +24,12 @@ export class S3Service {
       AWS.config.update({
         region,
         credentials: new AWS.CognitoIdentityCredentials({
-          IdentityPoolId
-        })
+          IdentityPoolId,
+        }),
       });
 
-      return Observable.create(Observer => {
-        Auth.currentCredentials().then(credentials => {
+      return Observable.create((Observer) => {
+        Auth.currentCredentials().then((credentials) => {
           const s3 = new AWS.S3({
             apiVersion: "2006-03-01",
             credentials: Auth.essentialCredentials(credentials),
@@ -38,16 +38,16 @@ export class S3Service {
               Key: file.name,
               Body: file,
               ACL: "public-read",
-              Metadata: metadata
-            }
+              Metadata: metadata,
+            },
           });
 
           s3.headObject(
             {
               Bucket: bucketName,
-              Key: file.name
+              Key: file.name,
             },
-            function(err, data) {
+            function (err, data) {
               if (err) {
                 console.log(err, err.stack);
               } else {
@@ -61,24 +61,25 @@ export class S3Service {
   }
 
   getSpec(key) {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       AWS.config.region = "eu-central-1";
 
+      console.log(key);
       this.creds.clearCachedId();
 
       AWS.config.update({
-        credentials: this.creds
+        credentials: this.creds,
       });
 
       let s3 = new AWS.S3({
         apiVersion: "2006-03-01",
-        region: "eu-west-3"
+        region: "eu-west-3",
       });
 
       s3.getObject(
         {
           Bucket: "spec.yet.expert",
-          Key: key
+          Key: key,
         },
         (err, resp) => {
           if (err) {
@@ -126,7 +127,7 @@ export class S3Service {
   get(region, bucketName, prefix) {
     if (this.isBrowser) {
       return from(Auth.currentCredentials()).pipe(
-        map(credentials => {
+        map((credentials) => {
           const s3 = new AWS.S3({
             apiVersion: "2006-03-01",
             region: region,
@@ -134,14 +135,14 @@ export class S3Service {
             params: {
               Bucket: bucketName,
               Prefix: prefix,
-              StartAfter: prefix + "/"
-            }
+              StartAfter: prefix + "/",
+            },
           });
 
-          return new Promise(function(resolve, reject) {
+          return new Promise(function (resolve, reject) {
             s3.listObjectsV2(
               { Bucket: bucketName, Prefix: prefix, StartAfter: prefix + "/" },
-              function(err, resp) {
+              function (err, resp) {
                 if (err) {
                   console.log(err);
                   reject(err);
@@ -159,23 +160,23 @@ export class S3Service {
   delete(region, bucketName, Key) {
     if (this.isBrowser) {
       return from(Auth.currentCredentials()).pipe(
-        map(credentials => {
+        map((credentials) => {
           const s3 = new AWS.S3({
             apiVersion: "2006-03-01",
             region: region,
             credentials: Auth.essentialCredentials(credentials),
             params: {
               Bucket: bucketName,
-              Key: Key
-            }
+              Key: Key,
+            },
           });
 
           s3.deleteObject(
             {
               Bucket: bucketName,
-              Key: Key
+              Key: Key,
             },
-            function(err) {
+            function (err) {
               if (err) {
                 console.log(err, err.stack);
               }
@@ -191,13 +192,13 @@ export class S3Service {
   upload(region, bucketName, file, name, prefix, metadata) {
     if (this.isBrowser) {
       return from(Auth.currentCredentials()).pipe(
-        map(credentials => {
+        map((credentials) => {
           AWS.config.update({
             region: region,
             credentials: credentials,
             httpOptions: {
-              timeout: 0
-            }
+              timeout: 0,
+            },
           });
 
           const part = 10;
@@ -211,8 +212,8 @@ export class S3Service {
               Key: prefix + name,
               Body: file,
               ACL: "public-read",
-              CacheControl: "max-age=31536000"
-            }
+              CacheControl: "max-age=31536000",
+            },
           });
         })
       );

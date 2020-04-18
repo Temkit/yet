@@ -9,7 +9,7 @@ import { isPlatformBrowser } from "@angular/common";
 import { orderBy } from "lodash";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class QueryService {
   isBrowser;
@@ -53,7 +53,7 @@ export class QueryService {
         ExpressionAttributeValues: ExpressionAttributeValues,
         Limit: limit,
         ExclusiveStartKey: lastEvaluatedKey,
-        ScanIndexForward: false
+        ScanIndexForward: false,
       };
 
       if (IndexName) {
@@ -83,16 +83,16 @@ export class QueryService {
       return this.cacheService.get(
         cacheKey,
         from(Auth.currentUserCredentials()).pipe(
-          map(credentials => {
+          map((credentials) => {
             AWS.config.update({
               region: "eu-central-1",
               credentials: credentials,
               apiVersions: {
-                dynamodb: "2012-08-10"
-              }
+                dynamodb: "2012-08-10",
+              },
             });
 
-            Object.keys(params.ExpressionAttributeValues).map(key => {
+            Object.keys(params.ExpressionAttributeValues).map((key) => {
               if (
                 params.ExpressionAttributeValues[key] === "fine-grained-access"
               ) {
@@ -101,7 +101,7 @@ export class QueryService {
             });
 
             const documentClient = new AWS.DynamoDB.DocumentClient({
-              region: region
+              region: region,
             });
 
             if (type === "query") {
@@ -110,7 +110,7 @@ export class QueryService {
               return documentClient.scan(params).promise();
             }
           }),
-          flatMap(data => {
+          flatMap((data) => {
             return data;
           }),
           flatMap((data: any) => {
@@ -131,7 +131,7 @@ export class QueryService {
                 FilterExpression,
                 ExpressionAttributeNames,
                 ExpressionAttributeValues
-              )
+              ),
             ]);
           }),
           map((data: any) => {
@@ -154,23 +154,23 @@ export class QueryService {
   ) {
     if (this.isBrowser) {
       return from(Auth.currentCredentials()).pipe(
-        map(credentials => {
+        map((credentials) => {
           AWS.config.update({
             region: "eu-central-1",
             credentials: credentials,
             apiVersions: {
-              dynamodb: "2012-08-10"
-            }
+              dynamodb: "2012-08-10",
+            },
           });
 
-          Object.keys(ExpressionAttributeValues).map(key => {
+          Object.keys(ExpressionAttributeValues).map((key) => {
             if (ExpressionAttributeValues[key] === "fine-grained-access") {
               ExpressionAttributeValues[key] = credentials.identityId;
             }
           });
 
           const documentClient = new AWS.DynamoDB.DocumentClient({
-            region: region
+            region: region,
           });
           const params = {
             TableName: TableName,
@@ -179,7 +179,7 @@ export class QueryService {
             ExpressionAttributeNames: ExpressionAttributeNames,
             ExpressionAttributeValues: ExpressionAttributeValues,
             Select: "COUNT",
-            Limit: null
+            Limit: null,
           };
 
           if (IndexName) {
@@ -188,7 +188,7 @@ export class QueryService {
 
           return documentClient.query(params).promise();
         }),
-        flatMap(data => {
+        flatMap((data) => {
           return data;
         })
       );

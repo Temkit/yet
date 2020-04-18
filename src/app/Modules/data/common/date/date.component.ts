@@ -19,7 +19,6 @@ export class DateComponent {
   update(event) {
     const obj = {};
     obj[this.objectConfig.name] = new Date(event.value).valueOf();
-    console.log(obj);
     this.patch.emit(obj);
   }
 
@@ -36,7 +35,6 @@ export class DateComponent {
   @Input()
   set value(val) {
     if (val) {
-      console.log(typeof parseInt(val));
       // tslint:disable-next-line:radix
       this.valueToDisplay.setValue(new Date(parseInt(val)));
     }

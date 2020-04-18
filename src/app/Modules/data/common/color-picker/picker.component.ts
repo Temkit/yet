@@ -15,12 +15,10 @@ export class PickerComponent {
 
   @Input() set value(val) {
     this.color = val.replace(/\"/g, "");
-    console.log(this.color);
   }
   @Output() patch: EventEmitter<object> = new EventEmitter<object>();
 
   emit(color) {
-    console.log(color);
     this.value = color;
     let valueToEmit = {};
     valueToEmit[this.objectConfig.name] = color;

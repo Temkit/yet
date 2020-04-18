@@ -9,7 +9,7 @@ import { S3Service } from "src/app/private/aws/s3.service";
 @Component({
   selector: "app-orderView",
   templateUrl: "./orderView.component.html",
-  styleUrls: ["./orderView.component.css"]
+  styleUrls: ["./orderView.component.css"],
 })
 export class OrderViewComponent implements OnInit {
   domain;
@@ -46,7 +46,7 @@ export class OrderViewComponent implements OnInit {
 
   ngOnInit() {
     this.load = this.route.queryParams.pipe(
-      map(params => {
+      map((params) => {
         this.ref = params.ref;
         this.tiers = params.tiers;
       }),
@@ -62,7 +62,7 @@ export class OrderViewComponent implements OnInit {
       flatMap((data: any) => {
         this.Specification = data;
 
-        Object.keys(this.Specification.owner.Key).map(key => {
+        Object.keys(this.Specification.owner.Key).map((key) => {
           this.Specification.owner.Key[key] = this.getData(
             this.Specification.owner.Key[key]
           );
@@ -76,12 +76,12 @@ export class OrderViewComponent implements OnInit {
         );
       }),
 
-      flatMap(data => {
+      flatMap((data) => {
         this.commande = data;
 
         this.reffacture = data.ref;
         Object.keys(this.Specification.items.ExpressionAttributeValues).map(
-          key => {
+          (key) => {
             this.Specification.items.ExpressionAttributeValues[
               key
             ] = this.getData(
@@ -108,10 +108,8 @@ export class OrderViewComponent implements OnInit {
           false
         );
       }),
-      map(data => {
-        console.log(data);
-
-        data.Items.forEach(item => {
+      map((data) => {
+        data.Items.forEach((item) => {
           this.totaltva =
             this.totaltva +
             (item.prix_vente * item.tva * item.quantite +

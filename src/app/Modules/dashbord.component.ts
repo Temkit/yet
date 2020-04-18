@@ -90,8 +90,6 @@ export class DashbordComponent implements OnInit, OnDestroy {
         ) && this.link !== "undefined"
           ? true
           : false;
-
-      console.log(this.shouldRun);
     }
   }
 

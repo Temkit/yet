@@ -30,7 +30,7 @@ export class CreateService {
           const documentClient = new AWS.DynamoDB.DocumentClient({
             region,
           });
-          console.log(Item);
+
           Object.keys(Item).map((key) => {
             if (typeof Item[key] === "string") {
               Item[key] = Item[key].toLowerCase();

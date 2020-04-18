@@ -1,6 +1,7 @@
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { map } from "rxjs/operators";
+import { map, flatMap } from "rxjs/operators";
 import { FormValueDecoratorService } from "src/app/private/soft/FormValueDecorator.service";
 import { CreateService } from "src/app/private/crud/create.service";
 import { UpdateService } from "src/app/private/crud/update.service";
@@ -9,13 +10,14 @@ import isEmpty from "lodash/isEmpty";
 @Component({
   selector: "app-formView",
   templateUrl: "./formView.component.html",
-  styleUrls: ["./formView.component.css"]
+  styleUrls: ["./formView.component.css"],
 })
 export class FormViewComponent implements OnInit {
   ready;
   object;
 
   constructor(
+    private HttpClient: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
     private fvd: FormValueDecoratorService,
@@ -25,7 +27,7 @@ export class FormViewComponent implements OnInit {
 
   ngOnInit() {
     this.ready = this.route.queryParams.pipe(
-      map(params => {
+      map((params) => {
         this.object = params;
         return JSON.stringify(params);
       })
@@ -40,7 +42,33 @@ export class FormViewComponent implements OnInit {
           event.vars.Form.getRawValue(),
           event.vars.Specification.Region
         )
-        .subscribe(data => {
+        .pipe(
+          flatMap((data) => {
+            console.log(data);
+            let headers = new HttpHeaders({
+              "Content-Type": "application/json",
+              "x-api-key": (<any>event.vars.Specification).index.key,
+            });
+
+            let Body = {} as any;
+
+            Body.lang = (<any>event.vars.Specification).index.lang;
+            Body.id = event.vars.Form.getRawValue()[
+              (<any>event.vars.Specification).index.id
+            ];
+            Body.text = "";
+            (<any>event.vars.Specification).index.attr.forEach((at) => {
+              Body.text = Body.text + " " + event.vars.Form.getRawValue()[at];
+            });
+
+            return this.HttpClient.post(
+              (<any>event.vars.Specification).index.endpoint,
+              Body,
+              { headers }
+            );
+          })
+        )
+        .subscribe((data) => {
           this.navigate(event.vars.UrlItem);
         });
     } else {
@@ -63,7 +91,26 @@ export class FormViewComponent implements OnInit {
             ),
             event.vars.Specification.Region
           )
-          .subscribe(data => {
+          .pipe(
+            map((data) => {
+              let headers = new HttpHeaders({
+                "Content-Type": "application/json",
+                "x-api-key": (<any>event.vars.Specification).index.key,
+              });
+
+              let Body = {} as any;
+
+              Body.lang = (<any>event.vars.Specification).index.lang;
+              Body.id = event.vars.Form.getRawValue()[
+                (<any>event.vars.Specification).index.id
+              ];
+              Body.text = "";
+              (<any>event.vars.Specification).index.attr.forEach((at) => {
+                Body.text = Body.text + " " + event.vars.Form.getRawValue()[at];
+              });
+            })
+          )
+          .subscribe((data) => {
             this.navigate(event.vars.UrlItem);
           });
       } else {
@@ -76,14 +123,14 @@ export class FormViewComponent implements OnInit {
     if (to !== "config") {
       this.router.navigate(["/yet/data/list"], {
         queryParams: {
-          item: to
-        }
+          item: to,
+        },
       });
     } else {
       this.router.navigate(["/yet/data/form"], {
         queryParams: {
-          item: to
-        }
+          item: to,
+        },
       });
     }
   }
