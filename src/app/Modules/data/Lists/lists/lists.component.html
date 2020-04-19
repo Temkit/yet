@@ -66,7 +66,10 @@
     </div>
   </div>
   <div class="row">
-    <div *ngIf="vars.Specification.search" class="col-lg-12 pl-0">
+    <div
+      *ngIf="vars.Specification.search && FilterOpenState"
+      class="col-lg-12 pl-0"
+    >
       <div class="form-group mb-0 w-100">
         <mat-form-field class="w-100">
           <input
@@ -86,7 +89,7 @@
             aria-label="Clear"
             (click)="search = ''"
           >
-            <mat-icon>close</mat-icon>
+            <mat-icon (click)="refresh()">close</mat-icon>
           </button>
           <mat-hint
             >Vous pouvez lancer une recherche sur n'importe quel élément de la
@@ -199,7 +202,7 @@
         ></tr>
       </table>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-12" *ngIf="!search">
       <mat-paginator
         class="pagebottom"
         [length]="vars.Count"

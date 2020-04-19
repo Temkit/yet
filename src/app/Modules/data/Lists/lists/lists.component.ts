@@ -490,6 +490,7 @@ export class ListsComponent implements OnInit, OnDestroy {
   }
 
   dosearch(event) {
+    console.log(this.search, event);
     let headers = new HttpHeaders({
       "Content-Type": "application/json",
       "x-api-key": (<any>this.vars.Specification).search.key,
@@ -506,8 +507,13 @@ export class ListsComponent implements OnInit, OnDestroy {
       ).pipe(
         flatMap((data: any) => {
           let data$ = data.map((item) => {
-            let key = this.vars.Specification.Key;
-            key.index = item;
+            let key = { ...this.vars.Specification.Key };
+
+            Object.keys(key).forEach((k) => {
+              if (key[k] === "undefined") {
+                key[k] = item;
+              }
+            });
 
             console.log(
               (<any>this.vars.Specification).init.query.TableName,
