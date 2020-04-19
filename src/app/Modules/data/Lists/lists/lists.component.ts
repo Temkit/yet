@@ -46,8 +46,7 @@ export class ListsComponent implements OnInit, OnDestroy {
   name;
 
   init;
-  initialFilterForm = null;
-  filterForm = null;
+
   pageload = null;
   load = null;
   sortedData;
@@ -141,16 +140,6 @@ export class ListsComponent implements OnInit, OnDestroy {
 
         this.vars.addLabel = (<any>this.vars.Specification).addLabel;
         this.vars.addType = (<any>this.vars.Specification).addType;
-
-        if (
-          this.vars.Specification.filtres &&
-          Object.keys((<any>this.vars.Specification).filtres).length > 0
-        ) {
-          this.initialFilterForm = (<any>this.vars.Specification).filters;
-          this.filterForm = (<any>this.vars.Specification).filtres;
-        } else {
-          this.filterForm = null;
-        }
 
         this.filter(false, (<any>this.vars.Specification).init);
 
@@ -331,7 +320,6 @@ export class ListsComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.search = "";
-    this.initialFilterForm = this.filterForm;
     this.filter(false, this.vars.Specification.init);
   }
 
