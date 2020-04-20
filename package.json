@@ -66,7 +66,7 @@
     "mapbox-gl": "^1.9.1",
     "moment": "^2.24.0",
     "ngx-color-picker": "^9.1.0",
-    "ngx-daterangepicker-material": "^2.3.0",
+    "ngx-daterangepicker-material": "^3.0.1",
     "ngx-mapbox-gl": "^4.5.0",
     "pdfmake": "^0.1.65",
     "process": "^0.11.10",

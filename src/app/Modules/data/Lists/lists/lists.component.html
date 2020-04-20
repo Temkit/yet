@@ -107,6 +107,11 @@
       <div *ngIf="isSorting" class="overlay">
         <mat-spinner diameter="12"></mat-spinner>
       </div>
+
+      <div *ngIf="data.length === 0" class="overlay">
+        <h2>Aucun Element retrouvé</h2>
+      </div>
+
       <table
         mat-table
         [dataSource]="data"

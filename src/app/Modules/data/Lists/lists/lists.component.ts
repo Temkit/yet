@@ -503,12 +503,6 @@ export class ListsComponent implements OnInit, OnDestroy {
               }
             });
 
-            console.log(
-              (<any>this.vars.Specification).init.query.TableName,
-              key,
-              (<any>this.vars.Specification).init.query.Region
-            );
-
             return this.__o_
               .one$(
                 (<any>this.vars.Specification).init.query.TableName,
@@ -517,7 +511,6 @@ export class ListsComponent implements OnInit, OnDestroy {
               )
               .pipe(
                 map((data) => {
-                  console.log(data);
                   return data;
                 })
               );
