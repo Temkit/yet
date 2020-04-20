@@ -16,11 +16,12 @@ export class OrderViewComponent implements OnInit {
   link;
 
   load;
-  tiers;
+  eav;
   commande;
-  ref;
+  key;
+  params;
   reffacture;
-
+  owner;
   Specification;
 
   customer;
@@ -47,8 +48,7 @@ export class OrderViewComponent implements OnInit {
   ngOnInit() {
     this.load = this.route.queryParams.pipe(
       map((params) => {
-        this.ref = params.ref;
-        this.tiers = params.tiers;
+        this.params = { ...params };
       }),
       flatMap(() => {
         return this.S3Service.getSpec(
@@ -62,34 +62,34 @@ export class OrderViewComponent implements OnInit {
       flatMap((data: any) => {
         this.Specification = data;
 
-        Object.keys(this.Specification.owner.Key).map((key) => {
-          this.Specification.owner.Key[key] = this.getData(
-            this.Specification.owner.Key[key]
-          );
-        });
+        this.eav = {
+          ...this.Specification.items.ExpressionAttributeValues,
+        };
 
+        this.eav[this.Specification.eavParams] = this.params[
+          this.Specification.urlParams
+        ];
+
+        return this.authService.getCurrentUser();
+      }),
+      flatMap((data) => {
+        this.owner = data.attributes;
+        let key = { ...this.Specification.key };
+
+        Object.keys(key).forEach((k) => {
+          if (key[k] === "undefined") {
+            key[k] = this.params[this.Specification.urlParams];
+          }
+        });
         return this.__o_.one$(
-          this.Specification.owner.TableName,
-          this.Specification.owner.Key,
-          this.Specification.owner.Region,
-          this.Specification.owner.AttributesToGet
+          this.Specification.items.TableName,
+          key,
+          this.Specification.items.Region
         );
       }),
-
       flatMap((data) => {
+        console.log(data);
         this.commande = data;
-
-        this.reffacture = data.ref;
-        Object.keys(this.Specification.items.ExpressionAttributeValues).map(
-          (key) => {
-            this.Specification.items.ExpressionAttributeValues[
-              key
-            ] = this.getData(
-              this.Specification.items.ExpressionAttributeValues[key]
-            );
-          }
-        );
-
         return this.__q_.query$(
           "query",
           this.Specification.items.TableName,
@@ -99,7 +99,7 @@ export class OrderViewComponent implements OnInit {
           this.Specification.items.FilterExpression,
           this.Specification.items.ExpressionAttributeNames,
           this.Specification.items.ExpressionAttributeNames_Additional,
-          this.Specification.items.ExpressionAttributeValues,
+          this.eav,
           this.Specification.items.Limit,
           null,
           true,
@@ -109,6 +109,7 @@ export class OrderViewComponent implements OnInit {
         );
       }),
       map((data) => {
+        console.log(data);
         data.Items.forEach((item) => {
           this.totaltva =
             this.totaltva +
@@ -123,7 +124,7 @@ export class OrderViewComponent implements OnInit {
     );
   }
 
-  getData(attribute) {
+  /*   DaData(attribute) {
     if (typeof attribute === "string" && attribute.includes("undefined")) {
       attribute = attribute.replace("undefined|", "");
 
@@ -150,5 +151,5 @@ export class OrderViewComponent implements OnInit {
     }
 
     return attribute;
-  }
+  } */
 }

@@ -29,7 +29,7 @@ export class AppLoadService {
     // host = "pharmaciens";
     // host = "eyewear-algerie.com";
     // host = "innpactus";
-    // host = "krd";
+    host = "krd";
     // host = "__";
     // host = "felyna";
     // host = "dkeere";

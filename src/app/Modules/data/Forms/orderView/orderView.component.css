@@ -29,7 +29,3 @@
     #33333330 20px
   );
 }
-
-.height {
-  height: calc(100vh - 154px);
-}

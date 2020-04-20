@@ -7,7 +7,7 @@ import { S3Service } from "./../../private/aws/s3.service";
 import { map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class CartService {
   cart;
@@ -52,7 +52,8 @@ export class CartService {
     let added = false;
 
     if (this.cart.length > 0) {
-      this.cart.map(tmp => {
+      this.cart.map((tmp) => {
+        console.log(item, tmp);
         if (tmp.ref === item.ref) {
           let confirm_add = confirm(
             `Vous avez déja commander ${tmp.number} Unités du produit \n ${tmp.name} \n\n vous confirmer voulloir ajouter ${result}`
@@ -84,7 +85,7 @@ export class CartService {
         number: parseInt(result),
         price: item.prix_vente,
         ref: item.ref,
-        tva: item.tva
+        tva: item.tva,
       });
 
       this.total_ht = this.total_ht + item.prix_vente * parseInt(result);
@@ -101,7 +102,7 @@ export class CartService {
 
   edit(item, result) {
     if (this.cart.length > 0) {
-      this.cart.map(tmp => {
+      this.cart.map((tmp) => {
         if (tmp.ref === item.ref) {
           this.total_ht = this.total_ht - tmp.price * parseInt(tmp.number);
           this.total_ttc =
@@ -124,7 +125,7 @@ export class CartService {
   }
 
   delete(item) {
-    this.cart = remove(this.cart, function(n: any) {
+    this.cart = remove(this.cart, function (n: any) {
       return n.ref !== item.ref;
     });
 
@@ -139,7 +140,7 @@ export class CartService {
   }
 
   compile() {
-    this.cart.map(tmp => {
+    this.cart.map((tmp) => {
       this.total_ht = this.total_ht + tmp.price * parseInt(tmp.number);
       this.total_ttc =
         this.total_ttc +
@@ -150,7 +151,7 @@ export class CartService {
 
   commande() {
     let cart = JSON.parse(JSON.stringify(this.cart));
-    cart.map(product => {
+    cart.map((product) => {
       let ref = product.ref;
       let keys = ref.toString().split("-");
 
@@ -172,7 +173,7 @@ export class CartService {
     commande["total"] = this.total_ht;
     commande["dcf-status"] = "CONFIRMED";
 
-    Object.keys(this.specification.attr).map(key => {
+    Object.keys(this.specification.attr).map((key) => {
       commande[key] = this.specification.key[key];
     });
 
