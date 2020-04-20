@@ -22,7 +22,7 @@ export class AppLoadService {
     // host = "titanmedia";
     // host = "gest";
     // host = "oxygen";
-    host = "savitem";
+    // host = "savitem";
     // host = "all-sticker.com";
     // host = "ritajmall";
     // host = "beb";

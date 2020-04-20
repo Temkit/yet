@@ -8,7 +8,7 @@ import {
   ElementRef,
   ViewEncapsulation,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
 } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 
@@ -18,7 +18,7 @@ declare let mapboxgl;
   selector: "app-polygone",
   templateUrl: "./polygone.component.html",
   styleUrls: ["./polygone.component.css"],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class PolygoneComponent implements AfterViewInit {
   @Input() set config(value) {
@@ -35,7 +35,7 @@ export class PolygoneComponent implements AfterViewInit {
         [0, 0],
         [0, 0],
         [0, 0],
-        [0, 0]
+        [0, 0],
       ];
     }
   }
@@ -48,7 +48,7 @@ export class PolygoneComponent implements AfterViewInit {
     [0, 0],
     [0, 0],
     [0, 0],
-    [0, 0]
+    [0, 0],
   ];
 
   objectConfig;
@@ -72,18 +72,18 @@ export class PolygoneComponent implements AfterViewInit {
         style: "mapbox://styles/mapbox/streets-v11",
         center: [2.913757, 36.762012],
         zoom: 4,
-        attributionControl: false
+        attributionControl: false,
       });
 
       const locator = new mapboxgl.GeolocateControl({
         positionOptions: {
-          enableHighAccuracy: true
+          enableHighAccuracy: true,
         },
         trackUserLocation: true,
-        showUserLocation: false
+        showUserLocation: false,
       });
 
-      scope.themap.on("load", function() {
+      scope.themap.on("load", function () {
         scope.themap.addControl(locator, "top-right");
 
         scope.themap.addControl(new mapboxgl.NavigationControl());
@@ -97,30 +97,30 @@ export class PolygoneComponent implements AfterViewInit {
                 type: "Feature",
                 geometry: {
                   type: "Polygon",
-                  coordinates: [scope.points]
-                }
-              }
+                  coordinates: [scope.points],
+                },
+              },
             },
             layout: {},
             paint: {
               "fill-color": "#ff00bc",
-              "fill-opacity": 0.4
-            }
+              "fill-opacity": 0.4,
+            },
           });
         } else {
           scope.marker = new mapboxgl.Marker({
-            draggable: false
+            draggable: false,
           })
             .setLngLat(
               scope.points[0] ? scope.points[0] : [2.8580294, 36.6958466]
             )
             .addTo(scope.themap);
 
-          scope.marker.on("dragend", function() {
+          scope.marker.on("dragend", function () {
             const lngLat = scope.marker.getLngLat();
           });
 
-          locator.on("geolocate", function(ev) {
+          locator.on("geolocate", function (ev) {
             scope.marker.setLngLat([ev.coords.longitude, ev.coords.latitude]);
           });
         }

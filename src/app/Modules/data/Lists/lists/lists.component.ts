@@ -478,7 +478,6 @@ export class ListsComponent implements OnInit, OnDestroy {
   }
 
   dosearch(event) {
-    console.log(this.search, event);
     let headers = new HttpHeaders({
       "Content-Type": "application/json",
       "x-api-key": (<any>this.vars.Specification).search.key,
@@ -516,7 +515,15 @@ export class ListsComponent implements OnInit, OnDestroy {
               );
           });
 
-          return forkJoin(data$);
+          if (data.length > 0) {
+            return forkJoin(data$);
+          }
+
+          return of([]);
+        }),
+        map((data) => {
+          console.log(data);
+          return data;
         })
       );
     }

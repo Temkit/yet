@@ -91,10 +91,19 @@
           >
             <mat-icon (click)="refresh()">close</mat-icon>
           </button>
-          <mat-hint
-            >Vous pouvez lancer une recherche sur n'importe quel élément de la
-            base de donnée</mat-hint
-          >
+          <mat-hint>
+            <p
+              style="color: #ef6b00;"
+              *ngIf="(load | async)?.length == 0; else searchHint"
+            >
+              Aucun élement trouvé pour le mot clé <strong>{{ search }}</strong>
+            </p>
+
+            <ng-template #searchHint
+              >Vous pouvez lancer une recherche sur n'importe quel élément de la
+              base de donnée
+            </ng-template>
+          </mat-hint>
         </mat-form-field>
       </div>
     </div>
@@ -106,10 +115,6 @@
     >
       <div *ngIf="isSorting" class="overlay">
         <mat-spinner diameter="12"></mat-spinner>
-      </div>
-
-      <div *ngIf="data.length === 0" class="overlay">
-        <h2>Aucun Element retrouvé</h2>
       </div>
 
       <table
@@ -237,6 +242,7 @@
     </div>
   </div>
 </div>
+
 <ng-template #spinner>
   <div class="spinner">
     <div class="lds-ellipsis">
