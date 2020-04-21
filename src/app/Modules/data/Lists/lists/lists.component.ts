@@ -203,11 +203,15 @@ export class ListsComponent implements OnInit, OnDestroy {
       this.vars.ExpressionAttributeValues = ExpressionAttributeValues;
 
       Object.keys(this.vars.ExpressionAttributeValues).map((key) => {
+        console.log(this.vars.ExpressionAttributeValues, key);
         if (this.vars.ExpressionAttributeValues[key] === "undefined") {
           this.vars.ExpressionAttributeValues[key] =
             event.value[key.substring(1)];
         } else if (
-          this.vars.ExpressionAttributeValues[key].startsWith("cache|")
+          this.vars.ExpressionAttributeValues[key] &&
+          this.vars.ExpressionAttributeValues[key]
+            .toString()
+            .startsWith("cache|")
         ) {
           this.vars.ExpressionAttributeValues[key] = localStorage.getItem(
             this.vars.ExpressionAttributeValues[key].replace("cache|", "")

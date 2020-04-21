@@ -93,21 +93,30 @@ export class FormViewComponent implements OnInit {
           )
           .pipe(
             map((data) => {
-              let headers = new HttpHeaders({
-                "Content-Type": "application/json",
-                "x-api-key": (<any>event.vars.Specification).index.key,
-              });
+              if ((<any>event.vars.Specification).index) {
+                let headers = new HttpHeaders({
+                  "Content-Type": "application/json",
+                  "x-api-key": (<any>event.vars.Specification).index.key,
+                });
 
-              let Body = {} as any;
+                let Body = {} as any;
 
-              Body.lang = (<any>event.vars.Specification).index.lang;
-              Body.id = event.vars.Form.getRawValue()[
-                (<any>event.vars.Specification).index.id
-              ];
-              Body.text = "";
-              (<any>event.vars.Specification).index.attr.forEach((at) => {
-                Body.text = Body.text + " " + event.vars.Form.getRawValue()[at];
-              });
+                Body.lang = (<any>event.vars.Specification).index.lang;
+                Body.id = event.vars.Form.getRawValue()[
+                  (<any>event.vars.Specification).index.id
+                ];
+                Body.text = "";
+                (<any>event.vars.Specification).index.attr.forEach((at) => {
+                  Body.text =
+                    Body.text + " " + event.vars.Form.getRawValue()[at];
+                });
+
+                return this.HttpClient.post(
+                  (<any>event.vars.Specification).index.endpoint,
+                  Body,
+                  { headers }
+                );
+              }
             })
           )
           .subscribe((data) => {

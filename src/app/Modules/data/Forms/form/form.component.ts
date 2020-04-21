@@ -95,6 +95,7 @@ export class FormComponent implements OnInit {
               this.vars.Form.getRawValue()
             );
           } else {
+            console.log(this.vars.Form.value);
             this.patch.emit(this.vars.Form.value);
           }
         });
