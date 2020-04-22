@@ -21,7 +21,6 @@ import { AutocompleteModule } from "../../common/autocomplete/autocomplete.modul
 import { DialogModule } from "../../common/dialog/dialog.module";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { SelectModule } from "../../common/select/select.module";
-import { FormFilterModule } from "../../Forms/form-filter/form-filter.module";
 import { AddCartModule } from "../../modal/addCart/addCart.module";
 import { MatSortModule } from "@angular/material/sort";
 import { ShowDataModule } from "../../modal/showData/showData.module";
@@ -34,7 +33,7 @@ const routes: Routes = [{ path: "", component: ListsComponent }];
   imports: [
     StoreModule.forRoot({ position: positionsReducer }),
     MatButtonModule,
-    FormFilterModule,
+
     AddCartModule,
     ShowDataModule,
     MatPaginatorModule,
@@ -58,9 +57,9 @@ const routes: Routes = [{ path: "", component: ListsComponent }];
     DialogModule,
     MatSnackBarModule,
     AutocompleteModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
   exports: [MatSortModule],
-  declarations: [ListsComponent]
+  declarations: [ListsComponent],
 })
 export class ListsModule {}

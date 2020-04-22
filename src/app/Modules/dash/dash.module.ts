@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { DashComponent } from "./dash.component";
 import { Routes, RouterModule } from "@angular/router";
 import { GlobalModule } from "../data/common/global/global.module";
-
+import { NgxEchartsModule } from "ngx-echarts";
 const routes: Routes = [{ path: "", component: DashComponent }];
 
 @NgModule({
@@ -12,8 +12,9 @@ const routes: Routes = [{ path: "", component: DashComponent }];
     CommonModule,
     GlobalModule,
     MatProgressSpinnerModule,
-    RouterModule.forChild(routes)
+    NgxEchartsModule,
+    RouterModule.forChild(routes),
   ],
-  declarations: [DashComponent]
+  declarations: [DashComponent],
 })
 export class DashModule {}

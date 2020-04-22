@@ -10,7 +10,7 @@ import { forkJoin, of } from "rxjs";
 @Component({
   selector: "app-dash",
   templateUrl: "./dash.component.html",
-  styleUrls: ["./dash.component.css"]
+  styleUrls: ["./dash.component.css"],
 })
 export class DashComponent implements OnInit {
   dashs;
@@ -18,6 +18,7 @@ export class DashComponent implements OnInit {
   datastudio;
   user;
   spec;
+  charts;
 
   constructor(
     private S3Service: S3Service,
@@ -31,10 +32,10 @@ export class DashComponent implements OnInit {
     this.domain = localStorage.getItem("domain");
 
     this.dashs = this.route.queryParams.pipe(
-      map(params => {
+      map((params) => {
         return params.item;
       }),
-      flatMap(data => {
+      flatMap((data) => {
         return this.S3Service.getSpec(this.domain + "/" + data + ".json").pipe(
           map((spec: any) => {
             return JSON.parse(spec.Body.toString());
@@ -53,74 +54,67 @@ export class DashComponent implements OnInit {
             )
           );
         } else {
-          this.datastudio = false;
+          if (spec.finnance) {
+            this.datastudio = false;
 
-          let info$ = {};
+            this.user = this.authService.userAttributes["name"];
 
-          spec.info.forEach(info => {
-            Object.keys(info.query.ExpressionAttributeValues).map(key => {
-              info.query.ExpressionAttributeValues[key] = this.getData(
-                info.query.ExpressionAttributeValues[key]
-              );
-            });
-
-            let TableName = info.query.TableName;
-            let IndexName = info.query.IndexName;
-            let ProjectionExpression = info.query.ProjectionExpression;
-            let FilterExpression = info.query.FilterExpression;
-            let Region = info.query.Region;
-            let KeyConditionExpression = info.query.KeyConditionExpression;
-            let ExpressionAttributeValues =
-              info.query.ExpressionAttributeValues;
-            let ExpressionAttributeNames = info.query.ExpressionAttributeNames;
-
-            info$[info.name] = this.__q_
+            let finnance = this.__q_
               .query$(
-                "query",
-                TableName,
-                IndexName,
-                KeyConditionExpression,
-                ProjectionExpression,
-                FilterExpression,
-                ExpressionAttributeNames,
-                {},
-                ExpressionAttributeValues,
+                spec.finnance.query.type,
+                spec.finnance.query.TableName,
+                spec.finnance.query.IndexName,
+                spec.finnance.query.KeyConditionExpression,
+                spec.finnance.query.ProjectionExpression,
+                spec.finnance.query.FilterExpression,
+                spec.finnance.query.ExpressionAttributeNames,
+                spec.finnance.query.ExpressionAttributeNames_Additional,
+                spec.finnance.query.ExpressionAttributeValues,
+                spec.finnance.query.Limit,
                 null,
-                null,
-                true,
-                Region,
+                false,
+                spec.finnance.query.Region,
                 null,
                 false
               )
               .pipe(
-                map(data => {
-                  switch (info.op) {
-                    case "SUM":
-                      let sum = 0;
-                      data.Items.map(
-                        item => (sum = sum + parseFloat(item[info.column]))
-                      );
-                      let item = {
-                        color: info.color,
-                        link: info.link,
-                        value: sum.toLocaleString("us-US", {
-                          style: "currency",
-                          currency: "DZD"
-                        })
-                      };
-
-                      return item;
-                    default:
-                      1 === 1;
-                  }
+                map((data) => {
+                  return data.Items;
                 })
               );
+
+            return forkJoin({ finnance });
+          }
+        }
+      }),
+      map((data) => {
+        if (this.spec.options) {
+          this.charts = { ...this.spec.options };
+
+          (<any>data).finnance.forEach((item) => {
+            this.charts.xAxis[0].data.push(item.time);
           });
 
-          this.user = this.authService.userAttributes["name"];
+          this.charts.xAxis[0].data = this.charts.xAxis[0].data.reverse();
+          this.charts.series.map((serie) => {
+            (<any>data).finnance.forEach((item) => {
+              console.log(item);
+              if (serie.name === "Total vente") {
+                serie.data.push(item.day[2]);
+              } else if (serie.name === "Reste à payer") {
+                serie.data.push(item.day[1]);
+              } else if (serie.name === "Réglement") {
+                serie.data.push(item.day[0]);
+              }
+            });
 
-          return forkJoin(info$);
+            serie.data = serie.data.reverse();
+            return serie;
+          });
         }
+
+        console.log(this.charts);
+        return data;
       })
     );
   }

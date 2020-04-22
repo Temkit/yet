@@ -3,38 +3,7 @@
     <div class="col-lg-12">Bienvenue {{ user }} dans votre tableau de bord</div>
   </div>
   <div class="row mt-4" *ngIf="dashs | async as dashs; else wait">
-    <div class="col-lg-6">
-      <div class="row">
-        <div
-          class="col-lg-4 mt-lg-0 mt-3"
-          *ngFor="let info of dashs | keyvalue"
-        >
-          <div
-            class="label"
-            [ngStyle]="{
-              'border-color': info.value.color,
-              position: 'relative'
-            }"
-          >
-            <span class="title">{{ info.key }}</span>
-            <span class="value">{{ info.value.value }}</span>
-            <a
-              *ngIf="info.value.link"
-              class="detail"
-              href="/#{{ info.value.link }}"
-            >
-              details
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-6 mt-lg-0 mt-3">
-      <div class="row">
-        <div class="col-lg-12">
-          Actions
-        </div>
-      </div>
+    <div class="col-lg-12">
       <div class="row">
         <div class="col-lg-12 d-flex flex-wrap">
           <a
@@ -46,12 +15,99 @@
           >
         </div>
       </div>
+      <div class="row mt-4">
+        <div
+          *ngIf="dashs.finnance && dashs.finnance[0]"
+          class="col-lg-4 d-flex flex-column"
+        >
+          <h5>Journée du {{ dashs.finnance[0].time }}</h5>
+          <div
+            class="label d-flex flex-row mr-3 justify-content-between"
+            [ngStyle]="{
+              position: 'relative'
+            }"
+            *ngFor="let info of dashs.finnance[0].day; let i = index"
+          >
+            <span class="title" *ngIf="i === 0">Réglement</span
+            ><span class="title" *ngIf="i === 1">Reste à payer</span
+            ><span class="title" *ngIf="i === 2">Total vente</span>
+            <span class="value">{{ info | number: 0 }}</span>
+          </div>
+        </div>
+        <div
+          *ngIf="dashs.finnance && dashs.finnance[0]"
+          class="col-lg-4 d-flex flex-column"
+        >
+          <h5>Mois du {{ dashs.finnance[0].time.substring(3) }}</h5>
+          <div
+            class="label d-flex flex-row mr-3 justify-content-between"
+            [ngStyle]="{
+              position: 'relative'
+            }"
+            *ngFor="let info of dashs.finnance[0].month; let i = index"
+          >
+            <span class="title" *ngIf="i === 0">Réglement</span
+            ><span class="title" *ngIf="i === 1">Reste à payer</span
+            ><span class="title" *ngIf="i === 2">Total vente</span>
+            <span class="value">{{ info | number: 0 }}</span>
+          </div>
+        </div>
+        <div
+          *ngIf="dashs.finnance && dashs.finnance[0]"
+          class="col-lg-4 d-flex flex-column"
+        >
+          <h5>Année {{ dashs.finnance[0].time.substring(5) }}</h5>
+          <div
+            class="label d-flex flex-row mr-3 justify-content-between"
+            [ngStyle]="{
+              position: 'relative'
+            }"
+            *ngFor="let info of dashs.finnance[0].year; let i = index"
+          >
+            <span class="title" *ngIf="i === 0">Réglement</span
+            ><span class="title" *ngIf="i === 1">Reste à payer</span
+            ><span class="title" *ngIf="i === 2">Total vente</span>
+            <span class="value">{{ info | number: 0 }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4" *ngIf="dashs.finnance && dashs.finnance[0]">
+        <div class="col-lg-5">
+          <div
+            class="d-flex flex-row justify-content-between"
+            style="border-bottom: solid 1px #37474f;"
+          >
+            <strong>Date</strong>
+            <strong>Réglement</strong>
+            <strong>Reste à payer</strong>
+            <strong>Totla vente</strong>
+          </div>
+          <div
+            class="d-flex flex-row justify-content-between"
+            *ngFor="let info of dashs.finnance; let i = index"
+            style="border-bottom: solid 1px #37474f;"
+          >
+            <strong>{{ info.time }}</strong>
+            <span>{{ info.day[0] | number: 0 }}</span>
+            <span>{{ info.day[1] | number: 0 }}</span>
+            <span>{{ info.day[2] | number: 0 }}</span>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div
+            echarts
+            [options]="charts"
+            theme="macarons"
+            class="demo-chart"
+          ></div>
+        </div>
+      </div>
     </div>
   </div>
-  <ng-template #wait>
-    <mat-spinner diameter="50" class="m-5"></mat-spinner>
-  </ng-template>
 </div>
+<ng-template #wait>
+  <mat-spinner diameter="50" class="m-5"></mat-spinner>
+</ng-template>
 <div *ngIf="datastudio" class="mt-6 w-100 d-flex">
   <iframe
     *ngIf="dashs | async as dashs"
@@ -59,7 +115,7 @@
     height="800"
     [src]="dashs"
     frameborder="0"
-    style="border:0"
+    style="border: 0;"
     allowfullscreen
   ></iframe>
 </div>
