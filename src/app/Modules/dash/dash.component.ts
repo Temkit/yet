@@ -72,13 +72,14 @@ export class DashComponent implements OnInit {
                 spec.finnance.query.ExpressionAttributeValues,
                 spec.finnance.query.Limit,
                 null,
-                false,
+                true,
                 spec.finnance.query.Region,
                 null,
                 false
               )
               .pipe(
                 map((data) => {
+                  console.log(data);
                   return data.Items;
                 })
               );

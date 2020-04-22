@@ -33,7 +33,6 @@ const routes: Routes = [{ path: "", component: ListsComponent }];
   imports: [
     StoreModule.forRoot({ position: positionsReducer }),
     MatButtonModule,
-
     AddCartModule,
     ShowDataModule,
     MatPaginatorModule,

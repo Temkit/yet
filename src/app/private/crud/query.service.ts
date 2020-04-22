@@ -40,17 +40,36 @@ export class QueryService {
     cached
   ) {
     if (this.isBrowser) {
+      if (ExpressionAttributeValues) {
+        console.log(ExpressionAttributeValues);
+        Object.keys(ExpressionAttributeValues).map((key) => {
+          if (
+            ExpressionAttributeValues[key] &&
+            ExpressionAttributeValues[key].toString().includes("cache|")
+          ) {
+            let eavk = ExpressionAttributeValues[key];
+
+            ExpressionAttributeValues[key] =
+              eavk.replace(/cache\|.*/g, "") +
+              localStorage.getItem(
+                eavk.replace(/.*cache\|/g, "").replace(/\>\>.*/g, "")
+              ) +
+              eavk.replace(/.*\>\>/g, "");
+          }
+        });
+      }
+
       const params = {
-        TableName: TableName,
-        KeyConditionExpression: KeyConditionExpression,
-        ProjectionExpression: ProjectionExpression,
-        FilterExpression: FilterExpression,
+        TableName,
+        KeyConditionExpression,
+        ProjectionExpression,
+        FilterExpression,
         ExpressionAttributeNames: Object.assign(
           {},
           ExpressionAttributeNames,
           ExpressionAttributeNames_Additional
         ),
-        ExpressionAttributeValues: ExpressionAttributeValues,
+        ExpressionAttributeValues,
         Limit: limit,
         ExclusiveStartKey: lastEvaluatedKey,
         ScanIndexForward: false,
@@ -172,12 +191,29 @@ export class QueryService {
           const documentClient = new AWS.DynamoDB.DocumentClient({
             region: region,
           });
+
+          Object.keys(ExpressionAttributeValues).map((key) => {
+            if (
+              ExpressionAttributeValues[key] &&
+              ExpressionAttributeValues[key].toString().includes("cache|")
+            ) {
+              ExpressionAttributeValues[key] =
+                ExpressionAttributeValues[key].replace(/cache\|.*/g, "") +
+                localStorage.getItem(
+                  ExpressionAttributeValues[key]
+                    .replace(/.*cache\|/g, "")
+                    .replace(/\>\>.*/g, "")
+                ) +
+                ExpressionAttributeValues[key].replace(/.*(\>\>)?/g, "");
+            }
+          });
+
           const params = {
-            TableName: TableName,
-            FilterExpression: FilterExpression,
-            KeyConditionExpression: KeyConditionExpression,
-            ExpressionAttributeNames: ExpressionAttributeNames,
-            ExpressionAttributeValues: ExpressionAttributeValues,
+            TableName,
+            FilterExpression,
+            KeyConditionExpression,
+            ExpressionAttributeNames,
+            ExpressionAttributeValues,
             Select: "COUNT",
             Limit: null,
           };
