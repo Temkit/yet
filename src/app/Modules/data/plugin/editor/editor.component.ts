@@ -1,13 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { S3Service } from "src/app/private/aws/s3.service";
 import { AuthService } from "src/app/private/aws/auth.service";
-import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
+import * as ClassicEditor from "./../../../../../assets/ckeditor/ckeditor";
 
 @Component({
   selector: "app-editor",
   templateUrl: "./editor.component.html",
-  styleUrls: ["./editor.component.css"]
+  styleUrls: ["./editor.component.css"],
 })
 export class EditorComponent implements OnInit {
   // tslint:disable-next-line:no-output-on-prefix
@@ -28,7 +27,7 @@ export class EditorComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  emit({ editor }: ChangeEvent) {
+  emit() {
     let obj = {};
     obj[this.objectconfig.name] = this.value ? this.value : "<p></p>";
     this.patch.emit(obj);

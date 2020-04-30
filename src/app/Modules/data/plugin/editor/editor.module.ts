@@ -7,6 +7,6 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 @NgModule({
   imports: [CommonModule, FormsModule, CKEditorModule],
   exports: [EditorComponent],
-  declarations: [EditorComponent]
+  declarations: [EditorComponent],
 })
 export class EditorModule {}
