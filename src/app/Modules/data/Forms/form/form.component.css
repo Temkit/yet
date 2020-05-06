@@ -42,7 +42,7 @@ input[type="date"] {
 ::ng-deep .mat-tab-label-content {
   color: #054a4a;
   font-weight: lighter;
-  font-size: 19px;
+  font-size: 14px;
 }
 
 ::ng-deep .mat-tab-label-content mat-icon {
