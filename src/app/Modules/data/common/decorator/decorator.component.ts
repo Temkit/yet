@@ -3,11 +3,12 @@ import { map } from "rxjs/operators";
 import { of } from "rxjs";
 import { OneService } from "src/app/private/crud/one.service";
 import { CognitoService } from "src/app/private/aws/cognito.service";
+import { CrudService } from "src/app/private/firebase/crud.service";
 
 @Component({
   selector: "app-decorator",
   templateUrl: "./decorator.component.html",
-  styleUrls: ["./decorator.component.css"]
+  styleUrls: ["./decorator.component.css"],
 })
 export class DecoratorComponent implements OnInit {
   element;
@@ -20,11 +21,13 @@ export class DecoratorComponent implements OnInit {
   data;
   now;
   img;
+  @Input() path;
 
   constructor(
     private cognito: CognitoService,
     private __o_: OneService,
-    private el: ElementRef
+    private el: ElementRef,
+    private __g_: CrudService
   ) {}
 
   ngOnInit() {
@@ -43,10 +46,10 @@ export class DecoratorComponent implements OnInit {
         this.data = this.data[this.element.name];
 
         this.valueToDisplayArray = [];
-        this.data.map(item => {
+        this.data.map((item) => {
           let key = JSON.parse(JSON.stringify(this.element.key));
 
-          Object.keys(key).map(k => {
+          Object.keys(key).map((k) => {
             if (key[k] === "undefined") {
               key[k] = item;
             }
@@ -65,7 +68,7 @@ export class DecoratorComponent implements OnInit {
       } else if (this.element.type === "data") {
         const keyTmp = JSON.parse(JSON.stringify(this.element.key));
 
-        Object.keys(keyTmp).map(k => {
+        Object.keys(keyTmp).map((k) => {
           if (keyTmp[k] === "undefined") {
             keyTmp[k] = this.data[this.element[k]];
           }
@@ -79,7 +82,7 @@ export class DecoratorComponent implements OnInit {
             })
           );
       } else if (this.data) {
-        Object.keys(this.element.key).map(key => {
+        Object.keys(this.element.key).map((key) => {
           if (this.element.key[key] === "undefined") {
             this.element.key[key] = this.data[key];
           }
@@ -108,9 +111,9 @@ export class DecoratorComponent implements OnInit {
             map((data: any) => {
               let users = [];
 
-              data.Users.map(item => {
+              data.Users.map((item) => {
                 let user = {};
-                item.Attributes.map(attr => {
+                item.Attributes.map((attr) => {
                   user[attr.Name] = attr.Value;
                 });
 
@@ -125,7 +128,7 @@ export class DecoratorComponent implements OnInit {
         ? of(
             this.data.toLocaleString("us-US", {
               style: "currency",
-              currency: this.element.currency
+              currency: this.element.currency,
             })
           )
         : null;
@@ -141,6 +144,16 @@ export class DecoratorComponent implements OnInit {
         this.element.imageName +
         "?dummy=" +
         this.now;
+    } else if (this.element.type === "fimage") {
+      console.log(this.element);
+      this.__g_
+        .getFileUrl(
+          this.path + "/" + this.element.name + "/" + this.element.imageName
+        )
+        .subscribe((data) => {
+          console.log(data);
+          this.img = data;
+        });
     } else {
       this.valueToDisplay = this.data === 0 ? of("0") : of(this.data);
     }

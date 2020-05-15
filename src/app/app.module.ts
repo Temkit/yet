@@ -11,6 +11,7 @@ import { registerLocaleData } from "@angular/common";
 import { AmplifyService } from "@flowaccount/aws-amplify-angular";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import localeFr from "@angular/common/locales/fr";
+import { AngularFireModule } from "@angular/fire";
 
 import { AppLoadService } from "src/app/private/appLoad.service";
 
@@ -24,22 +25,23 @@ registerLocaleData(localeFr, "fr_FR");
     MatProgressSpinnerModule,
     AppRoutingModule,
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase),
     ServiceWorkerModule.register("ngsw-worker.js", {
-      enabled: environment.production
+      enabled: environment.production,
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
       deps: [AppLoadService],
-      multi: true
+      multi: true,
     },
     { provide: LOCALE_ID, useValue: "fr_FR" },
-    AmplifyService
+    AmplifyService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
 

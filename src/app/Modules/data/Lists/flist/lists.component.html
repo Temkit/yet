@@ -1,0 +1,170 @@
+<div id="bread">
+  <mat-icon class="item" routerLink="/">home</mat-icon>
+  <mat-icon class="item">keyboard_arrow_right</mat-icon>
+  <span class="item" (click)="refresh()">Liste des {{ name }}</span>
+</div>
+<div *ngIf="pageload | async as data" class="container-fluid pl-4 pr-4 mt-list">
+  <div class="row">
+    <div class="col-lg-12 p-0 d-flex align-items-center mb-2 mt-2">
+      <div>
+        <button
+          *ngIf="Specification.search"
+          mat-raised-button
+          color="accent"
+          class="mr-2"
+          (click)="togglePanel()"
+        >
+          <mat-icon>filter_list</mat-icon>
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          class="mr-2"
+          (click)="refresh()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button
+          *ngIf="addLabel"
+          color="warn"
+          class="mr-2"
+          mat-raised-button
+          [routerLink]="[Specification.Link]"
+          [queryParams]="{ item: File }"
+        >
+          <mat-icon>library_add</mat-icon>
+        </button>
+        <button
+          mat-raised-button
+          class="mr-2"
+          color="primary"
+          (click)="openBottomSheet()"
+        >
+          <mat-icon>import_export</mat-icon>
+        </button>
+        <button
+          *ngIf="Specification.customButton"
+          mat-raised-button
+          class="mr-2"
+          color="warn"
+          (click)="
+            goto(
+              null,
+              Specification.customButton.link,
+              Specification.customButton.QueryParams
+            )
+          "
+        >
+          <mat-icon>{{ Specification.customButton.icon }}</mat-icon>
+          <span class="d-lg-inline d-none">{{
+            Specification.customButton.label
+          }}</span>
+        </button>
+      </div>
+
+      <div class="space"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 p-0">
+      <div class="table">
+        <div class="d-flex flex-row justify-content-around th">
+          <span
+            *ngFor="let header of Specification.keys"
+            [style.flex]="header.flex"
+            >{{ header.title }}</span
+          >
+        </div>
+        <div>
+          <div
+            *ngFor="let item of data; let i = index"
+            class="d-flex flex-row justify-content-around align-items-center td datar p-2"
+            [ngStyle]="{
+              'background-color': i % 2 === 0 ? '#fafafa' : '#ffffff'
+            }"
+            (click)="goto(item)"
+          >
+            <!--   <span
+              *ngFor="let key of Specification.keys"
+              [style.flex]="key.flex"
+              >{{ item[key.name] }}</span
+            > -->
+            <div
+              [ngSwitch]="true"
+              *ngFor="let key of Specification.keys"
+              [style.flex]="key.flex"
+            >
+              <div *ngSwitchCase="key.name == 'no'">
+                {{ j }}
+              </div>
+              <div *ngSwitchCase="key.name == 'delete'" class="text-center">
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deleteDialog(element); $event.stopPropagation()"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+
+              <div
+                *ngSwitchCase="key.name == 'commande'"
+                class="d-flex justify-content-center align-items-center"
+              >
+                <button
+                  mat-button
+                  color="warn"
+                  (click)="commande(element); $event.stopPropagation()"
+                >
+                  <mat-icon>shopping_cart</mat-icon>
+                </button>
+              </div>
+
+              <a
+                *ngSwitchCase="key.type == 'file'"
+                href="https://{{ vars.Specification.bucket }}/{{
+                  vars.Specification.filePath
+                }}{{ element._id }}/{{ vars.Specification.fileName }}?dummy={{
+                  element.imagecache
+                }}"
+                download
+              >
+                <mat-icon>photo_album</mat-icon>
+              </a>
+
+              <span *ngSwitchDefault>
+                <app-decorator
+                  config="{{ key | json }}"
+                  path="{{ item.path }}"
+                  value="{{ item[key.name] | json }}"
+                ></app-decorator>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <mat-paginator
+            [length]="count"
+            [pageSize]="limit"
+            [pageIndex]="pageIndex"
+            [pageSizeOptions]="[25, 50, 100]"
+            (page)="handlePage($event)"
+          >
+            >
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #spinner>
+    <div class="spinner">
+      <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <p class="log" *ngIf="File">{{ Specification.name }} chargement</p>
+    </div>
+  </ng-template>
+</div>

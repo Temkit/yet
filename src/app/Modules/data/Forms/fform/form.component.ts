@@ -9,6 +9,8 @@ import {
 } from "src/app/private/interfaces/form.vars";
 import { OneService } from "src/app/private/crud/one.service";
 import { FormValueDecoratorService } from "src/app/private/soft/FormValueDecorator.service";
+import { CrudService } from "src/app/private/firebase/crud.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-form",
@@ -16,98 +18,104 @@ import { FormValueDecoratorService } from "src/app/private/soft/FormValueDecorat
   styleUrls: ["./form.component.css"],
 })
 export class FormComponent implements OnInit {
-  vars = {
-    Properties: [],
-    SameFormAsStart: true,
-    Specification: {} as any,
-    Tabs: {},
-    newForm: true,
-    Item: {},
-    files: {},
-  } as FormVars;
-
+  Properties = [];
+  SameFormAsStart = true;
+  Specification = {} as any;
+  Tabs = {};
+  newForm = true;
+  Item = {};
+  files = {};
+  domain;
   load;
   formObject = {};
   key;
 
   group;
+  UrlItem;
   link;
   queryParams;
+  Title;
+  Subtitle;
+  FormValue;
+  Form;
+  id;
 
   @Output() data: EventEmitter<object> = new EventEmitter<object>();
   @Output() patch: EventEmitter<object> = new EventEmitter<object>();
 
   constructor(
+    private router: ActivatedRoute,
+    private route: Router,
     private __o_: OneService,
     private S3Service: S3Service,
-    private fvd: FormValueDecoratorService
+    private fvd: FormValueDecoratorService,
+    private __g_: CrudService
   ) {
-    this.vars.domain = localStorage.getItem("domain");
+    this.domain = localStorage.getItem("domain");
     this.link = localStorage.getItem("group");
   }
 
   ngOnInit() {
-    this.load = this.S3Service.getSpec(
-      this.vars.domain +
-        "/" +
-        this.link +
-        "/forms/" +
-        this.vars.UrlItem +
-        ".form.json"
-    ).pipe(
+    this.load = this.router.queryParams.pipe(
+      flatMap((params: any) => {
+        this.queryParams = params;
+        this.UrlItem = this.queryParams.item;
+        return this.S3Service.getSpec(
+          this.domain +
+            "/" +
+            this.link +
+            "/forms/" +
+            this.UrlItem +
+            ".form.json"
+        );
+      }),
       map((data: any) => {
         let spec = JSON.parse(data.Body.toString());
         return spec;
       }),
       flatMap((spec: FormSpecification) => {
-        this.vars.Specification = spec;
+        this.Specification = spec;
 
-        this.vars.Title = spec.title;
-        this.vars.Subtitle = spec.subtitle;
-        this.vars.database = spec.Database;
+        this.Title = spec.title;
+        this.Subtitle = spec.subtitle;
+
         this.initFormUI();
 
         if (Object.keys(this.queryParams).length > 1) {
-          this.vars.newForm = false;
-          return this.getItem();
-        } else if (this.vars.UrlItem === "config") {
-          this.queryParams = Object.assign(
-            this.queryParams,
-            this.vars.Specification.Key
-          );
+          this.newForm = false;
           return this.getItem();
         }
 
         return of(null);
       }),
-      flatMap((data) => {
-        return this.initFormValues(data);
+      flatMap((data: any) => {
+        return this.initFormValues(data.data());
       }),
       map((data) => {
-        this.vars.FormValue = data;
+        this.FormValue = data;
 
-        this.patch.emit(this.vars.Form.value);
+        this.patch.emit(this.Form.value);
 
-        this.vars.Form.valueChanges.subscribe((data) => {
-          if ((<any>this.vars.Specification).pluralName) {
-            this.vars.SameFormAsStart = this.fvd.isDifferent(
-              this.vars.FormValue,
-              this.vars.Form.getRawValue()
+        this.Form.valueChanges.subscribe((data) => {
+          if ((<any>this.Specification).pluralName) {
+            this.SameFormAsStart = this.fvd.isDifferent(
+              this.FormValue,
+              this.Form.getRawValue()
             );
           } else {
-            console.log(this.vars.Form.value);
-            this.patch.emit(this.vars.Form.value);
+            console.log(this.Form.value);
+            this.patch.emit(this.Form.value);
           }
         });
 
-        return this.vars.FormValue;
+        return this.FormValue;
       })
     );
   }
 
   private initFormUI() {
-    this.vars.Specification.attributes.map((tab: any) => {
-      this.vars.Properties.push(tab);
+    this.Specification.attributes.map((tab: any) => {
+      this.Properties.push(tab);
       tab.specs.map((property) => {
         console.log(property);
         if (Array.isArray(property.name)) {
@@ -131,14 +139,14 @@ export class FormComponent implements OnInit {
           );
         }
 
-        if (this.vars.Tabs[tab["name"]]) {
-          this.vars.Tabs[tab["name"]].push({
+        if (this.Tabs[tab["name"]]) {
+          this.Tabs[tab["name"]].push({
             formItem: this.formObject[property.name],
             itemSpec: property,
           });
         } else {
-          this.vars.Tabs[tab["name"]] = [];
-          this.vars.Tabs[tab["name"]].push({
+          this.Tabs[tab["name"]] = [];
+          this.Tabs[tab["name"]].push({
             formItem: this.formObject[property.name],
             itemSpec: property,
           });
@@ -146,14 +154,14 @@ export class FormComponent implements OnInit {
       });
     });
 
-    this.vars.Form = new FormGroup(this.formObject);
+    this.Form = new FormGroup(this.formObject);
   }
 
   private initFormValues(item) {
     return new Observable((observer) => {
       const obj = {};
 
-      this.vars.Specification["attributes"].map((tab) => {
+      this.Specification["attributes"].map((tab) => {
         tab.specs.map((property) => {
           if (property.hasOwnProperty("name")) {
             const value: any = this.fvd.getValue(property, item);
@@ -161,11 +169,11 @@ export class FormComponent implements OnInit {
             if (value instanceof Observable) {
               value.subscribe((data) => {
                 obj[property.name] = data;
-                this.vars.Form.get(property.name).setValue(data);
+                this.Form.get(property.name).setValue(data);
               });
             } else {
               obj[property.name] = value;
-              this.vars.Form.get(property.name).setValue(value);
+              this.Form.get(property.name).setValue(value);
             }
           }
         });
@@ -177,10 +185,10 @@ export class FormComponent implements OnInit {
   }
 
   private handleEvent(eventObj) {
-    this.vars.Form.patchValue(eventObj);
-    this.vars.SameFormAsStart = this.fvd.isDifferent(
-      this.vars.FormValue,
-      this.vars.Form.value
+    this.Form.patchValue(eventObj);
+    this.SameFormAsStart = this.fvd.isDifferent(
+      this.FormValue,
+      this.Form.value
     );
   }
 
@@ -191,12 +199,18 @@ export class FormComponent implements OnInit {
   }
 
   save() {
-    this.data.emit({
-      vars: this.vars,
-      key: this.key,
-    });
-
-    this.vars.SameFormAsStart = true;
+    this.__g_
+      .setDocument(this.queryParams.path, {
+        dat: new Date().getTime(),
+        ...this.Form.value,
+      })
+      .subscribe((data) =>
+        this.route.navigate(["/yet/data/flist"], {
+          queryParams: {
+            item: this.UrlItem,
+          },
+        })
+      );
   }
 
   patchType(element, event) {
@@ -209,7 +223,7 @@ export class FormComponent implements OnInit {
           patch[element.name] = 0;
         }
 
-        this.vars.Form.patchValue(patch);
+        this.Form.patchValue(patch);
         break;
 
       default:
@@ -218,25 +232,6 @@ export class FormComponent implements OnInit {
   }
 
   getItem() {
-    this.key = JSON.parse(JSON.stringify(this.vars.Specification.Key));
-    Object.keys(this.key).map((k) => {
-      if (this.key[k] === "undefined") {
-        this.key[k] = this.queryParams[k];
-      }
-    });
-
-    return this.__o_.one$(
-      this.vars.Specification.TableName,
-      this.key,
-      this.vars.Specification.Region
-    );
-  }
-
-  @Input()
-  set config(val) {
-    if (val) {
-      this.queryParams = JSON.parse(val);
-      this.vars.UrlItem = this.queryParams.item;
-    }
+    return this.__g_.getDocument(this.queryParams.path);
   }
 }

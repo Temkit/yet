@@ -243,7 +243,6 @@ export class ListsComponent implements OnInit, OnDestroy {
       )
       .pipe(
         map((items: any) => {
-          console.log(items);
           this.vars.ExclusiveStartKey = items.LastEvaluatedKey;
 
           setTimeout(() => (this.vars.Count = items.Count), 0);
@@ -516,7 +515,6 @@ export class ListsComponent implements OnInit, OnDestroy {
           return of([]);
         }),
         map((data) => {
-          console.log(data);
           return data;
         })
       );

@@ -1,0 +1,71 @@
+<div class="container-fluid back">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="mt-2 d-flex justify-content-between">
+        <label class="myLabel">
+          <input
+            type="file"
+            id="inputFile"
+            (change)="readURL($event)"
+            name="inputFile"
+            accept="image/jpeg, image/png, image/webp"
+            data-title="Choisissez votre image ici avant de l'uploader"
+          />
+          <span>
+            <mat-icon>attach_file</mat-icon>
+          </span>
+          <span class="label">
+            {{ label }}
+          </span>
+        </label>
+
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="uploadImage()"
+          class="uploader"
+        >
+          <mat-icon>cloud_upload</mat-icon>
+        </button>
+      </div>
+      <div class="row mt-3">
+        <div class="col-lg-12 p-0">
+          <mat-progress-bar
+            color="warn"
+            mode="determinate"
+            [value]="imageUpload"
+          ></mat-progress-bar>
+          <div>{{ imageUpload.toFixed(0) }} %</div>
+        </div>
+      </div>
+      <div>
+        <div class="col-lg-12 backl" *ngIf="image">
+          <img src="{{ image }}" alt="" />
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div *ngIf="images | async as images" class="row">
+        <div *ngFor="let image of images" class="{{ class }} mt-3">
+          <div
+            class="imgContainer"
+            [style.backgroundImage]="'url(' + image + ')'"
+            [style.backgroundSize]="background"
+            [style.height]="height"
+            [style.width]="width"
+          >
+            <button
+              mat-icon-button
+              color="warn"
+              class="delete mr-2"
+              (click)="deleteImage(image)"
+            >
+              <mat-icon aria-label="supprimer image">delete</mat-icon>
+            </button>
+            <div class="overlay"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

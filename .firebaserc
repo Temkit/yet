@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "yet-cms-crm-erp": {
+      "hosting": {
+        "yet": [
+          "yet-cms-crm-erp"
+        ]
+      }
+    }
+  }
+}

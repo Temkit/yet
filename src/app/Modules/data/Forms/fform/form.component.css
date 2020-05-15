@@ -1,0 +1,65 @@
+input[type="date"] {
+  height: 36px;
+  font-size: 17px;
+  display: block;
+  width: 100%;
+}
+
+.mt-form {
+  padding-top: 83px;
+}
+
+::ng-deep .header-less-tabs .mat-tab-header {
+  display: none;
+}
+
+::ng-deep mat-tab-header {
+  height: 58px !important;
+}
+
+::ng-deep .mat-tab-label-container {
+  align-items: center;
+}
+
+::ng-deep .mat-tab-label {
+  height: 57px !important;
+}
+
+.file svg {
+  width: 140px;
+  height: 81px;
+  cursor: pointer;
+  color: #673ab782;
+}
+
+.file svg:hover {
+  width: 140px;
+  height: 81px;
+  cursor: pointer;
+  color: #673ab7;
+}
+
+::ng-deep .mat-tab-label-content {
+  color: #054a4a;
+  font-weight: lighter;
+  font-size: 14px;
+}
+
+::ng-deep .mat-tab-label-content mat-icon {
+  margin-right: 4px;
+}
+
+::ng-deep mat-label {
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep mat-label mat-icon {
+  font-size: 19px !important;
+  margin-right: 4px;
+}
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #689090 !important;
+}

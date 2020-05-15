@@ -1,0 +1,504 @@
+<div class="h-100 w-100" *ngIf="load | async as data">
+  <div id="bread" *ngIf="Specification.pluralName">
+    <mat-icon class="item" routerLink="/">home</mat-icon>
+    <mat-icon class="item">keyboard_arrow_right</mat-icon>
+    <div
+      class="item"
+      [routerLink]="['/yet/data/flist']"
+      [queryParams]="{ item: UrlItem }"
+    >
+      Liste des {{ Specification.pluralName }}
+    </div>
+    <mat-icon class="item">keyboard_arrow_right</mat-icon>
+    <div *ngIf="newForm" class="item">
+      Ajout d'un nouveau {{ Specification.name }}
+    </div>
+    <div *ngIf="!newForm" class="item">
+      Modificaiton {{ Specification.name }}
+      <div class="iditem"></div>
+    </div>
+    <mat-icon *ngIf="!SameFormAsStart" class="item"
+      >keyboard_arrow_right</mat-icon
+    >
+    <a
+      *ngIf="!SameFormAsStart"
+      mat-button
+      color="warn"
+      (click)="save()"
+      class="saveButton"
+      >Enregistrer</a
+    >
+  </div>
+  <div [class]="Specification.pluralName ? 'container-fluid mt-form' : ''">
+    <div class="row">
+      <div
+        [class]="
+          Specification.pluralName
+            ? 'col-lg-12 h-100 p-0'
+            : 'col-lg-12 h-100 p-0 header-less-tabs'
+        "
+      >
+        <form
+          [formGroup]="Form"
+          data-role="validator"
+          autocomplete="off"
+          [class]="Specification.pluralName ? 'form' : ''"
+        >
+          <mat-tab-group animationDuration="1000ms" mat-stretch-tabs>
+            <mat-tab *ngFor="let tab of Properties; let j = index">
+              <ng-template mat-tab-label>
+                <mat-icon>{{ tab.icon }}</mat-icon>
+                {{ tab.name }}
+              </ng-template>
+              <div class="container-fluid">
+                <div
+                  [class]="
+                    Specification.pluralName ? 'row p-3 tabcontent' : 'row p-3'
+                  "
+                >
+                  <div
+                    *ngFor="let formItem of Tabs[tab.name]; let i = index"
+                    class="pl-0 mb-2 {{ formItem.itemSpec.class }}"
+                    style.top="{{ formItem.itemSpec.top }}"
+                    style.right="{{ formItem.itemSpec.right }}"
+                    style.left="{{ formItem.itemSpec.left }}"
+                    style.bottom="{{ formItem.itemSpec.bottom }}"
+                  >
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'simpleCategory'"
+                    >
+                      <app-simple-category
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-simple-category>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'location'"
+                    >
+                      <app-location
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-location>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'bondecommande'"
+                    >
+                      <app-devisfacture
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] }}"
+                      >
+                      </app-devisfacture>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'order-handler'"
+                    >
+                      <app-order-add
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      ></app-order-add>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'order-handler-free'"
+                    >
+                      <app-order-add-free
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-order-add-free>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'item-handler'"
+                    >
+                      <app-item-add
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (push)="handleEvent($event)"
+                      ></app-item-add>
+                    </div>
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'cognito-user'"
+                    >
+                      <app-cognitoUser
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-cognitoUser>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'sns-subscription'"
+                    >
+                      <app-sns-subscription
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (push)="handleEvent($event)"
+                      >
+                      </app-sns-subscription>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'fichier'"
+                    >
+                      <div
+                        *ngIf="formItem.itemSpec.name == 'contract'"
+                        class="contract file"
+                      >
+                        <div class="label">contrat</div>
+                      </div>
+
+                      <div
+                        *ngIf="formItem.itemSpec.name == 'devis'"
+                        class="devis file"
+                      >
+                        <div class="label">Devis</div>
+                      </div>
+
+                      <div
+                        *ngIf="formItem.itemSpec.name == 'facture'"
+                        class="facture file"
+                      >
+                        <div class="label">Facture</div>
+                      </div>
+
+                      <div
+                        *ngIf="formItem.itemSpec.name == 'bondecommande'"
+                        class="bondecommande file"
+                      >
+                        <div class="label">Bon de commande</div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'polygone'"
+                    >
+                      <app-polygone
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      ></app-polygone>
+                    </div>
+
+                    <div
+                      class="form-group h-100"
+                      *ngIf="formItem.itemSpec.type == 'editor'"
+                    >
+                      <app-editor
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-editor>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'autocomplete'"
+                    >
+                      <app-autocomplete
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-autocomplete>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'autocompletetagsinput'"
+                    >
+                      <app-autocompletetagsinput
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-autocompletetagsinput>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'picker'"
+                    >
+                      <app-picker
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      ></app-picker>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'tags'"
+                    >
+                      <app-tagsInput
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      ></app-tagsInput>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'questionnaire'"
+                    >
+                      <app-questionnaire
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-questionnaire>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'reponses-chart'"
+                    >
+                      <app-quesitonnaire-reponses
+                        config="{{ formItem.itemSpec | json }}"
+                        key="{{ key | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-quesitonnaire-reponses>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'checkbox'"
+                    >
+                      <mat-checkbox
+                        color="primary"
+                        class="w-100"
+                        id="{{ formItem.itemSpec.name }}"
+                        [formControlName]="formItem.itemSpec.name"
+                        (change)="patchType(formItem.itemSpec, $event)"
+                      >
+                        {{ formItem.itemSpec.label }}</mat-checkbox
+                      >
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'select'"
+                    >
+                      <app-select
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] | json }}"
+                        (patch)="handleEvent($event)"
+                      ></app-select>
+                    </div>
+
+                    <!--      <div class="form-group" *ngIf="formItem.itemSpec.type=='select'">
+                                            <mat-form-field>
+                                                <mat-select *ngIf="formItem.itemSpec.options;else fromObs" class="w-100" id="{{formItem.itemSpec.id}}" [formControlName]="formItem.itemSpec.name" (selectionChange)="handleSelect(formItem.itemSpec.name,$event)">
+                                                    <mat-option *ngFor="let option of formItem.itemSpec.options" [value]="option">
+                                                        {{option}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <ng-template #fromObs>
+                                                    <mat-select class="w-100" id="{{formItem.itemSpec.id}}" [formControlName]="formItem.itemSpec.name" (selectionChange)="handleSelect(formItem.itemSpec.name,$event)">
+                                                        <mat-option *ngFor="let option of data[formItem.itemSpec.name]" [value]="option">
+                                                            {{option}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </ng-template>
+
+                                                <mat-label>
+                                                    <mat-icon *ngIf="formItem.itemSpec.labelicon">
+                                                        {{formItem.itemSpec.labelicon}}</mat-icon>
+                                                    {{formItem.itemSpec.label}}
+                                                </mat-label>
+                                            </mat-form-field>
+                                        </div> -->
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'date'"
+                    >
+                      <app-date
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-date>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'image'"
+                    >
+                      <app-imageUploader
+                        config="{{ formItem.itemSpec | json }}"
+                        path="{{ queryParams.path }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-imageUploader>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'file'"
+                    >
+                      <label
+                        for="knewtoneFormControl{{ formItem.itemSpec.name }}"
+                        >{{ formItem.itemSpec.label }}</label
+                      >
+                      <input
+                        autocomplete="yet.marketing"
+                        type="file"
+                        class="form-control-file"
+                        id="knewtoneFormControl{{ formItem.itemSpec.name }}"
+                        [formControlName]="formItem.itemSpec.name"
+                        attr.data-validate="{{ formItem.itemSpec.validate }}"
+                        placeholder="{{ formItem.itemSpec.label }}"
+                      />
+                      <small
+                        id="{{ formItem.itemSpec.name }}instructions"
+                        class="form-text text-muted"
+                        >{{ formItem.itemSpec.instructions }}</small
+                      >
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'textarea'"
+                    >
+                      <mat-form-field appearance="outline" class="w-100">
+                        <textarea
+                          matInput
+                          #textarea
+                          id="knewtoneFormControl{{ formItem.itemSpec.name }}"
+                          attr.rows="{{ formItem.itemSpec.rows }}"
+                          maxlength="{{ formItem.itemSpec.maxlength }}"
+                          [formControlName]="formItem.itemSpec.name"
+                          [required]="formItem.itemSpec.required"
+                          placeholder="{{ formItem.itemSpec.label }}"
+                        ></textarea>
+                        <mat-hint
+                          *ngIf="formItem.itemSpec.maxlength"
+                          align="end"
+                        >
+                          {{ textarea.value.length }} /
+                          {{ formItem.itemSpec.maxlength }}
+                        </mat-hint>
+                        <mat-label>
+                          <mat-icon *ngIf="formItem.itemSpec.labelicon">
+                            {{ formItem.itemSpec.labelicon }}</mat-icon
+                          >
+                          {{ formItem.itemSpec.label }}
+                        </mat-label>
+                      </mat-form-field>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="
+                        formItem.itemSpec.type == 'text' ||
+                        formItem.itemSpec.type == 'compagn' ||
+                        formItem.itemSpec.type == 'time' ||
+                        formItem.itemSpec.type == 'email' ||
+                        formItem.itemSpec.type == 'password'
+                      "
+                    >
+                      <mat-form-field appearance="outline" class="w-100">
+                        <input
+                          autocomplete="yet.marketing"
+                          matInput
+                          [formControlName]="formItem.itemSpec.name"
+                          [errorStateMatcher]="matcher"
+                          id="{{ formItem.itemSpec.id }}"
+                          type="{{ formItem.itemSpec.type }}"
+                          [required]="formItem.itemSpec.required"
+                          placeholder="{{ formItem.itemSpec.label }}"
+                        />
+                        <mat-hint>{{
+                          formItem.itemSpec.instructions
+                        }}</mat-hint>
+                        <mat-error>
+                          {{ formItem.itemSpec.error }}
+                        </mat-error>
+                        <mat-label>
+                          <mat-icon *ngIf="formItem.itemSpec.labelicon">
+                            {{ formItem.itemSpec.labelicon }}</mat-icon
+                          >
+                          {{ formItem.itemSpec.label }}
+                        </mat-label>
+                      </mat-form-field>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'custom'"
+                    >
+                      <app-customEmit
+                        config="{{ formItem.itemSpec | json }}"
+                        value="{{ data[formItem.itemSpec.name] }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-customEmit>
+                    </div>
+
+                    <div
+                      class="form-group"
+                      *ngIf="formItem.itemSpec.type == 'number'"
+                    >
+                      <mat-form-field
+                        appearance="outline"
+                        appearance="outline"
+                        class="w-100"
+                      >
+                        <input
+                          autocomplete="yet.marketing"
+                          matInput
+                          [formControlName]="formItem.itemSpec.name"
+                          [errorStateMatcher]="matcher"
+                          id="{{ formItem.itemSpec.id }}"
+                          type="number"
+                          [required]="formItem.itemSpec.required"
+                          placeholder="{{ formItem.itemSpec.label }}"
+                        />
+
+                        <mat-hint>{{
+                          formItem.itemSpec.instructions
+                        }}</mat-hint>
+                        <mat-error>
+                          {{ formItem.itemSpec.error }}
+                        </mat-error>
+                        <mat-label>
+                          <mat-icon *ngIf="formItem.itemSpec.labelicon">
+                            {{ formItem.itemSpec.labelicon }}</mat-icon
+                          >
+                          {{ formItem.itemSpec.label }}
+                        </mat-label>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

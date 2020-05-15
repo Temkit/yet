@@ -19,8 +19,13 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/assets", "src/manifest.json"],
-            "scripts": ["node_modules/moment/min/moment.min.js"],
+            "assets": [
+              "src/assets",
+              "src/manifest.json"
+            ],
+            "scripts": [
+              "node_modules/moment/min/moment.min.js"
+            ],
             "styles": [
               "src/styles.css",
               "src/theme.scss",
@@ -85,7 +90,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "scripts": ["node_modules/moment/min/moment.min.js"],
+            "scripts": [
+              "node_modules/moment/min/moment.min.js"
+            ],
             "styles": [
               "src/styles.css",
               "src/theme.scss",
@@ -93,15 +100,27 @@
               "./node_modules/mapbox-gl/dist/mapbox-gl.css",
               "./node_modules/@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css"
             ],
-            "assets": ["src/assets", "src/manifest.json"]
+            "assets": [
+              "src/assets",
+              "src/manifest.json"
+            ]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     },
@@ -126,7 +145,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }

@@ -1,3 +1,11 @@
 <div *ngIf="ready | async as ready">
-    <app-simple-category config='{{ready}}' (addTree)="seve($event)"></app-simple-category>
+  <fapp-simple-category
+    *ngIf="type === 'firebase'; else simple"
+    config="{{ ready }}"
+    (addTree)="seve($event)"
+  ></fapp-simple-category>
+  <ng-template #simple>
+    <app-simple-category config="{{ ready }}" (addTree)="seve($event)">
+    </app-simple-category>
+  </ng-template>
 </div>

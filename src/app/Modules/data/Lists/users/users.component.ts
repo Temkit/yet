@@ -119,7 +119,7 @@ export class UsersComponent implements OnInit {
     this.vars.Specification["filtres"].map((property: any) => {
       formObject[property.name] = new FormControl({
         value: null,
-        disabled: property.disabled,
+        disabled: property.disabled || false,
       });
       this.vars.FormElements.push(formObject[property.name]);
       this.vars.Filters[property.name] = JSON.stringify(property);
