@@ -58,7 +58,7 @@ export class FormComponent implements OnInit {
   ngOnInit() {
     this.load = this.router.queryParams.pipe(
       flatMap((params: any) => {
-        this.queryParams = params;
+        this.queryParams = { ...params };
         this.UrlItem = this.queryParams.item;
         return this.S3Service.getSpec(
           this.domain +
@@ -71,6 +71,9 @@ export class FormComponent implements OnInit {
       }),
       map((data: any) => {
         let spec = JSON.parse(data.Body.toString());
+        if (spec.path && !this.queryParams.path) {
+          this.queryParams["path"] = spec.path;
+        }
         return spec;
       }),
       flatMap((spec: FormSpecification) => {
@@ -204,13 +207,15 @@ export class FormComponent implements OnInit {
         dat: new Date().getTime(),
         ...this.Form.value,
       })
-      .subscribe((data) =>
-        this.route.navigate(["/yet/data/flist"], {
-          queryParams: {
-            item: this.UrlItem,
-          },
-        })
-      );
+      .subscribe((data) => {
+        if (!this.queryParams.path) {
+          this.route.navigate(["/yet/data/flist"], {
+            queryParams: {
+              item: this.UrlItem,
+            },
+          });
+        }
+      });
   }
 
   patchType(element, event) {

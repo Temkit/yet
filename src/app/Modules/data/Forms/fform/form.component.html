@@ -3,6 +3,7 @@
     <mat-icon class="item" routerLink="/">home</mat-icon>
     <mat-icon class="item">keyboard_arrow_right</mat-icon>
     <div
+    *ngIf="!queryParams.path"
       class="item"
       [routerLink]="['/yet/data/flist']"
       [queryParams]="{ item: UrlItem }"

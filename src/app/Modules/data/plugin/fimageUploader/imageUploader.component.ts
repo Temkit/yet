@@ -110,7 +110,14 @@ export class ImageUploaderComponent implements OnInit {
       )
       .subscribe((evt) => {
         let obj = {};
-        obj[this.name] = name;
+        if (this.n === 1) {
+          obj[this.name] =
+            this.path + "/" + this.name + "/" + this.getImageName();
+          this.patch.emit(obj);
+        } else {
+          obj[this.name] = this.path + "/" + this.name + "/";
+          this.patch.emit(obj);
+        }
       });
   }
 
