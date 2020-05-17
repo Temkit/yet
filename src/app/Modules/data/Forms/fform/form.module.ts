@@ -32,6 +32,7 @@ import { CognitoUserModule } from "../../common/cognitoUser/cognitoUser.module";
 import { QuesitonnaireReponsesModule } from "../../plugin/quesitonnaire-reponses/quesitonnaire-reponses.module";
 import { SelectModule } from "../../common/select/select.module";
 import { PickerModule } from "../../common/color-picker/picker.module";
+import { FSimpleCategoryModule } from "../../common/fsimple-category/simple-category.module";
 
 const routes: Routes = [{ path: "", component: FormComponent }];
 
@@ -39,6 +40,7 @@ const routes: Routes = [{ path: "", component: FormComponent }];
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
+    FSimpleCategoryModule,
     FormsModule,
     PickerModule,
     SnsSubscriptionModule,

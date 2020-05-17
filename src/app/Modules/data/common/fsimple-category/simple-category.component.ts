@@ -69,7 +69,7 @@ export class SimpleCategoryComponent implements OnInit {
           console.log(data);
           if (data) {
             this.tree = data.data().tree;
-            console.log(this.tree);
+
             this.isNewTree = false;
           } else {
             this.isNewTree = true;
@@ -138,6 +138,7 @@ export class SimpleCategoryComponent implements OnInit {
     });
 
     this.checklistSelection.changed.subscribe((node) => {
+      console.log(node.source.selected);
       if (!this.init) {
         this.emit();
       }
@@ -210,8 +211,10 @@ export class SimpleCategoryComponent implements OnInit {
 
   /* Checks all the parents when a leaf node is selected/unselected */
   checkAllParentsSelection(node: any): void {
+    console.log(node);
     let parent: any | null = this.getParentNode(node);
     while (parent) {
+      console.log(parent);
       this.checkRootNodeSelection(parent);
       parent = this.getParentNode(parent);
     }
@@ -319,11 +322,14 @@ export class SimpleCategoryComponent implements OnInit {
 
     this.checklistSelection.selected.map((node) => {
       const parentNode = this.flatNodeMap.get(node);
-      valueEmit.push(parentNode._id);
+      parentNode._id ? valueEmit.push(parentNode._id) : null;
     });
 
+    valueEmit.filter((item) => item);
+
     const obj = {};
-    obj[this.objectConfig.valueToEmit] = valueEmit;
+    obj[this.objectConfig.valueToEmit] = [...valueEmit];
+    obj[this.objectConfig.valueToEmit].filter((item) => item);
 
     this.patch.emit(obj);
   }

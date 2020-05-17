@@ -188,6 +188,7 @@ export class FormComponent implements OnInit {
   }
 
   private handleEvent(eventObj) {
+    console.log(eventObj);
     this.Form.patchValue(eventObj);
     this.SameFormAsStart = this.fvd.isDifferent(
       this.FormValue,
@@ -208,7 +209,7 @@ export class FormComponent implements OnInit {
         ...this.Form.value,
       })
       .subscribe((data) => {
-        if (!this.queryParams.path) {
+        if (!this.Specification.path) {
           this.route.navigate(["/yet/data/flist"], {
             queryParams: {
               item: this.UrlItem,
