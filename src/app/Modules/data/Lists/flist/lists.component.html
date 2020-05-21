@@ -25,12 +25,12 @@
           <mat-icon>refresh</mat-icon>
         </button>
         <button
-          *ngIf="addLabel"
+          *ngIf="Specification.addLabel"
           color="warn"
           class="mr-2"
           mat-raised-button
           [routerLink]="[Specification.Link]"
-          [queryParams]="{ item: File }"
+          [queryParams]="{ item: urlItem }"
         >
           <mat-icon>library_add</mat-icon>
         </button>
@@ -82,7 +82,7 @@
             [ngStyle]="{
               'background-color': i % 2 === 0 ? '#fafafa' : '#ffffff'
             }"
-            (click)="goto(item)"
+            (click)="goto(item); $event.stopPropagation()"
           >
             <!--   <span
               *ngFor="let key of Specification.keys"

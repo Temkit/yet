@@ -47,6 +47,7 @@ export class ImageUploaderComponent implements OnInit {
 
   @Input() value;
   @Input() path;
+  @Input() id;
   @Input() config;
   @Output() patch: EventEmitter<object> = new EventEmitter<object>();
 
@@ -92,14 +93,13 @@ export class ImageUploaderComponent implements OnInit {
   }
 
   uploadImage() {
-    let name = this.path + "/" + this.name + "/" + this.getImageName();
+    let name = this.path + "/" + this.getImageName();
 
     this.__g_
       .putFileUrl(name, this.imagetoSend)
       .percentageChanges()
       .pipe(
         map((data) => {
-          console.log(data);
           this.imageUpload = data;
         }),
         map((data: any) => {
@@ -111,11 +111,10 @@ export class ImageUploaderComponent implements OnInit {
       .subscribe((evt) => {
         let obj = {};
         if (this.n === 1) {
-          obj[this.name] =
-            this.path + "/" + this.name + "/" + this.getImageName();
+          obj[this.name] = this.path + "/" + this.getImageName();
           this.patch.emit(obj);
         } else {
-          obj[this.name] = this.path + "/" + this.name + "/";
+          obj[this.name] = this.path + "/";
           this.patch.emit(obj);
         }
       });
@@ -127,23 +126,21 @@ export class ImageUploaderComponent implements OnInit {
     let imagePath = "thumbnail/" + tmpArray.join("/");
 */
 
-    this.images = this.images = this.__g_
-      .getAllfiles(this.path + "/" + this.name + "/")
-      .pipe(
-        flatMap((data: any) => {
-          let images = [];
+    this.images = this.images = this.__g_.getAllfiles(this.path + "/").pipe(
+      flatMap((data: any) => {
+        let images = [];
 
-          data.items.forEach((image) => {
-            images.push(image.getDownloadURL());
-          });
+        data.items.forEach((image) => {
+          images.push(image.getDownloadURL());
+        });
 
-          return from(Promise.all(images));
-        }),
-        map((data) => {
-          console.log(data);
-          return data;
-        })
-      );
+        return from(Promise.all(images));
+      }),
+      map((data) => {
+        console.log(data);
+        return data;
+      })
+    );
   }
 
   deleteImage(image) {}

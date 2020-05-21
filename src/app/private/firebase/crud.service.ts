@@ -52,6 +52,10 @@ export class CrudService {
     return from(this.firestore.doc(path).set(item));
   };
 
+  public addDocument = (path, item) => {
+    return from(this.firestore.collection(path).add(item));
+  };
+
   public count = (query) => {
     let i = 0;
     return query.group
@@ -60,8 +64,11 @@ export class CrudService {
   };
 
   public put = (query, item) => {
-    console.log(query, item);
-    return this.firestore.doc(query.path).set(item);
+    return this.firestore.doc(query.path).set(item, { merge: true });
+  };
+
+  public delete = (path) => {
+    return from(this.firestore.doc(path).delete());
   };
 
   getFileUrl = (url) => {
@@ -79,50 +86,61 @@ export class CrudService {
     return ref.put(file);
   };
 
+  private __firestore_funciton_ref_constructor(ref, query) {
+    let ___ref_ = ref;
+
+    if (query.orderBy) {
+      ___ref_ = ___ref_.orderBy(query.orderBy);
+    }
+
+    if (query.endBefore) {
+      ___ref_ = ___ref_.endBefore(query.endBefore);
+    }
+
+    if (query.limitToLast) {
+      ___ref_ = ___ref_.limitToLast(query.limitToLast);
+    }
+
+    if (query.startAfter) {
+      ___ref_ = ___ref_.startAfter(query.startAfter);
+    }
+
+    if (query.limit) {
+      ___ref_ = ___ref_.limit(query.limit);
+    }
+
+    if (query.where) {
+      query.where.forEach((item) => {
+        ___ref_ = ___ref_.where(item[0], item[1], item[2]);
+      });
+    }
+
+    return ___ref_;
+  }
+
   private __firestore_funciton_constructor = (query) => {
     let __function;
-    if (query.previous) {
-      __function = this.firestore.collection(query.path, (ref) =>
-        ref
-          .orderBy(query.orderBy)
-          .endBefore(query.startAfter || null)
-          .limitToLast(query.limit)
-      );
-    } else {
-      __function = this.firestore.collection(query.path, (ref) =>
-        ref
-          .orderBy(query.orderBy)
-          .startAfter(query.startAfter || null)
-          .limit(query.limit)
-      );
-    }
+
+    __function = this.firestore.collection(query.path, (ref) => {
+      return this.__firestore_funciton_ref_constructor(ref, query);
+    });
 
     return __function;
   };
 
   private __firestore_funciton_group_constructor = (query) => {
     let __function;
-    if (query.previous) {
-      __function = this.firestore.collectionGroup(query.path, (ref) =>
-        ref
-          .orderBy(query.orderBy)
-          .endBefore(query.startAfter || null)
-          .limitToLast(query.limit)
-      );
-    } else {
-      __function = this.firestore.collectionGroup(query.path, (ref) =>
-        ref
-          .orderBy(query.orderBy)
-          .startAfter(query.startAfter || null)
-          .limit(query.limit)
-      );
-    }
+
+    __function = this.firestore.collectionGroup(query.path, (ref) => {
+      return this.__firestore_funciton_ref_constructor(ref, query);
+    });
 
     return __function;
   };
 
   private __get = async (__firestore) => {
     let item = await __firestore.get();
+
     return item;
   };
 

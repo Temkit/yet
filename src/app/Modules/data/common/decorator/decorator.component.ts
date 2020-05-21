@@ -145,15 +145,10 @@ export class DecoratorComponent implements OnInit {
         "?dummy=" +
         this.now;
     } else if (this.element.type === "fimage") {
-      console.log(this.element);
-      this.__g_
-        .getFileUrl(
-          this.path + "/" + this.element.name + "/" + this.element.imageName
-        )
-        .subscribe((data) => {
-          console.log(data);
-          this.img = data;
-        });
+      this.__g_.getFileUrl(this.data).subscribe((data) => {
+        console.log(data);
+        this.img = data;
+      });
     } else {
       this.valueToDisplay = this.data === 0 ? of("0") : of(this.data);
     }

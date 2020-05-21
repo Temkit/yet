@@ -1,10 +1,13 @@
 import { flatMap } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { DialogComponent } from "../../common/dialog/dialog.component";
 import { S3Service } from "./../../../../private/aws/s3.service";
 import { CrudService } from "src/app/private/firebase/crud.service";
 import { map } from "rxjs/operators";
 import orderBy from "lodash/orderBy";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-lists",
@@ -23,7 +26,7 @@ export class ListsComponent implements OnInit {
   count;
   pageIndex;
   id;
-
+  imagePath;
   startAfter;
   enfBefore;
   limit;
@@ -32,7 +35,9 @@ export class ListsComponent implements OnInit {
 
   constructor(
     private router: ActivatedRoute,
+    public dialog: MatDialog,
     private S3Service: S3Service,
+    public snackBar: MatSnackBar,
     private route: Router,
     private __g_: CrudService
   ) {
@@ -52,6 +57,7 @@ export class ListsComponent implements OnInit {
         this.Specification = JSON.parse(File.Body.toString());
         this.name = (<any>this.Specification).name;
         this.limit = (<any>this.Specification).query.limit;
+        this.imagePath = (<any>this.Specification).directpath;
         this.startAfter = null;
         this.enfBefore = null;
         this.count = 0;
@@ -63,6 +69,10 @@ export class ListsComponent implements OnInit {
           this.count++;
         });
         return this.__g_.get(this.Specification.query);
+      }),
+      map((data) => {
+        console.log(data);
+        return data;
       })
     );
 
@@ -126,24 +136,89 @@ export class ListsComponent implements OnInit {
         this.startAfter = data$.docs[data$.docs.length - 1];
         this.enfBefore = data$.docs[0];
 
-        data = orderBy(
-          data,
-          [this.Specification.orderBy[0]],
-          [this.Specification.orderBy[1]]
-        );
-
+        if (this.Specification.orderBy) {
+          data = orderBy(
+            data,
+            [this.Specification.orderBy[0]],
+            [this.Specification.orderBy[1]]
+          );
+        }
+        console.log(data);
         return data;
       })
     );
   }
 
   goto(item) {
-    -this.route.navigate([this.Specification.Link], {
+    this.route.navigate([this.Specification.Link], {
       queryParams: {
         item: this.urlItem,
         id: item.id,
         path: item.path,
       },
+    });
+  }
+
+  deleteDialog(element) {
+    let label = element.label
+      ? element.label
+      : element.title
+      ? element.title
+      : element.name;
+
+    if (this.File === "trash") {
+      element.title = "Supression de : " + label;
+    } else {
+      element.title = "Mise en corbeille de : " + label;
+    }
+
+    // tslint:disable-next-line:max-line-length
+
+    element.content =
+      `
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+            Vous devez saisir la phrase :<br> <p style="color:red;">"JE CONFIRME"</p> afin de valider 
+            la suppression de l\'element :  <br><strong> ` +
+      element.title +
+      `</strong>"
+        </div>
+      </div>
+    </div>
+    `;
+
+    element.validation = "delete";
+
+    console.log(element);
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: "500px",
+      data: element,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === "JE CONFIRME") {
+        this.__g_.delete(element.path).subscribe((data) => {
+          this.snackBar.open(
+            (element.name || element.title) + " suprimé avec succés",
+            "fermé",
+            {
+              verticalPosition: "top",
+              horizontalPosition: "right",
+            }
+          );
+          this.refresh();
+        });
+      } else {
+        this.snackBar.open(
+          (element.name || element.title) + " n'a pas été supprimé",
+          "fermé",
+          {
+            verticalPosition: "top",
+            horizontalPosition: "right",
+          }
+        );
+      }
     });
   }
 }

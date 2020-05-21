@@ -3,7 +3,6 @@
     <mat-icon class="item" routerLink="/">home</mat-icon>
     <mat-icon class="item">keyboard_arrow_right</mat-icon>
     <div
-      *ngIf="!Specification.path"
       class="item"
       [routerLink]="['/yet/data/flist']"
       [queryParams]="{ item: UrlItem }"
@@ -360,7 +359,8 @@
                     >
                       <app-imageUploader
                         config="{{ formItem.itemSpec | json }}"
-                        path="{{ queryParams.path }}"
+                        path="{{ path }}"
+                        id="{{ id }}"
                         (patch)="handleEvent($event)"
                       >
                       </app-imageUploader>

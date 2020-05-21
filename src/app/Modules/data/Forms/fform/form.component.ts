@@ -39,6 +39,7 @@ export class FormComponent implements OnInit {
   FormValue;
   Form;
   id;
+  path;
 
   @Output() data: EventEmitter<object> = new EventEmitter<object>();
   @Output() patch: EventEmitter<object> = new EventEmitter<object>();
@@ -71,9 +72,7 @@ export class FormComponent implements OnInit {
       }),
       map((data: any) => {
         let spec = JSON.parse(data.Body.toString());
-        if (spec.path && !this.queryParams.path) {
-          this.queryParams["path"] = spec.path;
-        }
+
         return spec;
       }),
       flatMap((spec: FormSpecification) => {
@@ -92,7 +91,14 @@ export class FormComponent implements OnInit {
         return of(null);
       }),
       flatMap((data: any) => {
-        return this.initFormValues(data.data());
+        if (data && data.exists) {
+          this.path = data.ref.path;
+          this.id = data.id;
+          data = data.data();
+          return this.initFormValues(data);
+        } else {
+          return this.initFormValues({});
+        }
       }),
       map((data) => {
         this.FormValue = data;
@@ -106,7 +112,6 @@ export class FormComponent implements OnInit {
               this.Form.getRawValue()
             );
           } else {
-            console.log(this.Form.value);
             this.patch.emit(this.Form.value);
           }
         });
@@ -120,7 +125,6 @@ export class FormComponent implements OnInit {
     this.Specification.attributes.map((tab: any) => {
       this.Properties.push(tab);
       tab.specs.map((property) => {
-        console.log(property);
         if (Array.isArray(property.name)) {
           property.name.map((name) => {
             this.formObject[name] = new FormControl({
@@ -188,7 +192,6 @@ export class FormComponent implements OnInit {
   }
 
   private handleEvent(eventObj) {
-    console.log(eventObj);
     this.Form.patchValue(eventObj);
     this.SameFormAsStart = this.fvd.isDifferent(
       this.FormValue,
@@ -203,20 +206,26 @@ export class FormComponent implements OnInit {
   }
 
   save() {
-    this.__g_
-      .setDocument(this.queryParams.path, {
-        dat: new Date().getTime(),
+    let save$;
+    if (this.newForm) {
+      save$ = this.__g_.addDocument(this.Specification.path, {
         ...this.Form.value,
-      })
-      .subscribe((data) => {
-        if (!this.Specification.path) {
-          this.route.navigate(["/yet/data/flist"], {
-            queryParams: {
-              item: this.UrlItem,
-            },
-          });
-        }
       });
+    } else {
+      save$ = this.__g_.setDocument(this.path, {
+        ...this.Form.value,
+      });
+    }
+
+    save$.subscribe((data) => {
+      if (this.Specification.return) {
+        this.route.navigate([this.Specification.return.route], {
+          queryParams: {
+            item: this.Specification.return.queryParams,
+          },
+        });
+      }
+    });
   }
 
   patchType(element, event) {
@@ -238,6 +247,9 @@ export class FormComponent implements OnInit {
   }
 
   getItem() {
-    return this.__g_.getDocument(this.queryParams.path);
+    let path = this.queryParams.path
+      ? this.queryParams.path
+      : this.Specification.path;
+    return this.__g_.getDocument(path);
   }
 }
