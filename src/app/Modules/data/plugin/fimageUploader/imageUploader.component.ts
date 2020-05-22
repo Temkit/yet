@@ -93,7 +93,12 @@ export class ImageUploaderComponent implements OnInit {
   }
 
   uploadImage() {
-    let name = this.path + "/" + this.getImageName();
+    let name;
+    if (this.n === 1) {
+      name = this.path + "/" + this.getImageName();
+    } else {
+      name = this.path + "/" + this.name + "/" + this.getImageName();
+    }
 
     this.__g_
       .putFileUrl(name, this.imagetoSend)
@@ -126,7 +131,13 @@ export class ImageUploaderComponent implements OnInit {
     let imagePath = "thumbnail/" + tmpArray.join("/");
 */
 
-    this.images = this.images = this.__g_.getAllfiles(this.path + "/").pipe(
+    let name;
+    if (this.n === 1) {
+      name = this.path + "/";
+    } else {
+      name = this.path + "/" + this.name + "/";
+    }
+    this.images = this.images = this.__g_.getAllfiles(name + "/").pipe(
       flatMap((data: any) => {
         let images = [];
 
@@ -137,7 +148,9 @@ export class ImageUploaderComponent implements OnInit {
         return from(Promise.all(images));
       }),
       map((data) => {
-        console.log(data);
+        console.log(this.imageName, data);
+        data = data.filter((image) => image.includes(this.imageName));
+
         return data;
       })
     );

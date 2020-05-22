@@ -83,7 +83,7 @@ export class FormComponent implements OnInit {
 
         this.initFormUI();
 
-        if (Object.keys(this.queryParams).length > 1) {
+        if (Object.keys(this.queryParams).length > 1 || (<any>spec).path) {
           this.newForm = false;
           return this.getItem();
         }
