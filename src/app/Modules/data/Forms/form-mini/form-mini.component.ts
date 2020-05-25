@@ -30,7 +30,8 @@ export class FormMiniComponent implements OnInit {
 
   type = null;
   load;
-
+  path;
+  id;
   formObject = {};
   key;
   objectConfig;
@@ -76,6 +77,10 @@ export class FormMiniComponent implements OnInit {
         return of(null);
       }),
       flatMap((data) => {
+        this.path = data.ref.path;
+        this.id = data.id;
+
+        console.log(data);
         return this.initFormValues(data);
       }),
       map((data) => {

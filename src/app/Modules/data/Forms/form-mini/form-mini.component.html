@@ -203,6 +203,8 @@
                       "
                     >
                       <app-imageUploader
+                        path="{{ path }}"
+                        id="{{ id }}"
                         config="{{
                           vars.Specification.attributes[tab][i] | json
                         }}"
@@ -210,7 +212,8 @@
                           data[vars.Specification.attributes[tab][i].name]
                         }}"
                         (patch)="handleEvent($event)"
-                      ></app-imageUploader>
+                      >
+                      </app-imageUploader>
                     </div>
 
                     <div

@@ -4,6 +4,10 @@
 		"label": "Black"
 	},
 	{
+		"color": "hsl(0, 0%, 100%)",
+		"label": "White"
+	},
+	{
 		"color": "hsl(0, 0%, 30%)",
 		"label": "Dim grey"
 	},
