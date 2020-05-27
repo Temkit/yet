@@ -169,10 +169,19 @@ export class DashbordComponent implements OnInit, OnDestroy {
   navigate(path, queryParams) {
     this.sidenav.close();
 
-    this.router.navigate(["/yet/" + path], {
-      queryParams: { item: queryParams },
-      relativeTo: this.route,
-    });
+    if (queryParams.includes("pages") || queryParams.includes("config")) {
+      window.location.href =
+        "http://" +
+        window.location.host +
+        "/yet/data/fform?item=" +
+        queryParams;
+      // this.router.navigateByUrl("/yet/data/fform?item=" + queryParams);
+    } else {
+      this.router.navigate(["/yet/" + path], {
+        queryParams: { item: queryParams },
+        relativeTo: this.route,
+      });
+    }
   }
 
   logout() {

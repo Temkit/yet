@@ -10,17 +10,18 @@ const routes: Routes = [
     path: "yet",
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import("./Modules/dashbord.module").then(m => m.DashbordModule)
+      import("./Modules/dashbord.module").then((m) => m.DashbordModule),
   },
-  { path: "**", redirectTo: "", pathMatch: "full" }
+  { path: "**", redirectTo: "", pathMatch: "full" },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      enableTracing: false
-    })
+      enableTracing: false,
+      onSameUrlNavigation: "reload",
+    }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

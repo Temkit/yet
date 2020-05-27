@@ -8,7 +8,7 @@ import { ANIMATION_MODULE_TYPE } from "@angular/platform-browser/animations";
 import { CrudService } from "src/app/private/firebase/crud.service";
 
 @Component({
-  selector: "app-imageUploader",
+  selector: "app-fimageUploader",
   templateUrl: "./imageUploader.component.html",
   styleUrls: ["./imageUploader.component.css"],
 })
@@ -116,10 +116,10 @@ export class ImageUploaderComponent implements OnInit {
       .subscribe((evt) => {
         let obj = {};
         if (this.n === 1) {
-          obj[this.name] = this.path + "/" + this.getImageName();
+          obj[this.name] = this.path + "/";
           this.patch.emit(obj);
         } else {
-          obj[this.name] = this.path + "/";
+          obj[this.name] = this.path + "/" + this.name + "/";
           this.patch.emit(obj);
         }
       });

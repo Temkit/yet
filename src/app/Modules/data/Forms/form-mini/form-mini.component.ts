@@ -68,6 +68,7 @@ export class FormMiniComponent implements OnInit {
         this.vars.Title = this.vars.Specification.title;
         this.vars.Subtitle = this.vars.Specification.subtitle;
         this.vars.database = this.vars.Specification.Database;
+
         this.initFormUI();
 
         if (this.objectConfig.value) {
@@ -77,11 +78,15 @@ export class FormMiniComponent implements OnInit {
         return of(null);
       }),
       flatMap((data) => {
-        this.path = data.ref.path;
-        this.id = data.id;
-
-        console.log(data);
-        return this.initFormValues(data);
+        if (data) {
+          console.log(data);
+          this.path = data!.ref!.path;
+          this.id = data!.id;
+          data = data.data();
+          return this.initFormValues(data);
+        } else {
+          return this.initFormValues({});
+        }
       }),
       map((data) => {
         this.vars.FormValue = data;

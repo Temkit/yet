@@ -355,11 +355,23 @@
 
                     <div
                       class="form-group"
+                      *ngIf="formItem.itemSpec.type === 'fimage'"
+                    >
+                      <app-fimageUploader
+                        config="{{ formItem.itemSpec | json }}"
+                        path="{{ path }}"
+                        id="{{ id }}"
+                        (patch)="handleEvent($event)"
+                      >
+                      </app-fimageUploader>
+                    </div>
+
+                    <div
+                      class="form-group"
                       *ngIf="formItem.itemSpec.type === 'image'"
                     >
                       <app-imageUploader
                         config="{{ formItem.itemSpec | json }}"
-                        path="{{ path }}"
                         id="{{ id }}"
                         (patch)="handleEvent($event)"
                       >

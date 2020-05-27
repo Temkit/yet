@@ -22,7 +22,8 @@ import { ItemAddModule } from "../../common/item-add/item-add.module";
 import { OrderAddFreeModule } from "../../common/order-add-free/order-add-free.module";
 import { DevisfactureModule } from "../../print/devisfacture/devisfacture.module";
 import { QuestionnaireModule } from "../../plugin/questionnaire/questionnaire.module";
-import { ImageUploaderModule } from "../../plugin/fimageUploader/imageUploader.module";
+import { FImageUploaderModule } from "../../plugin/fimageUploader/imageUploader.module";
+import { ImageUploaderModule } from "../../plugin/imageUploader/imageUploader.module";
 import { EditorModule } from "../../plugin/editor/editor.module";
 import { DateModule } from "../../common/date/date.module";
 import { SnsSubscriptionModule } from "../../common/sns-subscription/sns-subscription.module";
@@ -58,6 +59,7 @@ const routes: Routes = [{ path: "", component: FormComponent }];
     MatNativeDateModule,
     ReactiveFormsModule,
     ImageUploaderModule,
+    FImageUploaderModule,
     TagsInputModule,
     MatCheckboxModule,
     LocationModule,

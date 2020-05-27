@@ -40,6 +40,7 @@ export class FormComponent implements OnInit {
   Form;
   id;
   path;
+  doc;
 
   @Output() data: EventEmitter<object> = new EventEmitter<object>();
   @Output() patch: EventEmitter<object> = new EventEmitter<object>();
@@ -72,7 +73,8 @@ export class FormComponent implements OnInit {
       }),
       map((data: any) => {
         let spec = JSON.parse(data.Body.toString());
-
+        this.path = spec.path;
+        this.doc = spec.doc;
         return spec;
       }),
       flatMap((spec: FormSpecification) => {
@@ -207,8 +209,9 @@ export class FormComponent implements OnInit {
 
   save() {
     let save$;
-    if (this.newForm) {
-      save$ = this.__g_.addDocument(this.Specification.path, {
+
+    if (this.Specification.colleciton || this.newForm) {
+      save$ = this.__g_.addDocument(this.Specification.collection, {
         ...this.Form.value,
       });
     } else {
@@ -250,6 +253,7 @@ export class FormComponent implements OnInit {
     let path = this.queryParams.path
       ? this.queryParams.path
       : this.Specification.path;
+
     return this.__g_.getDocument(path);
   }
 }

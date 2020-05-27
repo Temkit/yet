@@ -15,7 +15,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { RouterModule } from "@angular/router";
 import { FormMiniComponent } from "./form-mini.component";
-import { ImageUploaderModule } from "../../plugin/fimageUploader/imageUploader.module";
+import { FImageUploaderModule } from "../../plugin/fimageUploader/imageUploader.module";
+import { ImageUploaderModule } from "../../plugin/imageUploader/imageUploader.module";
 import { EditorModule } from "../../plugin/editor/editor.module";
 import { QuestionnaireModule } from "../../plugin/questionnaire/questionnaire.module";
 import { DateModule } from "../../common/date/date.module";
@@ -35,6 +36,7 @@ import { PickerModule } from "../../common/color-picker/picker.module";
     MatNativeDateModule,
     ReactiveFormsModule,
     ImageUploaderModule,
+    FImageUploaderModule,
     TagsInputModule,
     MatCheckboxModule,
     MatSlideToggleModule,
