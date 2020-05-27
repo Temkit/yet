@@ -4,7 +4,7 @@ import { flatMap, map } from "rxjs/operators";
 import { CrudToolsService } from "src/app/private/crud/crud-tools.service";
 import { S3Service } from "src/app/private/aws/s3.service";
 import { AuthService } from "src/app/private/aws/auth.service";
-import { ANIMATION_MODULE_TYPE } from "@angular/platform-browser/animations";
+
 import { CrudService } from "src/app/private/firebase/crud.service";
 
 @Component({
@@ -42,7 +42,7 @@ export class ImageUploaderComponent implements OnInit {
   height;
   background;
   class;
-
+  random;
   size;
 
   @Input() value;
@@ -67,6 +67,7 @@ export class ImageUploaderComponent implements OnInit {
       this.name = objConfig.name;
       this.label = objConfig.label;
       this.bucket = objConfig.bucket;
+      this.random = objConfig.randomname;
 
       this.imageName = objConfig.imageName;
       this.n = objConfig.n;
@@ -95,9 +96,13 @@ export class ImageUploaderComponent implements OnInit {
   uploadImage() {
     let name;
     if (this.n === 1) {
-      name = this.path + "/" + this.getImageName();
+      name = this.getImageName();
     } else {
-      name = this.path + "/" + this.name + "/" + this.getImageName();
+      name = this.name + "/" + this.getImageName();
+    }
+
+    if (this.path) {
+      name = this.path + "/" + name;
     }
 
     this.__g_
@@ -116,7 +121,7 @@ export class ImageUploaderComponent implements OnInit {
       .subscribe((evt) => {
         let obj = {};
         if (this.n === 1) {
-          obj[this.name] = this.path + "/";
+          obj[this.name] = name;
           this.patch.emit(obj);
         } else {
           obj[this.name] = this.path + "/" + this.name + "/";
@@ -137,7 +142,9 @@ export class ImageUploaderComponent implements OnInit {
     } else {
       name = this.path + "/" + this.name + "/";
     }
-    this.images = this.images = this.__g_.getAllfiles(name + "/").pipe(
+
+    console.log(name, this.value);
+    this.images = this.images = this.__g_.getAllfiles(name).pipe(
       flatMap((data: any) => {
         let images = [];
 
@@ -148,7 +155,6 @@ export class ImageUploaderComponent implements OnInit {
         return from(Promise.all(images));
       }),
       map((data) => {
-        console.log(this.imageName, data);
         data = data.filter((image) => image.includes(this.imageName));
 
         return data;
@@ -156,10 +162,13 @@ export class ImageUploaderComponent implements OnInit {
     );
   }
 
-  deleteImage(image) {}
+  deleteImage(image) {
+    this.__g_.deleteFile(image);
+    this.getImages();
+  }
 
   getImageName() {
-    if (this.empty || this.n === 1) {
+    if (this.n === 1 && !this.random) {
       return this.imageName;
     } else {
       return this.imageName + this.ct.makeID(12) + ".jpg";

@@ -138,6 +138,7 @@
                       <app-item-add
                         config="{{ formItem.itemSpec | json }}"
                         value="{{ data[formItem.itemSpec.name] | json }}"
+                        path="{{ path }}"
                         (push)="handleEvent($event)"
                       ></app-item-add>
                     </div>

@@ -76,6 +76,12 @@ export class CrudService {
     return ref.getDownloadURL();
   };
 
+  deleteFile = (url) => {
+    let ref = this.storage.storage.refFromURL(url).delete();
+    console.log(ref);
+    return ref;
+  };
+
   getAllfiles = (url) => {
     let ref = this.storage.ref(url);
     return ref.listAll();

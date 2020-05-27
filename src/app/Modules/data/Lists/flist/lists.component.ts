@@ -71,7 +71,6 @@ export class ListsComponent implements OnInit {
         return this.__g_.get(this.Specification.query);
       }),
       map((data) => {
-        console.log(data);
         return data;
       })
     );
@@ -143,7 +142,6 @@ export class ListsComponent implements OnInit {
             [this.Specification.orderBy[1]]
           );
         }
-        console.log(data);
         return data;
       })
     );
@@ -190,7 +188,6 @@ export class ListsComponent implements OnInit {
 
     element.validation = "delete";
 
-    console.log(element);
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "500px",
       data: element,

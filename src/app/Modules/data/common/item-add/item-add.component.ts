@@ -11,7 +11,7 @@ import findIndex from "lodash/findIndex";
 @Component({
   selector: "app-item-add",
   templateUrl: "./item-add.component.html",
-  styleUrls: ["./item-add.component.css"]
+  styleUrls: ["./item-add.component.css"],
 })
 export class ItemAddComponent implements OnInit {
   val;
@@ -33,8 +33,9 @@ export class ItemAddComponent implements OnInit {
   domain;
 
   @Output() push: EventEmitter<object> = new EventEmitter<object>();
-
-  @Input() set config(val) {
+  @Input() path;
+  @Input()
+  set config(val) {
     if (val) {
       this.objectConfig = JSON.parse(val);
 
@@ -52,8 +53,10 @@ export class ItemAddComponent implements OnInit {
   }
 
   @Input() set value(val) {
+    console.log(val);
     if (val) {
       this.source = JSON.parse(val);
+
       this.compileTable();
     }
   }
@@ -76,13 +79,14 @@ export class ItemAddComponent implements OnInit {
       height: this.objectConfig["item-height"],
       data: {
         config: {
-          item: this.objectConfig.form
+          item: this.objectConfig.form,
         },
-        value: {}
-      }
+        value: {},
+        path: this.path,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.source.push(result.item);
         this.compileTable();
@@ -102,7 +106,7 @@ export class ItemAddComponent implements OnInit {
   }
 
   delete(element) {
-    const index = findIndex(this.source, function(item) {
+    const index = findIndex(this.source, function (item) {
       return isEqual(item, element);
     });
     (<Array<any>>this.source).splice(index, 1);

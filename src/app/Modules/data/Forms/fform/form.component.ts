@@ -73,7 +73,7 @@ export class FormComponent implements OnInit {
       }),
       map((data: any) => {
         let spec = JSON.parse(data.Body.toString());
-        this.path = spec.path;
+        this.path = spec.path ? spec.path : spec.collection;
         this.doc = spec.doc;
         return spec;
       }),

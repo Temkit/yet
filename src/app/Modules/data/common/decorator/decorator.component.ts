@@ -146,7 +146,6 @@ export class DecoratorComponent implements OnInit {
         this.now;
     } else if (this.element.type === "fimage") {
       this.__g_.getFileUrl(this.data).subscribe((data) => {
-        console.log(data);
         this.img = data;
       });
     } else {
