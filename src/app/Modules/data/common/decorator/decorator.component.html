@@ -18,6 +18,11 @@
         </div>
       </div>
     </div>
+    <div *ngSwitchCase="element.type.includes('author')">
+      <div *ngIf="valueToDisplay | async as val" class="d-flex">
+        <div>{{ val }}</div>
+      </div>
+    </div>
     <div *ngSwitchCase="element.type.includes('progress')">
       <div
         *ngIf="valueToDisplay | async as val"
@@ -64,7 +69,7 @@
         </p>
         <p *ngIf="val == 'FORCE_CHANGE_PASSWORD'">
           <strong class="d-flex align-items-center justify-content-between">
-            <mat-icon color="warn" style="font-size:14px">flag</mat-icon
+            <mat-icon color="warn" style="font-size: 14px;">flag</mat-icon
             >MODIFICATION MOT PASSE
           </strong>
         </p>
@@ -97,10 +102,10 @@
     <div *ngSwitchCase="element.type.includes('gender')">
       <div *ngIf="valueToDisplay | async as val" class="d-flex">
         <i *ngIf="val == 'Homme'" class="material-icons"
-          ><strong style="color:royalblue">♂</strong>
+          ><strong style="color: royalblue;">♂</strong>
         </i>
         <i *ngIf="val == 'Femme'" class="material-icons"
-          ><strong style="color:palevioletred">♀</strong>
+          ><strong style="color: palevioletred;">♀</strong>
         </i>
       </div>
     </div>

@@ -148,6 +148,8 @@ export class DecoratorComponent implements OnInit {
       this.__g_.getFileUrl(this.data).subscribe((data) => {
         this.img = data;
       });
+    } else if (this.element.type === "author") {
+      this.valueToDisplay = this.__g_.getDocument("users/" + this.data);
     } else {
       this.valueToDisplay = this.data === 0 ? of("0") : of(this.data);
     }
