@@ -149,7 +149,12 @@ export class DecoratorComponent implements OnInit {
         this.img = data;
       });
     } else if (this.element.type === "author") {
-      this.valueToDisplay = this.__g_.getDocument("users/" + this.data);
+      this.valueToDisplay = this.__g_.getDocument("users/" + this.data).pipe(
+        map((data) => {
+          console.log(this.element);
+          return data.data();
+        })
+      );
     } else {
       this.valueToDisplay = this.data === 0 ? of("0") : of(this.data);
     }

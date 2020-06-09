@@ -20,9 +20,10 @@
     </div>
     <div *ngSwitchCase="element.type.includes('author')">
       <div *ngIf="valueToDisplay | async as val" class="d-flex">
-        <div>{{ val["name"] }}</div>
+        <div>{{ val[element.attr] }}</div>
       </div>
     </div>
+
     <div *ngSwitchCase="element.type.includes('progress')">
       <div
         *ngIf="valueToDisplay | async as val"

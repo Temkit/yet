@@ -10,7 +10,7 @@ import { DialogComponent } from "../../common/dialog/dialog.component";
 @Component({
   selector: "app-cartView",
   templateUrl: "./cartView.component.html",
-  styleUrls: ["./cartView.component.css"]
+  styleUrls: ["./cartView.component.css"],
 })
 export class CartViewComponent implements OnInit {
   pageLOad;
@@ -32,7 +32,7 @@ export class CartViewComponent implements OnInit {
     });
 
     this.pageLOad = this.cartService.specLOad().pipe(
-      map(data => {
+      map((data) => {
         this.specification = data;
         return data;
       })
@@ -42,7 +42,7 @@ export class CartViewComponent implements OnInit {
       weekday: "long",
       year: "numeric",
       month: "long",
-      day: "numeric"
+      day: "numeric",
     };
 
     this.date = new Date().toLocaleDateString("fr-FR", options);
@@ -61,10 +61,10 @@ export class CartViewComponent implements OnInit {
       this.cartService
         .commande()
         .pipe(
-          flatMap(data => {
+          flatMap((data) => {
             return this.AuthService.getCurrentUser();
           }),
-          flatMap(data => {
+          flatMap((data) => {
             let cartContent = this.tableToHtml(cart);
 
             let emailTemplate = `<div>
@@ -94,7 +94,7 @@ export class CartViewComponent implements OnInit {
           })
         )
         .subscribe(
-          data => {
+          (data) => {
             localStorage.setItem("cart", JSON.stringify([]));
             this.cartService.hCart.next([]);
 
@@ -110,14 +110,14 @@ export class CartViewComponent implements OnInit {
     `;
             const dialogRef = this.dialog.open(DialogComponent, {
               width: "500px",
-              data: element
+              data: element,
             });
 
-            dialogRef.afterClosed().subscribe(result => {
+            dialogRef.afterClosed().subscribe((result) => {
               console.log(result);
             });
           },
-          err => {
+          (err) => {
             console.log(err);
           }
         );
@@ -131,10 +131,10 @@ export class CartViewComponent implements OnInit {
     `;
       const dialogRef = this.dialog.open(DialogComponent, {
         width: "500px",
-        data: element
+        data: element,
       });
 
-      dialogRef.afterClosed().subscribe(result => {
+      dialogRef.afterClosed().subscribe((result) => {
         console.log(result);
       });
     }

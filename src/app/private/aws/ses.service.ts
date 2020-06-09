@@ -5,11 +5,11 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 const header = new HttpHeaders({
   "content-type": "application/json",
-  "x-api-key": "2EjhE9pEW9xnK4QzMuY6UQXmeqAD8u1aBeFjvwf0"
+  "x-api-key": "yoWdyAcVah26yYguY2dkzNzVv7KzrFV4mQAfSyCi",
 });
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class SEService {
   private ses;
@@ -22,7 +22,7 @@ export class SEService {
 
   sendEMAILs(emailstoSend, email, object, domain) {
     this.tosend$ = [];
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.interval = setInterval(
         this.sendemail.bind(this),
         50,
@@ -42,7 +42,7 @@ export class SEService {
     const start = this.i;
     if (this.i === to.length) {
       clearInterval(this.interval);
-      forkJoin(this.tosend$).subscribe(data => {
+      forkJoin(this.tosend$).subscribe((data) => {
         observer.next();
         observer.complete();
       });
@@ -66,7 +66,7 @@ export class SEService {
           replyTo: [],
           source: source,
           subject: subject,
-          to: [to[0]]
+          to: [to[0]],
         },
         { headers: header }
       )
@@ -83,7 +83,7 @@ export class SEService {
         replyTo: [],
         source: source,
         subject: subject,
-        to: to
+        to: to,
       },
       { headers: header }
     );
@@ -96,10 +96,10 @@ export class SEService {
       to: to,
       html: html,
       subject: subject,
-      source: source
+      source: source,
     };
 
     const url = "https://knewt.one/go/email/attachement";
-    this.http.post(url, emailData).subscribe(res => console.log(res));
+    this.http.post(url, emailData).subscribe((res) => console.log(res));
   }
 }

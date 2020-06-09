@@ -31,12 +31,14 @@ export class CreateService {
             region,
           });
 
+          console.log(Item);
+
           Object.keys(Item).map((key) => {
             if (typeof Item[key] === "string") {
               Item[key] = Item[key].toLowerCase();
             }
 
-            if (Item[key] === "fine-grained-access") {
+            if (key === "cognitoid") {
               Item[key] = credentials.identityId;
             }
           });
@@ -49,6 +51,8 @@ export class CreateService {
             TableName,
             Item,
           };
+
+          console.log(params);
 
           return documentClient.put(params).promise();
         }),
